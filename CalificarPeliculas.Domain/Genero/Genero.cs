@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CalificarPeliculas.Domain.Genero
+﻿namespace CalificarPeliculas.Domain.Genero
 {
-    internal class Genero
+    public class Genero(int id, string nombre)
     {
-        private int id;
-        public string nombre;
+        private int Id { get; set; } = id;
+        public string? Nombre { get; set; } = nombre;
     }
 }
