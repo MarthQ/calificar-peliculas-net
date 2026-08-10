@@ -7,11 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CalificarPeliculas.Application\CalificarPeliculas.Application.csproj" />
     <ProjectReference Include="..\CalificarPeliculas.Domain\CalificarPeliculas.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DTOs\" />
   </ItemGroup>
 
 </Project>
