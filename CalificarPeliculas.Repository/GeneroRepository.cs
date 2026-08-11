@@ -16,7 +16,7 @@ namespace CalificarPeliculas.Repository
             return Task.CompletedTask;
         }
 
-        public Task DeleteAsync(int id)
+        public Task<bool> DeleteAsync(int id)
         {
             var genero = generos.FirstOrDefault(c => c.Id == id);
             if (genero != null)
@@ -26,6 +26,28 @@ namespace CalificarPeliculas.Repository
             }
             return Task.FromResult(false);
         }
+
+        public Task<Genero?> GetAsync(int id)
+        {
+            return Task.FromResult(generos.FirstOrDefault(c => c.Id == id));
+        }
+
+        public Task<IEnumerable<Genero>> GetAllAsync()
+        {
+            return Task.FromResult<IEnumerable<Genero>>(generos.ToList());
+        }
+
+        public Task<bool> UpdateAsync(Genero genero)
+        {
+            var existing = generos.FirstOrDefault(c => c.Id == genero.Id);
+            if (existing != null)
+            {
+                existing.SetNombre(genero.Nombre);
+                return Task.FromResult(true);
+            }
+            return Task.FromResult(false);
+        }
+
 
     }
 }
