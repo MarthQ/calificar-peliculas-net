@@ -6,9 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CalificarPeliculas.Application\CalificarPeliculas.Application.csproj" />
-    <ProjectReference Include="..\CalificarPeliculas.Domain\CalificarPeliculas.Domain.csproj" />
-  </ItemGroup>
+   <ItemGroup>
+      <ProjectReference Include="..\CalificarPeliculas.Application\CalificarPeliculas.Application.csproj" />
+      <ProjectReference Include="..\CalificarPeliculas.Domain\CalificarPeliculas.Domain.csproj" />
+   </ItemGroup>
 
 </Project>

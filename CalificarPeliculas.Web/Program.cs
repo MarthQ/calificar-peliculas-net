@@ -1,15 +1,33 @@
-namespace CalificarPeliculas.Web
+using CalificarPeliculas.Web;
+using CalificarPeliculas.Repository;
+using CalificarPeliculas.Application.Interfaces;
+using CalificarPeliculas.Application.Services;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Dependency injection
+builder.Services.AddScoped<IGeneroRepository, GeneroRepository>();
+builder.Services.AddScoped<IGeneroServicio, GeneroServicio>();
+
+var app = builder.Build();
+
+// Configure HTTP Request
+if (app.Environment.IsDevelopment())
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
-            var app = builder.Build();
-
-            app.MapGet("/", () => "Hello World!");
-
-            app.Run();
-        }
-    }
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
+// Map endpoints
+app.MapGeneroEndpoints();
+
+app.Run();
