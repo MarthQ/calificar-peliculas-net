@@ -1,53 +1,63 @@
 ﻿using CalificarPeliculas.Application.Interfaces;
 using CalificarPeliculas.Domain;
 using CalificarPeliculas.Domain.Genero;
+using Microsoft.EntityFrameworkCore;
 
 namespace CalificarPeliculas.Repository
 {
     public class GeneroRepository : IGeneroRepository
     {
-        private static readonly List<Genero> generos = new List<Genero>();
-        private static int nuevoId = 1;
-        public Task AddAsync(Genero genero)
+
+        private CFContext CreateContext()
         {
-            genero.SetId(nuevoId);
-            nuevoId++;
-            generos.Add(genero);
-            return Task.CompletedTask;
+            return new CFContext();
+        }
+        public async Task AddAsync(Genero genero)
+        {
+            using var context = CreateContext();
+            context.Generos.Add(genero);
+            await context.SaveChangesAsync();
+
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var genero = generos.FirstOrDefault(c => c.Id == id);
+            using var context = CreateContext();
+            var genero = await context.Generos.FindAsync(id);
             if (genero != null)
             {
-                generos.Remove(genero);
-                return Task.FromResult(true);
+                context.Generos.Remove(genero);
+                await context.SaveChangesAsync();
+                return true;
+
             }
-            return Task.FromResult(false);
+            return false;
         }
 
-        public Task<Genero?> GetAsync(int id)
+        public async Task<Genero?> GetAsync(int id)
         {
-            return Task.FromResult(generos.FirstOrDefault(c => c.Id == id));
+            using var context = CreateContext();
+            return await context.Generos.FindAsync(id);
         }
 
-        public Task<IEnumerable<Genero>> GetAllAsync()
+        public async Task<IEnumerable<Genero>> GetAllAsync()
         {
-            return Task.FromResult<IEnumerable<Genero>>(generos.ToList());
+            using var context = CreateContext();
+            return await context.Generos.ToListAsync();
         }
 
-        public Task<bool> UpdateAsync(Genero genero)
+        public async Task<bool> UpdateAsync(Genero genero)
         {
-            var existing = generos.FirstOrDefault(c => c.Id == genero.Id);
+            using var context = CreateContext();
+            var existing = await context.Generos.FirstOrDefaultAsync(g => g.Id == genero.Id);
             if (existing != null)
             {
                 existing.SetNombre(genero.Nombre);
-                return Task.FromResult(true);
+                await context.SaveChangesAsync();
+                return true;
             }
-            return Task.FromResult(false);
+            return false;
         }
-
 
     }
 }
