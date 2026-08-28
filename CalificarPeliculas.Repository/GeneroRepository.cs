@@ -1,6 +1,5 @@
 ﻿using CalificarPeliculas.Application.Interfaces;
 using CalificarPeliculas.Domain;
-using CalificarPeliculas.Domain.Genero;
 using Microsoft.EntityFrameworkCore;
 
 namespace CalificarPeliculas.Repository

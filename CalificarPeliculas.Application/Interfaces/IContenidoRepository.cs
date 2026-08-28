@@ -7,12 +7,12 @@ using CalificarPeliculas.Domain;
 
 namespace CalificarPeliculas.Application.Interfaces
 {
-    public interface IGeneroRepository
+    public interface IContenidoRepository
     {
-        Task AddAsync(Genero genero);
+        Task AddAsync(Contenido contenido);
         Task<bool> DeleteAsync(int id);
-        Task<Genero?> GetAsync(int id);
-        Task<IEnumerable<Genero>> GetAllAsync();
-        Task<bool> UpdateAsync(Genero genero);
+        Task<Contenido?> GetAsync(int id);
+        Task<IEnumerable<Contenido>> GetAllAsync();
+        Task<bool> UpdateAsync(Contenido contenido);
     }
 }

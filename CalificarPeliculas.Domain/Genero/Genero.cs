@@ -1,4 +1,4 @@
-﻿namespace CalificarPeliculas.Domain.Genero
+﻿namespace CalificarPeliculas.Domain
 {
     public class Genero
     {

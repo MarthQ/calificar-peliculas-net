@@ -1,6 +1,6 @@
 ﻿using CalificarPeliculas.Application.DTOs;
 using CalificarPeliculas.Application.Interfaces;
-using CalificarPeliculas.Domain.Genero;
+using CalificarPeliculas.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
