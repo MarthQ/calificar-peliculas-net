@@ -14,5 +14,7 @@ namespace CalificarPeliculas.Application.Interfaces
         Task<ContenidoDTO?> GetAsync(int id);
         Task<IEnumerable<ContenidoDTO>> GetAllAsync();
         Task<bool> UpdateAsync(ContenidoDTO dto);
+
+        // Implementar métodos para buscar en la API IGDB 
     }
 }

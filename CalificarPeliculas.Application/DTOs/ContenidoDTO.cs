@@ -1,9 +1,6 @@
 ﻿using CalificarPeliculas.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
+
 
 namespace CalificarPeliculas.Application.DTOs
 {
@@ -20,5 +17,9 @@ namespace CalificarPeliculas.Application.DTOs
         public string UrlImagen { get; set; }
         public float PuntuacionPromedio { get; set; }
         public int GeneroId { get; set; }
+        public int? NumeroEpisodio { get; set; }
+        public int? NumeroTemporada { get; set; }
+        public int? CantTemporadas { get; set; }
     }
+
 }

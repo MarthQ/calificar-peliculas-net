@@ -34,6 +34,8 @@
             }
         }
 
+        protected Contenido() { }
+
         public Contenido(int id, int idTMDB, string tipo, string nombre, int generoid, string descripcion, string nombreDirector, DateOnly fechaLanzamiento, TimeOnly duracion, string urlImagen, float puntuacionPromedio)
         {
             SetId(id);
