@@ -1,5 +1,5 @@
-﻿using CalificarPeliculas.Application.Interfaces;
-using CalificarPeliculas.Application.DTOs;
+﻿using CalificarPeliculas.Application.DTOs;
+using CalificarPeliculas.Application.Interfaces.Contenido;
 namespace CalificarPeliculas.Web
 {
     public static class ContenidoEndpoints

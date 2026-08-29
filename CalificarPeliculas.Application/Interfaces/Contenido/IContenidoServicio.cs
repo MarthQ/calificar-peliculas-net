@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CalificarPeliculas.Application.Interfaces
+namespace CalificarPeliculas.Application.Interfaces.Contenido
 {
     public interface IContenidoServicio
     {

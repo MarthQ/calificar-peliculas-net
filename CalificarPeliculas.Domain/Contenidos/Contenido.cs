@@ -4,7 +4,7 @@
     {
         public int Id { get; private set; }
         public int IdTMDB { get; private set; }
-        public string Tipo { get; private set; }
+        public TipoContenido Tipo { get; private set; }
         public string Nombre { get; private set; }
         public string Descripcion { get; private set; }
         public string NombreDirector { get; private set; }
@@ -12,8 +12,9 @@
         public TimeOnly Duracion { get; private set; }
         public string UrlImagen { get; private set; }
         public float PuntuacionPromedio { get; private set; }
-        public Genero? _genero;
-        public int _generoId;
+        // Privados para evitar cambios directos que desincronicen el género y su ID.
+        private Genero? _genero;
+        private int _generoId;
 
         public int GeneroId
         {
@@ -36,7 +37,7 @@
 
         protected Contenido() { }
 
-        public Contenido(int id, int idTMDB, string tipo, string nombre, int generoid, string descripcion, string nombreDirector, DateOnly fechaLanzamiento, TimeOnly duracion, string urlImagen, float puntuacionPromedio)
+        protected Contenido(int id, int idTMDB, TipoContenido tipo, string nombre, int generoid, string descripcion, string nombreDirector, DateOnly fechaLanzamiento, TimeOnly duracion, string urlImagen, float puntuacionPromedio)
         {
             SetId(id);
             SetIdTMDB(idTMDB);
@@ -62,10 +63,10 @@
                 throw new ArgumentException("La ID debe ser mayor o igual a 0.", nameof(idtmdb));
             IdTMDB = idtmdb;
         }
-        public void SetTipo(string tipo)
+        private void SetTipo(TipoContenido tipo)
         {
-            if (string.IsNullOrWhiteSpace(tipo))
-                throw new ArgumentException("El tipo de contenido no puede ser vacío o nulo.", nameof(tipo));
+            if (!Enum.IsDefined(tipo))
+                throw new ArgumentException("El tipo de contenido no es válido.", nameof(tipo));
             Tipo = tipo;
         }
         public void SetNombre(string nombre)

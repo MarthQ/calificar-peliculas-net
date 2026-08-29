@@ -1,5 +1,5 @@
 ﻿using CalificarPeliculas.Application.DTOs;
-using CalificarPeliculas.Application.Interfaces;
+using CalificarPeliculas.Application.Interfaces.Contenido;
 using CalificarPeliculas.Domain;
 using System;
 using System.Collections.Generic;
@@ -20,11 +20,11 @@ namespace CalificarPeliculas.Application.Services
         public async Task<ContenidoDTO> AddAsync(ContenidoDTO dto)
         {
 
-            Contenido contenido = dto.Tipo.ToLower() switch
+            Contenido contenido = dto.Tipo switch
             {
-                "episodio" => new Episodio(0, dto.IdTMDB, dto.Tipo, dto.Nombre, dto.GeneroId, dto.Descripcion, dto.NombreDirector, dto.FechaLanzamiento, dto.Duracion, dto.UrlImagen, dto.PuntuacionPromedio, dto.NumeroEpisodio, dto.NumeroTemporada),
-                "pelicula" => new Pelicula(0, dto.IdTMDB, dto.Tipo, dto.Nombre, dto.GeneroId, dto.Descripcion, dto.NombreDirector, dto.FechaLanzamiento, dto.Duracion, dto.UrlImagen, dto.PuntuacionPromedio),
-                "serie" => new Serie(0, dto.IdTMDB, dto.Tipo, dto.Nombre, dto.GeneroId, dto.Descripcion, dto.NombreDirector, dto.FechaLanzamiento, dto.Duracion, dto.UrlImagen, dto.PuntuacionPromedio, dto.CantTemporadas),
+                TipoContenido.EPISODIO => new Episodio(0, dto.IdTMDB, dto.Nombre, dto.GeneroId, dto.Descripcion, dto.NombreDirector, dto.FechaLanzamiento, dto.Duracion, dto.UrlImagen, dto.PuntuacionPromedio, dto.NumeroEpisodio, dto.NumeroTemporada),
+                TipoContenido.PELICULA => new Pelicula(0, dto.IdTMDB, dto.Nombre, dto.GeneroId, dto.Descripcion, dto.NombreDirector, dto.FechaLanzamiento, dto.Duracion, dto.UrlImagen, dto.PuntuacionPromedio),
+                TipoContenido.SERIE => new Serie(0, dto.IdTMDB, dto.Nombre, dto.GeneroId, dto.Descripcion, dto.NombreDirector, dto.FechaLanzamiento, dto.Duracion, dto.UrlImagen, dto.PuntuacionPromedio, dto.CantTemporadas),
                 _ => throw new ArgumentException("Tipo de Contenido no válido.")
             };
 
@@ -57,11 +57,11 @@ namespace CalificarPeliculas.Application.Services
 
         public async Task<bool> UpdateAsync(ContenidoDTO dto)
         {
-            Contenido contenido = dto.Tipo.ToLower() switch
+            Contenido contenido = dto.Tipo switch
             {
-                "episodio" => new Episodio(0, dto.IdTMDB, dto.Tipo, dto.Nombre, dto.GeneroId, dto.Descripcion, dto.NombreDirector, dto.FechaLanzamiento, dto.Duracion, dto.UrlImagen, dto.PuntuacionPromedio, dto.NumeroEpisodio, dto.NumeroTemporada),
-                "pelicula " => new Pelicula(0, dto.IdTMDB, dto.Tipo, dto.Nombre, dto.GeneroId, dto.Descripcion, dto.NombreDirector, dto.FechaLanzamiento, dto.Duracion, dto.UrlImagen, dto.PuntuacionPromedio),
-                "serie" => new Serie(0, dto.IdTMDB, dto.Tipo, dto.Nombre, dto.GeneroId, dto.Descripcion, dto.NombreDirector, dto.FechaLanzamiento, dto.Duracion, dto.UrlImagen, dto.PuntuacionPromedio, dto.CantTemporadas),
+                TipoContenido.EPISODIO => new Episodio(dto.Id, dto.IdTMDB, dto.Nombre, dto.GeneroId, dto.Descripcion, dto.NombreDirector, dto.FechaLanzamiento, dto.Duracion, dto.UrlImagen, dto.PuntuacionPromedio, dto.NumeroEpisodio, dto.NumeroTemporada),
+                TipoContenido.PELICULA => new Pelicula(dto.Id, dto.IdTMDB, dto.Nombre, dto.GeneroId, dto.Descripcion, dto.NombreDirector, dto.FechaLanzamiento, dto.Duracion, dto.UrlImagen, dto.PuntuacionPromedio),
+                TipoContenido.SERIE => new Serie(dto.Id, dto.IdTMDB, dto.Nombre, dto.GeneroId, dto.Descripcion, dto.NombreDirector, dto.FechaLanzamiento, dto.Duracion, dto.UrlImagen, dto.PuntuacionPromedio, dto.CantTemporadas),
                 _ => throw new ArgumentException("Tipo de Contenido no válido.")
             };
             return await contenidoRepository.UpdateAsync(contenido);
@@ -80,22 +80,20 @@ namespace CalificarPeliculas.Application.Services
                 FechaLanzamiento = contenido.FechaLanzamiento,
                 Duracion = contenido.Duracion,
                 UrlImagen = contenido.UrlImagen,
-                PuntuacionPromedio = contenido.PuntuacionPromedio
+                PuntuacionPromedio = contenido.PuntuacionPromedio,
+                Tipo = contenido.Tipo
             };
             switch (contenido) {
 
                 case Episodio e:
-                    dto.Tipo = "EPISODIO";
                     dto.NumeroEpisodio = e.NumeroEpisodio;
                     dto.NumeroTemporada = e.NumeroTemporada;
                 break;
 
-                case Pelicula p:
-                    dto.Tipo = "PELICULA";
+                case Pelicula:
                     break;
 
                 case Serie s:
-                    dto.Tipo = "SERIE";
                     dto.CantTemporadas = s.CantTemporadas;
                     break;
 

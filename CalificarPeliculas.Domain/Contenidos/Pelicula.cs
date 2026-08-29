@@ -4,8 +4,8 @@
     {
 
         protected Pelicula() { }
-        public Pelicula(int id, int idTMDB, string tipo, string nombre, int generoid, string descripcion, string nombreDirector, DateOnly fechaLanzamiento, TimeOnly duracion, string urlImagen, float puntuacionPromedio)
-            : base(id, idTMDB, tipo, nombre, generoid, descripcion, nombreDirector, fechaLanzamiento, duracion, urlImagen, puntuacionPromedio)
+        public Pelicula(int id, int idTMDB, string nombre, int generoid, string descripcion, string nombreDirector, DateOnly fechaLanzamiento, TimeOnly duracion, string urlImagen, float puntuacionPromedio)
+            : base(id, idTMDB, TipoContenido.PELICULA, nombre, generoid, descripcion, nombreDirector, fechaLanzamiento, duracion, urlImagen, puntuacionPromedio)
         {
         }
     }

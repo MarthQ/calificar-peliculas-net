@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CalificarPeliculas.Domain;
 
-namespace CalificarPeliculas.Application.Interfaces
+namespace CalificarPeliculas.Application.Interfaces.Contenido
 {
     public interface IGeneroRepository
     {

@@ -8,7 +8,7 @@ namespace CalificarPeliculas.Application.DTOs
     {
         public int Id { get; set; }
         public int IdTMDB { get; set; }
-        public string Tipo { get; set; }
+        public TipoContenido Tipo { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public string NombreDirector { get; set; }

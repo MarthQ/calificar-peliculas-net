@@ -1,5 +1,6 @@
 ﻿using CalificarPeliculas.Application.Interfaces;
 using CalificarPeliculas.Domain;
+using CalificarPeliculas.Application.Interfaces.Contenido;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

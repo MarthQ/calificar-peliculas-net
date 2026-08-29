@@ -8,7 +8,8 @@ namespace CalificarPeliculas.Domain
         public int NumeroTemporada { get; private set; }
 
         protected Episodio() { }
-        public Episodio(int id, int idTMDB, string tipo, string nombre, int generoid, string descripcion, string nombreDirector, DateOnly fechaLanzamiento, TimeOnly duracion, string urlImagen, float puntuacionPromedio, int? numep, int? numtemp) : base(id, idTMDB, tipo, nombre, generoid, descripcion, nombreDirector, fechaLanzamiento, duracion, urlImagen, puntuacionPromedio)
+        public Episodio(int id, int idTMDB, string nombre, int generoid, string descripcion, string nombreDirector, DateOnly fechaLanzamiento, TimeOnly duracion, string urlImagen, float puntuacionPromedio, int? numep, int? numtemp)
+            : base(id, idTMDB, TipoContenido.EPISODIO, nombre, generoid, descripcion, nombreDirector, fechaLanzamiento, duracion, urlImagen, puntuacionPromedio)
         {
             SetNumEp(numep);
             SetNumTemp(numtemp);

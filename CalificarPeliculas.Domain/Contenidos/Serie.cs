@@ -5,8 +5,8 @@
         public int CantTemporadas { get; private set; }
 
         protected Serie() { }
-        public Serie(int id, int idTMDB, string tipo, string nombre, int generoid, string descripcion, string nombreDirector, DateOnly fechaLanzamiento, TimeOnly duracion, string urlImagen, float puntuacionPromedio, int? cantTemporadas)
-            : base(id, idTMDB, tipo, nombre, generoid, descripcion, nombreDirector, fechaLanzamiento, duracion, urlImagen, puntuacionPromedio)
+        public Serie(int id, int idTMDB, string nombre, int generoid, string descripcion, string nombreDirector, DateOnly fechaLanzamiento, TimeOnly duracion, string urlImagen, float puntuacionPromedio, int? cantTemporadas)
+            : base(id, idTMDB, TipoContenido.SERIE, nombre, generoid, descripcion, nombreDirector, fechaLanzamiento, duracion, urlImagen, puntuacionPromedio)
         {
             SetCantTemporadas(cantTemporadas);
         }
