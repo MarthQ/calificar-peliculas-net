@@ -11,6 +11,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalificarPeliculas.Reposito
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalificarPeliculas.Web", "CalificarPeliculas.Web\CalificarPeliculas.Web.csproj", "{EAD50C5E-772C-B305-EBD5-8F8506F39044}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalificarPeliculas.WindowsForms", "CalificarPeliculas.WindowsForms\CalificarPeliculas.WindowsForms.csproj", "{5FC61B10-6086-4A3E-A6EF-8597A57C906C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D61AB2EB-841B-035F-4988-D53D9313665B} = {D61AB2EB-841B-035F-4988-D53D9313665B}
+		{EAD50C5E-772C-B305-EBD5-8F8506F39044} = {EAD50C5E-772C-B305-EBD5-8F8506F39044}
+		{EC48711E-F076-17E8-5DAA-06AEA5AB9BAF} = {EC48711E-F076-17E8-5DAA-06AEA5AB9BAF}
+		{F879C032-35BA-447A-AF5E-69E88E3A14C0} = {F879C032-35BA-447A-AF5E-69E88E3A14C0}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +41,10 @@ Global
 		{EAD50C5E-772C-B305-EBD5-8F8506F39044}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EAD50C5E-772C-B305-EBD5-8F8506F39044}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EAD50C5E-772C-B305-EBD5-8F8506F39044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FC61B10-6086-4A3E-A6EF-8597A57C906C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FC61B10-6086-4A3E-A6EF-8597A57C906C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FC61B10-6086-4A3E-A6EF-8597A57C906C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FC61B10-6086-4A3E-A6EF-8597A57C906C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

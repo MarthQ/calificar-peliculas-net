@@ -127,8 +127,14 @@ namespace CalificarPeliculas.Repository
                     .IsRequired()
                     .HasField("_rolId");
 
-                entity.Navigation(ent => ent.Rol)
-                    .HasField("_rol");
+                // Configure backing field and navigation access for Rol
+                // Use metadata APIs to set field-based access to avoid navigation discovery issues
+                var rolNav = entity.Metadata.FindNavigation(nameof(Usuario.Rol));
+                if (rolNav != null)
+                {
+                    rolNav.SetPropertyAccessMode(PropertyAccessMode.Field);
+                    rolNav.SetField("_rol");
+                }
 
                 entity.HasOne(ent => ent.Rol)
                     .WithMany()
