@@ -10,6 +10,7 @@ using CalificarPeliculas.Repository.Users;
 using CalificarPeliculas.Web.Security;
 using CalificarPeliculas.Domain.Users;
 using Microsoft.AspNetCore.Identity;
+using CalificarPeliculas.Application.Interfaces.Contenido;
 
 namespace CalificarPeliculas.WindowsForms
 {
@@ -42,12 +43,23 @@ namespace CalificarPeliculas.WindowsForms
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IPasswordHashService, AspNetPasswordHashService>();
             
+            // Contenido y Genero
+            services.AddScoped<IGeneroServicio, GeneroServicio>();
+            services.AddScoped<IGeneroRepository, GeneroRepository>();
+            services.AddScoped<IContenidoServicio, ContenidoServicio>();
+            services.AddScoped<IContenidoRepository, ContenidoRepository>();
+
             // Registro del hasher de Identity que usa AspNetPasswordHashService
             services.AddSingleton<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
 
             // Registramos formularios
             services.AddScoped<Form1>();
             services.AddScoped<LoginForm>();
+            services.AddScoped<GeneroListForm>();
+            services.AddScoped<GeneroEditForm>();
+            services.AddScoped<ContenidoListForm>();
+            services.AddScoped<ContenidoEditForm>();
+            services.AddScoped<RegisterForm>();
 
             ServiceProvider = services.BuildServiceProvider();
 
@@ -65,7 +77,7 @@ namespace CalificarPeliculas.WindowsForms
             if (dr == DialogResult.OK)
             {
                 // Solo abro el formulario principal si el login devolvió OK (y el usuario es admin según LoginForm)
-                var main = provider.GetService<Form1>() ?? new Form1();
+                var main = provider.GetRequiredService<Form1>();
                 System.Windows.Forms.Application.Run(main);
             }
         }
