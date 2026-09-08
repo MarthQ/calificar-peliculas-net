@@ -3,11 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.37111.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalificarPeliculas.Domain", "Clases\CalificarPeliculas.Domain.csproj", "{F89EDFCD-59A5-42D4-9654-3C2DABEFE133}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalificarPeliculas.Application", "CalificarPeliculas.Application\CalificarPeliculas.Application.csproj", "{F879C032-35BA-447A-AF5E-69E88E3A14C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalificarPeliculas.Web", "CalificarPeliculas.Web\CalificarPeliculas.Web.csproj", "{575AB280-8A70-4870-8408-6C197680AEF1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalificarPeliculas.Domain", "CalificarPeliculas.Domain\CalificarPeliculas.Domain.csproj", "{EC48711E-F076-17E8-5DAA-06AEA5AB9BAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalificarPeliculas.Repository", "CalificarPeliculas.Repository\CalificarPeliculas.Repository.csproj", "{D61AB2EB-841B-035F-4988-D53D9313665B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalificarPeliculas.Web", "CalificarPeliculas.Web\CalificarPeliculas.Web.csproj", "{EAD50C5E-772C-B305-EBD5-8F8506F39044}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalificarPeliculas.WindowsForms", "CalificarPeliculas.WindowsForms\CalificarPeliculas.WindowsForms.csproj", "{5FC61B10-6086-4A3E-A6EF-8597A57C906C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D61AB2EB-841B-035F-4988-D53D9313665B} = {D61AB2EB-841B-035F-4988-D53D9313665B}
+		{EAD50C5E-772C-B305-EBD5-8F8506F39044} = {EAD50C5E-772C-B305-EBD5-8F8506F39044}
+		{EC48711E-F076-17E8-5DAA-06AEA5AB9BAF} = {EC48711E-F076-17E8-5DAA-06AEA5AB9BAF}
+		{F879C032-35BA-447A-AF5E-69E88E3A14C0} = {F879C032-35BA-447A-AF5E-69E88E3A14C0}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +25,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F89EDFCD-59A5-42D4-9654-3C2DABEFE133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F89EDFCD-59A5-42D4-9654-3C2DABEFE133}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F89EDFCD-59A5-42D4-9654-3C2DABEFE133}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F89EDFCD-59A5-42D4-9654-3C2DABEFE133}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F879C032-35BA-447A-AF5E-69E88E3A14C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F879C032-35BA-447A-AF5E-69E88E3A14C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F879C032-35BA-447A-AF5E-69E88E3A14C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F879C032-35BA-447A-AF5E-69E88E3A14C0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{575AB280-8A70-4870-8408-6C197680AEF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{575AB280-8A70-4870-8408-6C197680AEF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{575AB280-8A70-4870-8408-6C197680AEF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{575AB280-8A70-4870-8408-6C197680AEF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC48711E-F076-17E8-5DAA-06AEA5AB9BAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC48711E-F076-17E8-5DAA-06AEA5AB9BAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC48711E-F076-17E8-5DAA-06AEA5AB9BAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC48711E-F076-17E8-5DAA-06AEA5AB9BAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D61AB2EB-841B-035F-4988-D53D9313665B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D61AB2EB-841B-035F-4988-D53D9313665B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D61AB2EB-841B-035F-4988-D53D9313665B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D61AB2EB-841B-035F-4988-D53D9313665B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAD50C5E-772C-B305-EBD5-8F8506F39044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAD50C5E-772C-B305-EBD5-8F8506F39044}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAD50C5E-772C-B305-EBD5-8F8506F39044}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAD50C5E-772C-B305-EBD5-8F8506F39044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FC61B10-6086-4A3E-A6EF-8597A57C906C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FC61B10-6086-4A3E-A6EF-8597A57C906C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FC61B10-6086-4A3E-A6EF-8597A57C906C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FC61B10-6086-4A3E-A6EF-8597A57C906C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

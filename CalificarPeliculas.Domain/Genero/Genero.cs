@@ -1,14 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CalificarPeliculas.Domain.Genero
+﻿namespace CalificarPeliculas.Domain
 {
-    internal class Genero
+    public class Genero
     {
-        private int id;
-        public string nombre;
+        public int Id { get; private set; }
+        public string Nombre { get; private set; }
+
+        public Genero(int id, string nombre)
+        {
+            SetId(id);
+            SetNombre(nombre);
+        }
+
+        public void SetId(int id)
+        {
+            if (id < 0)
+                throw new ArgumentException("El id debe ser mayor que 0.", nameof(id));
+            Id = id;
+        }
+        public void SetNombre(string nombre)
+        {
+            if (string.IsNullOrWhiteSpace(nombre))
+                throw new ArgumentException("El nombre de un genero no puede estar vacío o ser nulo.", nameof(nombre));
+            Nombre = nombre;
+        }
     }
 }
