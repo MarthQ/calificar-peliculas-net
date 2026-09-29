@@ -1,9 +1,9 @@
 using CalificarPeliculas.Web;
 using CalificarPeliculas.Repository;
 using CalificarPeliculas.Application.Services;
-using CalificarPeliculas.Application.DTOs;
 using CalificarPeliculas.Application.Interfaces.Contenido;
 using CalificarPeliculas.Application.Interfaces.Usuario;
+using CalificarPeliculas.Application.Interfaces.Criticas;
 using CalificarPeliculas.Domain.Users;
 using CalificarPeliculas.Repository.Users;
 using CalificarPeliculas.Web.Security;
@@ -25,6 +25,8 @@ builder.Services.AddScoped<IGeneroRepository, GeneroRepository>();
 builder.Services.AddScoped<IGeneroServicio, GeneroServicio>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IUsuarioServicio, UsuarioServicio>();
+builder.Services.AddScoped<ICriticaRepository, CriticaRepository>();
+builder.Services.AddScoped<ICriticaServicio, CriticaServicio>();
 builder.Services.AddScoped<IPasswordHashService, AspNetPasswordHashService>();
 builder.Services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
 
@@ -46,5 +48,6 @@ if (!app.Environment.IsDevelopment())
 app.MapGeneroEndpoints();
 app.MapContenidoEndpoints();
 app.MapUsuarioEndpoints();
+app.MapCriticaEndpoints();
 
 app.Run();

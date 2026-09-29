@@ -37,7 +37,7 @@
 
         protected Contenido() { }
 
-        protected Contenido(int id, int idTMDB, TipoContenido tipo, string nombre, int generoid, string descripcion, string nombreDirector, DateOnly fechaLanzamiento, TimeOnly duracion, string urlImagen, float puntuacionPromedio)
+        public Contenido(int id, int idTMDB, TipoContenido tipo, string nombre, int generoid, string descripcion, string nombreDirector, DateOnly fechaLanzamiento, TimeOnly duracion, string urlImagen, float puntuacionPromedio)
         {
             SetId(id);
             SetIdTMDB(idTMDB);
