@@ -15,5 +15,6 @@ namespace CalificarPeliculas.Application.Interfaces.Usuario
         Task<bool> UpdateAsync(ActualizarUsuarioDTO dto);
         Task<bool> DeleteAsync(int id);
         Task<UsuarioDTO?> LoginAsync(LoginUsuarioDTO dto);
+        Task<LoginResponseDTO?> LoginConTokenAsync(LoginUsuarioDTO dto);
     }
 }

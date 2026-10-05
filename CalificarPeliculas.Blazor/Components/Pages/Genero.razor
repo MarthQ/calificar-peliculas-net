@@ -1,0 +1,123 @@
+@page "/generos"
+@rendermode InteractiveServer
+@inject GenerosApiClient Generos
+@inject SesionState Sesion
+@inject NavigationManager Nav
+
+<PageTitle>Géneros</PageTitle>
+
+<h3>Géneros</h3>
+
+@if (!Sesion.EstaAutenticado)
+{
+    <div class="alert alert-warning">Debés <a href="/login">iniciar sesión</a> para administrar géneros.</div>
+}
+else if (generos == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-7">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var g in generos)
+                    {
+                        <tr>
+                            <td>@g.Id</td>
+                            <td>@g.Nombre</td>
+                            <td>
+                                <button class="btn btn-sm btn-secondary" @onclick="() => Seleccionar(g)">Editar</button>
+                                <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(g)">Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h5>@(editando ? "Editar género" : "Nuevo género")</h5>
+            <div class="mb-2">
+                <label>Nombre</label>
+                <input class="form-control" @bind="form.Nombre" />
+            </div>
+            @if (!string.IsNullOrEmpty(error))
+            {
+                <div class="alert alert-danger">@error</div>
+            }
+            <button class="btn btn-primary" @onclick="Guardar">Guardar</button>
+            <button class="btn btn-outline-secondary" @onclick="Limpiar">Limpiar</button>
+        </div>
+    </div>
+}
+
+@code {
+    private List<GeneroDTO>? generos;
+    private GeneroDTO form = new() { Nombre = string.Empty };
+    private bool editando;
+    private string? error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Sesion.EstaAutenticado)
+        {
+            await Cargar();
+        }
+    }
+
+    private async Task Cargar() => generos = await Generos.GetAllAsync();
+
+    private void Seleccionar(GeneroDTO g)
+    {
+        form = new GeneroDTO { Id = g.Id, Nombre = g.Nombre };
+        editando = true;
+        error = null;
+    }
+
+    private void Limpiar()
+    {
+        form = new GeneroDTO { Nombre = string.Empty };
+        editando = false;
+        error = null;
+    }
+
+    private async Task Guardar()
+    {
+        error = null;
+
+        if (string.IsNullOrWhiteSpace(form.Nombre))
+        {
+            error = "El nombre no puede estar vacío.";
+            return;
+        }
+
+        var ok = editando ? await Generos.UpdateAsync(form) : await Generos.AddAsync(form);
+        if (!ok)
+        {
+            error = "No se pudo guardar el género.";
+            return;
+        }
+
+        Limpiar();
+        await Cargar();
+    }
+
+    private async Task Eliminar(GeneroDTO g)
+    {
+        error = null;
+        if (!await Generos.DeleteAsync(g.Id))
+        {
+            error = "No se pudo eliminar el género.";
+            return;
+        }
+        await Cargar();
+    }
+}

@@ -14,6 +14,7 @@ namespace CalificarPeliculas.Repository
         public DbSet<Serie> Series { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Rol> Roles { get; set; }
+        public DbSet<Critica> Criticas { get; set; }
 
         public CFContext(DbContextOptions<DbContext> options) : base(options)
         {
@@ -161,6 +162,45 @@ namespace CalificarPeliculas.Repository
                     new { Id = 1, Description = "Superusuario", Denominacion = TipoRol.SuperUsuario },
                     new { Id = 2, Description = "Moderador", Denominacion = TipoRol.Moderador },
                     new { Id = 3, Description = "Usuario", Denominacion = TipoRol.Usuario });
+            });
+
+            modelBuilder.Entity<Critica>(entity =>
+            {
+                entity.HasKey(ent => ent.Id);
+                entity.Property(ent => ent.Id).ValueGeneratedOnAdd();
+
+                entity.Property(ent => ent.UsuarioId)
+               .IsRequired()
+               .HasField("_usuarioId");
+
+                entity.Navigation(ent => ent.Usuario)
+                .HasField("_usuario");
+
+                entity.HasOne(ent => ent.Usuario)
+                    .WithMany()
+                    .HasForeignKey(ent => ent.UsuarioId);
+
+                entity.Property(ent => ent.ContenidoId)
+               .IsRequired()
+               .HasField("_contenidoId");
+
+                entity.Navigation(ent => ent.Contenido)
+                .HasField("_contenido");
+
+                entity.HasOne(ent => ent.Contenido)
+                    .WithMany()
+                    .HasForeignKey(ent => ent.ContenidoId);
+
+                entity.Property(ent => ent.Texto)
+                    .IsRequired()
+                    .HasMaxLength(10000);
+
+                entity.Property(ent => ent.Calificacion)
+                    .IsRequired();
+                entity.Property(ent => ent.FechaPublicacion)
+                    .IsRequired();
+                entity.Property(ent => ent.CantReacciones)
+                    .IsRequired();
             });
         }
     }

@@ -48,6 +48,7 @@ namespace CalificarPeliculas.Web
             .WithName("AddContenido")
             .Produces<ContenidoDTO>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
+            .RequireAuthorization()
             .WithOpenApi();
 
             app.MapPut("/contenidos", async (ContenidoDTO dto, IContenidoServicio contenidoServicio) =>
@@ -71,6 +72,7 @@ namespace CalificarPeliculas.Web
             .WithName("UpdateContenido")
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status400BadRequest)
+            .RequireAuthorization()
             .WithOpenApi();
 
             app.MapDelete("/contenidos/{id}", async (int id, IContenidoServicio contenidoServicio) =>
@@ -87,6 +89,7 @@ namespace CalificarPeliculas.Web
             .WithName("DeleteContenido")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization()
             .WithOpenApi();
         }
     }

@@ -1,0 +1,67 @@
+@page "/login"
+@rendermode InteractiveServer
+@inject AuthApiClient Auth
+@inject NavigationManager Nav
+
+<PageTitle>Iniciar sesión</PageTitle>
+
+<div class="login-container">
+    <h3>Iniciar sesión</h3>
+
+    <div class="mb-3">
+        <label>Mail</label>
+        <input class="form-control" @bind="mail" @bind:event="oninput" type="email" placeholder="usuario@mail.com" />
+    </div>
+    <div class="mb-3">
+        <label>Contraseña</label>
+        <input class="form-control" @bind="password" @bind:event="oninput" type="password" placeholder="Contraseña" />
+    </div>
+
+    @if (!string.IsNullOrEmpty(error))
+    {
+        <div class="alert alert-danger">@error</div>
+    }
+
+    <button class="btn btn-primary" @onclick="HandleLogin" disabled="@cargando">
+        @(cargando ? "Ingresando..." : "Entrar")
+    </button>
+</div>
+
+@code {
+    private string mail = string.Empty;
+    private string password = string.Empty;
+    private string? error;
+    private bool cargando;
+
+    private async Task HandleLogin()
+    {
+        error = null;
+
+        if (string.IsNullOrWhiteSpace(mail) || string.IsNullOrEmpty(password))
+        {
+            error = "Complete mail y contraseña.";
+            return;
+        }
+
+        cargando = true;
+        try
+        {
+            if (await Auth.LoginAsync(mail, password))
+            {
+                Nav.NavigateTo("/");
+            }
+            else
+            {
+                error = "Credenciales inválidas.";
+            }
+        }
+        catch (Exception ex)
+        {
+            error = $"Error al autenticar: {ex.Message}";
+        }
+        finally
+        {
+            cargando = false;
+        }
+    }
+}

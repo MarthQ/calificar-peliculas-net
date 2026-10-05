@@ -8,13 +8,16 @@ namespace CalificarPeliculas.Application.Services
     {
         private readonly IUsuarioRepository usuarioRepository;
         private readonly IPasswordHashService passwordHashService;
+        private readonly ITokenService? tokenService;
 
         public UsuarioServicio(
             IUsuarioRepository usuarioRepository,
-            IPasswordHashService passwordHashService)
+            IPasswordHashService passwordHashService,
+            ITokenService? tokenService = null)
         {
             this.usuarioRepository = usuarioRepository;
             this.passwordHashService = passwordHashService;
+            this.tokenService = tokenService;
         }
 
         public async Task<UsuarioDTO> RegistrarAsync(RegistrarUsuarioDTO dto)
@@ -89,6 +92,26 @@ namespace CalificarPeliculas.Application.Services
                 return null;
 
             return MapToDTO(usuario);
+        }
+
+        public async Task<LoginResponseDTO?> LoginConTokenAsync(LoginUsuarioDTO dto)
+        {
+            if (tokenService == null)
+                throw new InvalidOperationException("El servicio de tokens no está configurado.");
+
+            if (string.IsNullOrWhiteSpace(dto.Mail) || string.IsNullOrEmpty(dto.Password))
+                return null;
+
+            var usuario = await usuarioRepository.GetByMailAsync(dto.Mail);
+            if (usuario == null || !passwordHashService.VerifyPassword(usuario, dto.Password))
+                return null;
+
+            return new LoginResponseDTO
+            {
+                Token = tokenService.GenerateToken(usuario),
+                ExpiraEn = tokenService.GetExpiration(),
+                Usuario = MapToDTO(usuario)
+            };
         }
 
         private static void ValidarPassword(string password)

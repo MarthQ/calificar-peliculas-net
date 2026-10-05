@@ -1,0 +1,58 @@
+﻿@inherits LayoutComponentBase
+@inject SesionState Sesion
+@inject NavigationManager Nav
+@implements IDisposable
+
+<div class="page">
+    <header class="top-bar">
+        <a class="brand" href="/">🎬 Calificar Películas</a>
+        <nav>
+            <a href="/">Inicio</a>
+            @if (Sesion.EstaAutenticado)
+            {
+                <a href="/generos">Géneros</a>
+                <a href="/contenidos">Contenidos</a>
+                <a href="/criticas">Críticas</a>
+            }
+        </nav>
+        <div class="sesion">
+            @if (Sesion.EstaAutenticado)
+            {
+                <span>@Sesion.Usuario!.NombreUsuario</span>
+                <button class="btn btn-sm btn-outline-secondary" @onclick="Logout">Salir</button>
+            }
+            else
+            {
+                <a href="/login">Iniciar sesión</a>
+            }
+        </div>
+    </header>
+
+    <main class="content">
+        @Body
+    </main>
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Sesion.OnChange += StateHasChanged;
+    }
+
+    private void Logout()
+    {
+        Sesion.CerrarSesion();
+        Nav.NavigateTo("/");
+    }
+
+    public void Dispose()
+    {
+        Sesion.OnChange -= StateHasChanged;
+    }
+}

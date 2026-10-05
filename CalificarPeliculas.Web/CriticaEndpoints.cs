@@ -1,14 +1,15 @@
-﻿using CalificarPeliculas.Application.DTOs;
-using CalificarPeliculas.Application.Interfaces.Contenido;
+using CalificarPeliculas.Application.DTOs;
+using CalificarPeliculas.Application.Interfaces.Criticas;
+
 namespace CalificarPeliculas.Web
 {
-    public static class GeneroEndpoints
+    public static class CriticaEndpoints
     {
-        public static void MapGeneroEndpoints(this WebApplication app)
+        public static void MapCriticaEndpoints(this WebApplication app)
         {
-            app.MapGet("/generos/{id}", async (int id, IGeneroServicio generoServicio) =>
+            app.MapGet("/criticas/{id}", async (int id, ICriticaServicio criticaServicio) =>
             {
-                GeneroDTO? dto = await generoServicio.GetAsync(id);
+                CriticaDTO? dto = await criticaServicio.GetAsync(id);
 
                 if (dto == null)
                 {
@@ -17,45 +18,45 @@ namespace CalificarPeliculas.Web
 
                 return Results.Ok(dto);
             })
-            .WithName("GetGenero")
-            .Produces<GeneroDTO>(StatusCodes.Status200OK)
+            .WithName("GetCritica")
+            .Produces<CriticaDTO>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
 
-            app.MapGet("/generos", async (IGeneroServicio generoServicio) =>
+            app.MapGet("/criticas", async (ICriticaServicio criticaServicio) =>
             {
-                var dtos = await generoServicio.GetAllAsync();
+                var dtos = await criticaServicio.GetAllAsync();
 
                 return Results.Ok(dtos);
             })
-            .WithName("GetAllGeneros")
-            .Produces<List<GeneroDTO>>(StatusCodes.Status200OK)
+            .WithName("GetAllCriticas")
+            .Produces<List<CriticaDTO>>(StatusCodes.Status200OK)
             .WithOpenApi();
 
-            app.MapPost("/generos", async (GeneroDTO dto, IGeneroServicio generoServicio) =>
+            app.MapPost("/criticas", async (CriticaDTO dto, ICriticaServicio criticaServicio) =>
             {
                 try
                 {
-                    GeneroDTO generoDTO = await generoServicio.AddAsync(dto);
+                    CriticaDTO criticaDTO = await criticaServicio.AddAsync(dto);
 
-                    return Results.Created($"/generos/{generoDTO.Id}", generoDTO);
+                    return Results.Created($"/criticas/{criticaDTO.Id}", criticaDTO);
                 }
                 catch (ArgumentException ex)
                 {
                     return Results.BadRequest(new { error = ex.Message });
                 }
             })
-            .WithName("AddGenero")
-            .Produces<GeneroDTO>(StatusCodes.Status201Created)
+            .WithName("AddCritica")
+            .Produces<CriticaDTO>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
             .RequireAuthorization()
             .WithOpenApi();
 
-            app.MapPut("/generos", async (GeneroDTO dto, IGeneroServicio generoServicio) =>
+            app.MapPut("/criticas", async (CriticaDTO dto, ICriticaServicio criticaServicio) =>
             {
                 try
                 {
-                    var found = await generoServicio.UpdateAsync(dto);
+                    var found = await criticaServicio.UpdateAsync(dto);
 
                     if (!found)
                     {
@@ -69,15 +70,15 @@ namespace CalificarPeliculas.Web
                     return Results.BadRequest(new { error = ex.Message });
                 }
             })
-            .WithName("UpdateGenero")
+            .WithName("UpdateCritica")
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status400BadRequest)
             .RequireAuthorization()
             .WithOpenApi();
 
-            app.MapDelete("/generos/{id}", async (int id, IGeneroServicio generoServicio) =>
+            app.MapDelete("/criticas/{id}", async (int id, ICriticaServicio criticaServicio) =>
             {
-                var deleted = await generoServicio.DeleteAsync(id);
+                var deleted = await criticaServicio.DeleteAsync(id);
 
                 if (!deleted)
                 {
@@ -86,7 +87,7 @@ namespace CalificarPeliculas.Web
 
                 return Results.NoContent();
             })
-            .WithName("DeleteGenero")
+            .WithName("DeleteCritica")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
             .RequireAuthorization()

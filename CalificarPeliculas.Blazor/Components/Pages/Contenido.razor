@@ -1,0 +1,240 @@
+@page "/contenidos"
+@rendermode InteractiveServer
+@inject ContenidosApiClient Contenidos
+@inject GenerosApiClient Generos
+@inject SesionState Sesion
+
+<PageTitle>Contenidos</PageTitle>
+
+<h3>Contenidos</h3>
+
+@if (!Sesion.EstaAutenticado)
+{
+    <div class="alert alert-warning">Debés <a href="/login">iniciar sesión</a> para administrar contenidos.</div>
+}
+else if (contenidos == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <div class="row">
+        <div class="col-lg-7">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Género</th>
+                        <th>Puntuación</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in contenidos)
+                    {
+                        <tr>
+                            <td>@c.Nombre</td>
+                            <td>@c.Tipo</td>
+                            <td>@(generos?.FirstOrDefault(g => g.Id == c.GeneroId)?.Nombre ?? c.GeneroId.ToString())</td>
+                            <td>@c.PuntuacionPromedio</td>
+                            <td>
+                                <button class="btn btn-sm btn-secondary" @onclick="() => Seleccionar(c)">Editar</button>
+                                <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(c)">Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-5">
+            <h5>@(editando ? "Editar contenido" : "Nuevo contenido")</h5>
+            <div class="mb-2">
+                <label>Tipo</label>
+                <select class="form-select" @bind="form.Tipo">
+                    <option value="@TipoContenido.PELICULA">Película</option>
+                    <option value="@TipoContenido.SERIE">Serie</option>
+                    <option value="@TipoContenido.EPISODIO">Episodio</option>
+                </select>
+            </div>
+            <div class="mb-2">
+                <label>Nombre</label>
+                <input class="form-control" @bind="form.Nombre" />
+            </div>
+            <div class="mb-2">
+                <label>Género</label>
+                <select class="form-select" @bind="form.GeneroId">
+                    <option value="0">-- Seleccione --</option>
+                    @if (generos != null)
+                    {
+                        @foreach (var g in generos)
+                        {
+                            <option value="@g.Id">@g.Nombre</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="mb-2">
+                <label>Descripción</label>
+                <textarea class="form-control" rows="2" @bind="form.Descripcion"></textarea>
+            </div>
+            <div class="mb-2">
+                <label>Director</label>
+                <input class="form-control" @bind="form.NombreDirector" />
+            </div>
+            <div class="row">
+                <div class="col mb-2">
+                    <label>Fecha de lanzamiento</label>
+                    <input class="form-control" type="date" @bind="fechaLanzamiento" />
+                </div>
+                <div class="col mb-2">
+                    <label>Duración (HH:mm)</label>
+                    <input class="form-control" type="time" @bind="duracion" />
+                </div>
+            </div>
+            <div class="mb-2">
+                <label>URL de imagen</label>
+                <input class="form-control" @bind="form.UrlImagen" placeholder="https://..." />
+            </div>
+            <div class="row">
+                <div class="col mb-2">
+                    <label>Puntuación promedio (0-10)</label>
+                    <input class="form-control" type="number" step="0.1" min="0" max="10" @bind="form.PuntuacionPromedio" />
+                </div>
+                <div class="col mb-2">
+                    <label>Id TMDB</label>
+                    <input class="form-control" type="number" min="0" @bind="form.IdTMDB" />
+                </div>
+            </div>
+
+            @if (form.Tipo == TipoContenido.EPISODIO)
+            {
+                <div class="row">
+                    <div class="col mb-2">
+                        <label>N° episodio</label>
+                        <input class="form-control" type="number" min="0" @bind="numeroEpisodio" />
+                    </div>
+                    <div class="col mb-2">
+                        <label>N° temporada</label>
+                        <input class="form-control" type="number" min="0" @bind="numeroTemporada" />
+                    </div>
+                </div>
+            }
+            else if (form.Tipo == TipoContenido.SERIE)
+            {
+                <div class="mb-2">
+                    <label>Cantidad de temporadas</label>
+                    <input class="form-control" type="number" min="0" @bind="cantTemporadas" />
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(error))
+            {
+                <div class="alert alert-danger">@error</div>
+            }
+
+            <button class="btn btn-primary" @onclick="Guardar">Guardar</button>
+            <button class="btn btn-outline-secondary" @onclick="Limpiar">Limpiar</button>
+        </div>
+    </div>
+}
+
+@code {
+    private List<ContenidoDTO>? contenidos;
+    private List<GeneroDTO>? generos;
+    private ContenidoDTO form = new();
+    private DateTime fechaLanzamiento = DateTime.Today;
+    private TimeOnly duracion = new(1, 30);
+    private int numeroEpisodio;
+    private int numeroTemporada;
+    private int cantTemporadas;
+    private bool editando;
+    private string? error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Sesion.EstaAutenticado)
+        {
+            await Cargar();
+        }
+    }
+
+    private async Task Cargar()
+    {
+        contenidos = await Contenidos.GetAllAsync();
+        generos = await Generos.GetAllAsync();
+    }
+
+    private void Seleccionar(ContenidoDTO c)
+    {
+        form = new ContenidoDTO
+        {
+            Id = c.Id,
+            IdTMDB = c.IdTMDB,
+            Tipo = c.Tipo,
+            Nombre = c.Nombre,
+            GeneroId = c.GeneroId,
+            Descripcion = c.Descripcion,
+            NombreDirector = c.NombreDirector,
+            UrlImagen = c.UrlImagen,
+            PuntuacionPromedio = c.PuntuacionPromedio
+        };
+        fechaLanzamiento = c.FechaLanzamiento.ToDateTime(TimeOnly.MinValue);
+        duracion = c.Duracion;
+        numeroEpisodio = c.NumeroEpisodio ?? 0;
+        numeroTemporada = c.NumeroTemporada ?? 0;
+        cantTemporadas = c.CantTemporadas ?? 0;
+        editando = true;
+        error = null;
+    }
+
+    private void Limpiar()
+    {
+        form = new ContenidoDTO();
+        fechaLanzamiento = DateTime.Today;
+        duracion = new TimeOnly(1, 30);
+        numeroEpisodio = 0;
+        numeroTemporada = 0;
+        cantTemporadas = 0;
+        editando = false;
+        error = null;
+    }
+
+    private async Task Guardar()
+    {
+        error = null;
+
+        form.FechaLanzamiento = DateOnly.FromDateTime(fechaLanzamiento);
+        form.Duracion = duracion;
+        form.NumeroEpisodio = form.Tipo == TipoContenido.EPISODIO ? numeroEpisodio : null;
+        form.NumeroTemporada = form.Tipo == TipoContenido.EPISODIO ? numeroTemporada : null;
+        form.CantTemporadas = form.Tipo == TipoContenido.SERIE ? cantTemporadas : null;
+
+        if (string.IsNullOrWhiteSpace(form.Nombre) || form.GeneroId <= 0)
+        {
+            error = "Complete al menos el nombre y el género.";
+            return;
+        }
+
+        var resultado = editando ? await Contenidos.UpdateAsync(form) : await Contenidos.AddAsync(form);
+        if (resultado != null)
+        {
+            error = $"No se pudo guardar el contenido. {resultado}";
+            return;
+        }
+
+        Limpiar();
+        await Cargar();
+    }
+
+    private async Task Eliminar(ContenidoDTO c)
+    {
+        error = null;
+        if (!await Contenidos.DeleteAsync(c.Id))
+        {
+            error = "No se pudo eliminar el contenido.";
+            return;
+        }
+        await Cargar();
+    }
+}
