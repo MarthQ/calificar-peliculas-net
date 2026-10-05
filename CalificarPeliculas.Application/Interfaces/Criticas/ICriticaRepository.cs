@@ -15,4 +15,3 @@ namespace CalificarPeliculas.Application.Interfaces.Criticas;
         Task<IEnumerable<Critica>> GetAllAsync();
         Task<bool> UpdateAsync(Critica critica);
     }
-}

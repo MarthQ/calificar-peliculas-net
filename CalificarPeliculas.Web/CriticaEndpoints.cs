@@ -1,11 +1,11 @@
-﻿using CalificarPeliculas.Application.DTOs;
+using CalificarPeliculas.Application.DTOs;
 using CalificarPeliculas.Application.Interfaces.Criticas;
 
 namespace CalificarPeliculas.Web
 {
     public static class CriticaEndpoints
     {
-    public static void MapCriticaEndpoints(this WebApplication app)
+        public static void MapCriticaEndpoints(this WebApplication app)
         {
             app.MapGet("/criticas/{id}", async (int id, ICriticaServicio criticaServicio) =>
             {
@@ -49,9 +49,10 @@ namespace CalificarPeliculas.Web
             .WithName("AddCritica")
             .Produces<CriticaDTO>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
+            .RequireAuthorization()
             .WithOpenApi();
 
-            app.MapPut("/criticas", async (GeneroDTO dto, ICriticaServicio criticaServicio) =>
+            app.MapPut("/criticas", async (CriticaDTO dto, ICriticaServicio criticaServicio) =>
             {
                 try
                 {
@@ -72,6 +73,7 @@ namespace CalificarPeliculas.Web
             .WithName("UpdateCritica")
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status400BadRequest)
+            .RequireAuthorization()
             .WithOpenApi();
 
             app.MapDelete("/criticas/{id}", async (int id, ICriticaServicio criticaServicio) =>
@@ -88,8 +90,8 @@ namespace CalificarPeliculas.Web
             .WithName("DeleteCritica")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization()
             .WithOpenApi();
         }
-
-}
+    }
 }

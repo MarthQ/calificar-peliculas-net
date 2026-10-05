@@ -1,0 +1,19 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@inject SesionState Sesion
+@inject NavigationManager Nav
+
+<PageTitle>Inicio</PageTitle>
+
+<h1>Calificar Películas</h1>
+
+@if (Sesion.EstaAutenticado)
+{
+    <p>Bienvenido, <strong>@Sesion.Usuario!.NombreUsuario</strong>.</p>
+    <p>Usá el menú para administrar géneros, contenidos y críticas.</p>
+}
+else
+{
+    <p>Debés iniciar sesión para administrar el catálogo.</p>
+    <button class="btn btn-primary" @onclick='() => Nav.NavigateTo("/login")'>Iniciar sesión</button>
+}

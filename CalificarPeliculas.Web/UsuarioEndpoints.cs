@@ -45,6 +45,7 @@ namespace CalificarPeliculas.Web
             .Produces<UsuarioDTO>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status409Conflict)
+            .RequireAuthorization()
             .WithOpenApi();
 
             app.MapPut("/usuarios", async (ActualizarUsuarioDTO dto, IUsuarioServicio usuarioServicio) =>
@@ -68,6 +69,7 @@ namespace CalificarPeliculas.Web
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status409Conflict)
+            .RequireAuthorization()
             .WithOpenApi();
 
             app.MapDelete("/usuarios/{id}", async (int id, IUsuarioServicio usuarioServicio) =>
@@ -78,6 +80,7 @@ namespace CalificarPeliculas.Web
             .WithName("DeleteUsuario")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization()
             .WithOpenApi();
 
             app.MapPost("/usuarios/login", async (LoginUsuarioDTO dto, IUsuarioServicio usuarioServicio) =>
@@ -87,6 +90,23 @@ namespace CalificarPeliculas.Web
             })
             .WithName("LoginUsuario")
             .Produces<UsuarioDTO>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .WithOpenApi();
+
+            app.MapPost("/auth/login", async (LoginUsuarioDTO dto, IUsuarioServicio usuarioServicio) =>
+            {
+                try
+                {
+                    var respuesta = await usuarioServicio.LoginConTokenAsync(dto);
+                    return respuesta == null ? Results.Unauthorized() : Results.Ok(respuesta);
+                }
+                catch (InvalidOperationException ex)
+                {
+                    return Results.Problem(ex.Message);
+                }
+            })
+            .WithName("LoginConToken")
+            .Produces<LoginResponseDTO>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status401Unauthorized)
             .WithOpenApi();
         }
