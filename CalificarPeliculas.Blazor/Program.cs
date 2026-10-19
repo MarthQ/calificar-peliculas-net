@@ -10,6 +10,7 @@ builder.Services.AddRazorComponents()
 var apiBaseUrl = builder.Configuration["ApiBaseUrl"] ?? "http://localhost:5126";
 
 builder.Services.AddScoped<SesionState>();
+builder.Services.AddScoped<AuthApiClient>();
 builder.Services.AddTransient<TokenMessageHandler>();
 
 builder.Services.AddHttpClient<AuthApiClient>(client => client.BaseAddress = new Uri(apiBaseUrl));
