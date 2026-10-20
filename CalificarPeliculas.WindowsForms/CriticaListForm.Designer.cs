@@ -2,15 +2,21 @@
 {
     partial class CriticaListForm
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
+        private System.Windows.Forms.Panel panelMaestros;
+        private System.Windows.Forms.Label lblUsuario;
+        private System.Windows.Forms.ComboBox comboUsuario;
+        private System.Windows.Forms.Label lblContenido;
+        private System.Windows.Forms.ComboBox comboContenido;
+        private System.Windows.Forms.Button btnLimpiarFiltros;
+        private System.Windows.Forms.Label lblTotal;
+        private System.Windows.Forms.DataGridView dgvCriticas;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Panel panelActions;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -20,79 +26,162 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
-
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
-            panel1 = new Panel();
-            btn_2 = new Button();
-            btn_1 = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            panel1.SuspendLayout();
+            this.panelMaestros = new System.Windows.Forms.Panel();
+            this.lblUsuario = new System.Windows.Forms.Label();
+            this.comboUsuario = new System.Windows.Forms.ComboBox();
+            this.lblContenido = new System.Windows.Forms.Label();
+            this.comboContenido = new System.Windows.Forms.ComboBox();
+            this.btnLimpiarFiltros = new System.Windows.Forms.Button();
+            this.lblTotal = new System.Windows.Forms.Label();
+            this.dgvCriticas = new System.Windows.Forms.DataGridView();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.panelActions = new System.Windows.Forms.Panel();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCriticas)).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView1
+            // panelMaestros
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 12);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(748, 331);
-            dataGridView1.TabIndex = 0;
+            this.panelMaestros.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right);
+            this.panelMaestros.Location = new System.Drawing.Point(12, 12);
+            this.panelMaestros.Name = "panelMaestros";
+            this.panelMaestros.Size = new System.Drawing.Size(760, 70);
             // 
-            // panel1
+            // lblUsuario
             // 
-            panel1.Controls.Add(btn_2);
-            panel1.Controls.Add(btn_1);
-            panel1.Location = new Point(766, 12);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(200, 331);
-            panel1.TabIndex = 0;
-            panel1.Paint += panel1_Paint;
+            this.lblUsuario.AutoSize = true;
+            this.lblUsuario.Location = new System.Drawing.Point(0, 4);
+            this.lblUsuario.Name = "lblUsuario";
+            this.lblUsuario.Text = "Usuario:";
             // 
-            // btn_2
+            // comboUsuario
             // 
-            btn_2.Location = new Point(49, 62);
-            btn_2.Name = "btn_2";
-            btn_2.Size = new Size(94, 29);
-            btn_2.TabIndex = 1;
-            btn_2.Text = "button2";
-            btn_2.UseVisualStyleBackColor = true;
+            this.comboUsuario.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboUsuario.Location = new System.Drawing.Point(0, 28);
+            this.comboUsuario.Name = "comboUsuario";
+            this.comboUsuario.Size = new System.Drawing.Size(250, 28);
+            this.comboUsuario.SelectedIndexChanged += new System.EventHandler(this.comboMaestro_SelectedIndexChanged);
             // 
-            // btn_1
+            // lblContenido
             // 
-            btn_1.Location = new Point(49, 17);
-            btn_1.Name = "btn_1";
-            btn_1.Size = new Size(94, 29);
-            btn_1.TabIndex = 0;
-            btn_1.Text = "Agregar";
-            btn_1.UseVisualStyleBackColor = true;
-            btn_1.Click += button1_Click;
+            this.lblContenido.AutoSize = true;
+            this.lblContenido.Location = new System.Drawing.Point(270, 4);
+            this.lblContenido.Name = "lblContenido";
+            this.lblContenido.Text = "Contenido:";
+            // 
+            // comboContenido
+            // 
+            this.comboContenido.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboContenido.Location = new System.Drawing.Point(270, 28);
+            this.comboContenido.Name = "comboContenido";
+            this.comboContenido.Size = new System.Drawing.Size(320, 28);
+            this.comboContenido.SelectedIndexChanged += new System.EventHandler(this.comboMaestro_SelectedIndexChanged);
+            // 
+            // btnLimpiarFiltros
+            // 
+            this.btnLimpiarFiltros.Location = new System.Drawing.Point(610, 26);
+            this.btnLimpiarFiltros.Name = "btnLimpiarFiltros";
+            this.btnLimpiarFiltros.Size = new System.Drawing.Size(140, 30);
+            this.btnLimpiarFiltros.Text = "Ver todas";
+            this.btnLimpiarFiltros.UseVisualStyleBackColor = true;
+            this.btnLimpiarFiltros.Click += new System.EventHandler(this.btnLimpiarFiltros_Click);
+            // 
+            // dgvCriticas
+            // 
+            this.dgvCriticas.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvCriticas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvCriticas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCriticas.Location = new System.Drawing.Point(12, 90);
+            this.dgvCriticas.MultiSelect = false;
+            this.dgvCriticas.Name = "dgvCriticas";
+            this.dgvCriticas.ReadOnly = true;
+            this.dgvCriticas.RowHeadersVisible = false;
+            this.dgvCriticas.RowTemplate.Height = 25;
+            this.dgvCriticas.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvCriticas.Size = new System.Drawing.Size(760, 270);
+            this.dgvCriticas.TabIndex = 0;
+            this.dgvCriticas.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCriticas_CellDoubleClick);
+            // 
+            // lblTotal
+            // 
+            this.lblTotal.Anchor = (System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left);
+            this.lblTotal.AutoSize = true;
+            this.lblTotal.Location = new System.Drawing.Point(12, 368);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Text = "Críticas: 0";
+            // 
+            // panelActions
+            // 
+            this.panelActions.Location = new System.Drawing.Point(790, 90);
+            this.panelActions.Name = "panelActions";
+            this.panelActions.Size = new System.Drawing.Size(120, 296);
+            this.panelActions.Anchor = (System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right);
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(10, 0);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(100, 30);
+            this.btnAdd.Text = "Agregar";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.Location = new System.Drawing.Point(10, 40);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(100, 30);
+            this.btnEdit.Text = "Editar";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(10, 80);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(100, 30);
+            this.btnDelete.Text = "Eliminar";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Location = new System.Drawing.Point(10, 240);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(100, 30);
+            this.btnClose.Text = "Cerrar";
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // CriticaListForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(968, 355);
-            Controls.Add(panel1);
-            Controls.Add(dataGridView1);
+            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(920, 400);
+            this.panelMaestros.Controls.Add(this.lblUsuario);
+            this.panelMaestros.Controls.Add(this.comboUsuario);
+            this.panelMaestros.Controls.Add(this.lblContenido);
+            this.panelMaestros.Controls.Add(this.comboContenido);
+            this.panelMaestros.Controls.Add(this.btnLimpiarFiltros);
+            Controls.Add(this.panelMaestros);
+            Controls.Add(this.dgvCriticas);
+            Controls.Add(this.lblTotal);
+            this.panelActions.Controls.Add(this.btnAdd);
+            this.panelActions.Controls.Add(this.btnEdit);
+            this.panelActions.Controls.Add(this.btnDelete);
+            this.panelActions.Controls.Add(this.btnClose);
+            Controls.Add(this.panelActions);
             Name = "CriticaListForm";
-            Text = "CriticaListForm";
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            panel1.ResumeLayout(false);
+            Text = "Críticas";
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCriticas)).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
-
-        #endregion
-
-        private DataGridView dataGridView1;
-        private Panel panel1;
-        private Button btn_1;
-        private Button btn_2;
     }
 }

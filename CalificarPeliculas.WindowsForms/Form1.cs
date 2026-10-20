@@ -47,6 +47,17 @@ namespace CalificarPeliculas.WindowsForms
             ShowInPanel(form);
         }
 
+        private void btnCriticas_Click(object sender, EventArgs e)
+        {
+            var form = _provider.GetService(typeof(CriticaListForm)) as CriticaListForm;
+            if (form == null)
+            {
+                MessageBox.Show("No se pudo abrir la ventana de críticas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            ShowInPanel(form);
+        }
+
         private void menuRegisterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = _provider.GetService(typeof(RegisterForm)) as RegisterForm;
