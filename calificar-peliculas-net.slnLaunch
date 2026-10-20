@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Nuevo perfil",
+    "Projects": [
+      {
+        "Path": "CalificarPeliculas.Web\\CalificarPeliculas.Web.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "CalificarPeliculas.Blazor\\CalificarPeliculas.Blazor.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

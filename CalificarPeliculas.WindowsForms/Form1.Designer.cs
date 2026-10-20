@@ -14,6 +14,7 @@ namespace CalificarPeliculas.WindowsForms
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuGenerosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuContenidosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuCriticasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuLogoutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuRegisterToolStripMenuItem;
 
@@ -41,6 +42,7 @@ namespace CalificarPeliculas.WindowsForms
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuGenerosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuContenidosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuCriticasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuLogoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuRegisterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain = new System.Windows.Forms.Panel();
@@ -51,6 +53,7 @@ namespace CalificarPeliculas.WindowsForms
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuGenerosToolStripMenuItem,
             this.menuContenidosToolStripMenuItem,
+            this.menuCriticasToolStripMenuItem,
             this.menuRegisterToolStripMenuItem,
             this.menuLogoutToolStripMenuItem});
             this.menuStrip1.Location = new Point(0, 0);
@@ -72,6 +75,13 @@ namespace CalificarPeliculas.WindowsForms
             this.menuContenidosToolStripMenuItem.Size = new System.Drawing.Size(77, 20);
             this.menuContenidosToolStripMenuItem.Text = "Contenidos";
             this.menuContenidosToolStripMenuItem.Click += new System.EventHandler(this.btnContenidos_Click);
+            // 
+            // menuCriticasToolStripMenuItem
+            // 
+            this.menuCriticasToolStripMenuItem.Name = "menuCriticasToolStripMenuItem";
+            this.menuCriticasToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.menuCriticasToolStripMenuItem.Text = "Críticas";
+            this.menuCriticasToolStripMenuItem.Click += new System.EventHandler(this.btnCriticas_Click);
             // 
             // menuRegisterToolStripMenuItem
             // 

@@ -11,6 +11,7 @@ using CalificarPeliculas.Web.Security;
 using CalificarPeliculas.Domain.Users;
 using Microsoft.AspNetCore.Identity;
 using CalificarPeliculas.Application.Interfaces.Contenido;
+using CalificarPeliculas.Application.Interfaces.Criticas;
 
 namespace CalificarPeliculas.WindowsForms
 {
@@ -49,6 +50,10 @@ namespace CalificarPeliculas.WindowsForms
             services.AddScoped<IContenidoServicio, ContenidoServicio>();
             services.AddScoped<IContenidoRepository, ContenidoRepository>();
 
+            // Criticas
+            services.AddScoped<ICriticaServicio, CriticaServicio>();
+            services.AddScoped<ICriticaRepository, CriticaRepository>();
+
             // Registro del hasher de Identity que usa AspNetPasswordHashService
             services.AddSingleton<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
 
@@ -59,6 +64,8 @@ namespace CalificarPeliculas.WindowsForms
             services.AddScoped<GeneroEditForm>();
             services.AddScoped<ContenidoListForm>();
             services.AddScoped<ContenidoEditForm>();
+            services.AddScoped<CriticaListForm>();
+            services.AddScoped<CriticaEditForm>();
             services.AddScoped<RegisterForm>();
 
             ServiceProvider = services.BuildServiceProvider();
