@@ -12,6 +12,10 @@
 {
     <div class="alert alert-warning">Debés <a href="/login">iniciar sesión</a> para administrar géneros.</div>
 }
+else if (!Sesion.EsAdmin)
+{
+    <div class="alert alert-danger">No tenés permisos para administrar géneros.</div>
+}
 else if (generos == null)
 {
     <p>Cargando...</p>

@@ -8,7 +8,7 @@
         <a class="brand" href="/">🎬 Calificar Películas</a>
         <nav>
             <a href="/">Inicio</a>
-            @if (Sesion.EstaAutenticado)
+            @if (Sesion.EstaAutenticado && Sesion.EsAdmin)
             {
                 <a href="/generos">Géneros</a>
                 <a href="/contenidos">Contenidos</a>

@@ -39,7 +39,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ClockSkew = TimeSpan.Zero
         };
     });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy =>
+        policy.RequireRole(nameof(TipoRol.SuperUsuario)));
+});
 
 // CORS para el cliente Blazor
 builder.Services.AddCors(options =>
@@ -64,6 +68,11 @@ builder.Services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    DatabaseSeeder.Seed(new CFContext(), scope.ServiceProvider.GetRequiredService<IPasswordHashService>());
+}
 
 // Configure HTTP Request
 if (app.Environment.IsDevelopment())

@@ -20,6 +20,7 @@ namespace CalificarPeliculas.Web
             .WithName("GetContenido")
             .Produces<ContenidoDTO>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization("Admin")
             .WithOpenApi();
 
             app.MapGet("/contenidos", async (IContenidoServicio contenidoServicio) =>
@@ -30,6 +31,7 @@ namespace CalificarPeliculas.Web
             })
             .WithName("GetAllContenidos")
             .Produces<List<ContenidoDTO>>(StatusCodes.Status200OK)
+            .RequireAuthorization("Admin")
             .WithOpenApi();
 
             app.MapPost("/contenidos", async (ContenidoDTO dto, IContenidoServicio contenidoServicio) =>
@@ -48,7 +50,7 @@ namespace CalificarPeliculas.Web
             .WithName("AddContenido")
             .Produces<ContenidoDTO>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
-            .RequireAuthorization()
+            .RequireAuthorization("Admin")
             .WithOpenApi();
 
             app.MapPut("/contenidos", async (ContenidoDTO dto, IContenidoServicio contenidoServicio) =>
@@ -72,7 +74,7 @@ namespace CalificarPeliculas.Web
             .WithName("UpdateContenido")
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status400BadRequest)
-            .RequireAuthorization()
+            .RequireAuthorization("Admin")
             .WithOpenApi();
 
             app.MapDelete("/contenidos/{id}", async (int id, IContenidoServicio contenidoServicio) =>
@@ -89,7 +91,7 @@ namespace CalificarPeliculas.Web
             .WithName("DeleteContenido")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
-            .RequireAuthorization()
+            .RequireAuthorization("Admin")
             .WithOpenApi();
         }
     }

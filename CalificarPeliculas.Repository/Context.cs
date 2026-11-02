@@ -21,7 +21,7 @@ namespace CalificarPeliculas.Repository
             this.Database.EnsureCreated();
         }
 
-        internal CFContext()
+        public CFContext()
         {
             this.Database.EnsureCreated();
         }

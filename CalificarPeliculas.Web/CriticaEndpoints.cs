@@ -21,6 +21,7 @@ namespace CalificarPeliculas.Web
             .WithName("GetCritica")
             .Produces<CriticaDTO>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization("Admin")
             .WithOpenApi();
 
             app.MapGet("/criticas", async (ICriticaServicio criticaServicio) =>
@@ -31,6 +32,7 @@ namespace CalificarPeliculas.Web
             })
             .WithName("GetAllCriticas")
             .Produces<List<CriticaDTO>>(StatusCodes.Status200OK)
+            .RequireAuthorization("Admin")
             .WithOpenApi();
 
             app.MapPost("/criticas", async (CriticaDTO dto, ICriticaServicio criticaServicio) =>
@@ -49,7 +51,7 @@ namespace CalificarPeliculas.Web
             .WithName("AddCritica")
             .Produces<CriticaDTO>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
-            .RequireAuthorization()
+            .RequireAuthorization("Admin")
             .WithOpenApi();
 
             app.MapPut("/criticas", async (CriticaDTO dto, ICriticaServicio criticaServicio) =>
@@ -73,7 +75,7 @@ namespace CalificarPeliculas.Web
             .WithName("UpdateCritica")
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status400BadRequest)
-            .RequireAuthorization()
+            .RequireAuthorization("Admin")
             .WithOpenApi();
 
             app.MapDelete("/criticas/{id}", async (int id, ICriticaServicio criticaServicio) =>
@@ -90,7 +92,7 @@ namespace CalificarPeliculas.Web
             .WithName("DeleteCritica")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
-            .RequireAuthorization()
+            .RequireAuthorization("Admin")
             .WithOpenApi();
         }
     }

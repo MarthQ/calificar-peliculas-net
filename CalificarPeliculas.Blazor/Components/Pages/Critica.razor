@@ -12,6 +12,10 @@
 {
     <div class="alert alert-warning">Debés <a href="/login">iniciar sesión</a> para administrar críticas.</div>
 }
+else if (!Sesion.EsAdmin)
+{
+    <div class="alert alert-danger">No tenés permisos para administrar críticas.</div>
+}
 else if (criticas == null)
 {
     <p>Cargando...</p>

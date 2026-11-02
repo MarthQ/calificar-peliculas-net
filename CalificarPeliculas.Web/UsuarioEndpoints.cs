@@ -15,6 +15,7 @@ namespace CalificarPeliculas.Web
             .WithName("GetUsuario")
             .Produces<UsuarioDTO>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization("Admin")
             .WithOpenApi();
 
             app.MapGet("/usuarios", async (IUsuarioServicio usuarioServicio) =>
@@ -23,6 +24,7 @@ namespace CalificarPeliculas.Web
             })
             .WithName("GetAllUsuarios")
             .Produces<IEnumerable<UsuarioDTO>>(StatusCodes.Status200OK)
+            .RequireAuthorization("Admin")
             .WithOpenApi();
 
             app.MapPost("/usuarios", async (RegistrarUsuarioDTO dto, IUsuarioServicio usuarioServicio) =>
@@ -45,7 +47,7 @@ namespace CalificarPeliculas.Web
             .Produces<UsuarioDTO>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status409Conflict)
-            .RequireAuthorization()
+            .RequireAuthorization("Admin")
             .WithOpenApi();
 
             app.MapPut("/usuarios", async (ActualizarUsuarioDTO dto, IUsuarioServicio usuarioServicio) =>
@@ -69,7 +71,7 @@ namespace CalificarPeliculas.Web
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status409Conflict)
-            .RequireAuthorization()
+            .RequireAuthorization("Admin")
             .WithOpenApi();
 
             app.MapDelete("/usuarios/{id}", async (int id, IUsuarioServicio usuarioServicio) =>
@@ -80,7 +82,7 @@ namespace CalificarPeliculas.Web
             .WithName("DeleteUsuario")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
-            .RequireAuthorization()
+            .RequireAuthorization("Admin")
             .WithOpenApi();
 
             app.MapPost("/usuarios/login", async (LoginUsuarioDTO dto, IUsuarioServicio usuarioServicio) =>
