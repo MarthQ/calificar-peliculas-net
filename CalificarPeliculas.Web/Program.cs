@@ -6,6 +6,7 @@ using CalificarPeliculas.Application.Interfaces.Usuario;
 using CalificarPeliculas.Application.Interfaces.Criticas;
 using CalificarPeliculas.Domain.Users;
 using CalificarPeliculas.Repository.Users;
+using CalificarPeliculas.Application.Security;
 using CalificarPeliculas.Web.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;

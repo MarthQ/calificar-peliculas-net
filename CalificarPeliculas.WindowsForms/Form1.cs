@@ -30,7 +30,7 @@ namespace CalificarPeliculas.WindowsForms
             var form = _provider.GetService(typeof(GeneroListForm)) as GeneroListForm;
             if (form == null)
             {
-                MessageBox.Show("No se pudo abrir la ventana de géneros.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No se pudo abrir la ventana de gÃ©neros.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             ShowInPanel(form);
@@ -52,7 +52,7 @@ namespace CalificarPeliculas.WindowsForms
             var form = _provider.GetService(typeof(CriticaListForm)) as CriticaListForm;
             if (form == null)
             {
-                MessageBox.Show("No se pudo abrir la ventana de críticas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No se pudo abrir la ventana de crÃ­ticas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             ShowInPanel(form);

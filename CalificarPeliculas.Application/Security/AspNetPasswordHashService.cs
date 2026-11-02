@@ -2,7 +2,7 @@ using CalificarPeliculas.Application.Interfaces.Usuario;
 using CalificarPeliculas.Domain.Users;
 using Microsoft.AspNetCore.Identity;
 
-namespace CalificarPeliculas.Web.Security
+namespace CalificarPeliculas.Application.Security
 {
     public class AspNetPasswordHashService : IPasswordHashService
     {

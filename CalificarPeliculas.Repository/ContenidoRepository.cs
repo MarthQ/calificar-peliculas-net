@@ -57,7 +57,26 @@ namespace CalificarPeliculas.Repository
             var existing = await context.Contenidos.FirstOrDefaultAsync(g => g.Id == contenido.Id);
             if (existing != null)
             {
+                existing.SetIdTMDB(contenido.IdTMDB);
                 existing.SetNombre(contenido.Nombre);
+                existing.SetGeneroId(contenido.GeneroId);
+                existing.SetDescripcion(contenido.Descripcion);
+                existing.SetNombreDirector(contenido.NombreDirector);
+                existing.SetFechaLanzamiento(contenido.FechaLanzamiento);
+                existing.SetDuracion(contenido.Duracion);
+                existing.SetUrlImagen(contenido.UrlImagen);
+                existing.SetPuntuacionPromedio(contenido.PuntuacionPromedio);
+
+                if (existing is Episodio existingEpisodio && contenido is Episodio episodio)
+                {
+                    existingEpisodio.SetNumEp(episodio.NumeroEpisodio);
+                    existingEpisodio.SetNumTemp(episodio.NumeroTemporada);
+                }
+                else if (existing is Serie existingSerie && contenido is Serie serie)
+                {
+                    existingSerie.SetCantTemporadas(serie.CantTemporadas);
+                }
+
                 await context.SaveChangesAsync();
                 return true;
             }

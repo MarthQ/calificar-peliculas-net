@@ -33,14 +33,14 @@ namespace CalificarPeliculas.WindowsForms
 
             if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(mail) || string.IsNullOrEmpty(pass))
             {
-                MessageBox.Show("Complete todos los campos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Complete todos los campos.", "ValidaciÃ³n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 btnRegister.Enabled = true;
                 return;
             }
 
             if (pass != pass2)
             {
-                MessageBox.Show("Las contraseñas no coinciden.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Las contraseÃ±as no coinciden.", "ValidaciÃ³n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 btnRegister.Enabled = true;
                 return;
             }

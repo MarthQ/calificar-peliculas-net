@@ -10,7 +10,7 @@
 
 @if (!Sesion.EstaAutenticado)
 {
-    <div class="alert alert-warning">Debés <a href="/login">iniciar sesión</a> para administrar contenidos.</div>
+    <div class="alert alert-warning">DebÃ©s <a href="/login">iniciar sesiÃ³n</a> para administrar contenidos.</div>
 }
 else if (contenidos == null)
 {
@@ -25,8 +25,8 @@ else
                     <tr>
                         <th>Nombre</th>
                         <th>Tipo</th>
-                        <th>Género</th>
-                        <th>Puntuación</th>
+                        <th>GÃ©nero</th>
+                        <th>PuntuaciÃ³n</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -52,7 +52,7 @@ else
             <div class="mb-2">
                 <label>Tipo</label>
                 <select class="form-select" @bind="form.Tipo">
-                    <option value="@TipoContenido.PELICULA">Película</option>
+                    <option value="@TipoContenido.PELICULA">PelÃ­cula</option>
                     <option value="@TipoContenido.SERIE">Serie</option>
                     <option value="@TipoContenido.EPISODIO">Episodio</option>
                 </select>
@@ -62,7 +62,7 @@ else
                 <input class="form-control" @bind="form.Nombre" />
             </div>
             <div class="mb-2">
-                <label>Género</label>
+                <label>GÃ©nero</label>
                 <select class="form-select" @bind="form.GeneroId">
                     <option value="0">-- Seleccione --</option>
                     @if (generos != null)
@@ -75,7 +75,7 @@ else
                 </select>
             </div>
             <div class="mb-2">
-                <label>Descripción</label>
+                <label>DescripciÃ³n</label>
                 <textarea class="form-control" rows="2" @bind="form.Descripcion"></textarea>
             </div>
             <div class="mb-2">
@@ -88,7 +88,7 @@ else
                     <input class="form-control" type="date" @bind="fechaLanzamiento" />
                 </div>
                 <div class="col mb-2">
-                    <label>Duración (HH:mm)</label>
+                    <label>DuraciÃ³n (HH:mm)</label>
                     <input class="form-control" type="time" @bind="duracion" />
                 </div>
             </div>
@@ -98,7 +98,7 @@ else
             </div>
             <div class="row">
                 <div class="col mb-2">
-                    <label>Puntuación promedio (0-10)</label>
+                    <label>PuntuaciÃ³n promedio (0-10)</label>
                     <input class="form-control" type="number" step="0.1" min="0" max="10" @bind="form.PuntuacionPromedio" />
                 </div>
                 <div class="col mb-2">
@@ -111,11 +111,11 @@ else
             {
                 <div class="row">
                     <div class="col mb-2">
-                        <label>N° episodio</label>
+                        <label>NÂ° episodio</label>
                         <input class="form-control" type="number" min="0" @bind="numeroEpisodio" />
                     </div>
                     <div class="col mb-2">
-                        <label>N° temporada</label>
+                        <label>NÂ° temporada</label>
                         <input class="form-control" type="number" min="0" @bind="numeroTemporada" />
                     </div>
                 </div>
@@ -212,7 +212,7 @@ else
 
         if (string.IsNullOrWhiteSpace(form.Nombre) || form.GeneroId <= 0)
         {
-            error = "Complete al menos el nombre y el género.";
+            error = "Complete al menos el nombre y el gÃ©nero.";
             return;
         }
 

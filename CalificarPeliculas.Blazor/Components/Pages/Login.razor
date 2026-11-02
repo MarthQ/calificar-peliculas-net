@@ -3,18 +3,18 @@
 @inject AuthApiClient Auth
 @inject NavigationManager Nav
 
-<PageTitle>Iniciar sesión</PageTitle>
+<PageTitle>Iniciar sesiÃ³n</PageTitle>
 
 <div class="login-container">
-    <h3>Iniciar sesión</h3>
+    <h3>Iniciar sesiÃ³n</h3>
 
     <div class="mb-3">
         <label>Mail</label>
         <input class="form-control" @bind="mail" @bind:event="oninput" type="email" placeholder="usuario@mail.com" />
     </div>
     <div class="mb-3">
-        <label>Contraseña</label>
-        <input class="form-control" @bind="password" @bind:event="oninput" type="password" placeholder="Contraseña" />
+        <label>ContraseÃ±a</label>
+        <input class="form-control" @bind="password" @bind:event="oninput" type="password" placeholder="ContraseÃ±a" />
     </div>
 
     @if (!string.IsNullOrEmpty(error))
@@ -39,7 +39,7 @@
 
         if (string.IsNullOrWhiteSpace(mail) || string.IsNullOrEmpty(password))
         {
-            error = "Complete mail y contraseña.";
+            error = "Complete mail y contraseÃ±a.";
             return;
         }
 
@@ -52,7 +52,7 @@
             }
             else
             {
-                error = "Credenciales inválidas.";
+                error = "Credenciales invÃ¡lidas.";
             }
         }
         catch (Exception ex)

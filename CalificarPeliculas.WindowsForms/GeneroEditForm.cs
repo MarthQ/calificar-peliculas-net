@@ -39,7 +39,7 @@ namespace CalificarPeliculas.WindowsForms
             var nombre = txtNombre.Text?.Trim();
             if (string.IsNullOrWhiteSpace(nombre))
             {
-                MessageBox.Show("Ingrese un nombre.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Ingrese un nombre.", "ValidaciÃ³n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

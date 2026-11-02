@@ -41,7 +41,7 @@ namespace CalificarPeliculas.WindowsForms
             var form = _provider.GetService(typeof(GeneroEditForm)) as GeneroEditForm;
             if (form == null)
             {
-                MessageBox.Show("No se puede abrir el editor de género.");
+                MessageBox.Show("No se puede abrir el editor de gÃ©nero.");
                 return;
             }
             form.Clear();
@@ -60,7 +60,7 @@ namespace CalificarPeliculas.WindowsForms
             var form = _provider.GetService(typeof(GeneroEditForm)) as GeneroEditForm;
             if (form == null)
             {
-                MessageBox.Show("No se puede abrir el editor de género.");
+                MessageBox.Show("No se puede abrir el editor de gÃ©nero.");
                 return;
             }
             form.LoadGenero(dto);
@@ -76,7 +76,7 @@ namespace CalificarPeliculas.WindowsForms
             var dto = dgvGeneros.CurrentRow.DataBoundItem as GeneroDTO;
             if (dto == null) return;
 
-            var ok = MessageBox.Show($"Eliminar género '{dto.Nombre}'?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var ok = MessageBox.Show($"Eliminar gÃ©nero '{dto.Nombre}'?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (ok == DialogResult.Yes)
             {
                 await _generoServicio.DeleteAsync(dto.Id);

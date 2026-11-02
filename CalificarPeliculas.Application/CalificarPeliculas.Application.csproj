@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.3.13" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CalificarPeliculas.Domain\CalificarPeliculas.Domain.csproj" />
   </ItemGroup>
 

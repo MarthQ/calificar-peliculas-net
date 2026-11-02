@@ -101,7 +101,7 @@ namespace CalificarPeliculas.WindowsForms
             this.panelActions.Controls.Add(this.btnClose);
             Controls.Add(this.panelActions);
             Name = "GeneroListForm";
-            Text = "Géneros";
+            Text = "GÃ©neros";
             ((System.ComponentModel.ISupportInitialize)(this.dgvGeneros)).EndInit();
             ResumeLayout(false);
         }

@@ -87,7 +87,7 @@ namespace CalificarPeliculas.WindowsForms
             this.lblDescripcion.Location = new System.Drawing.Point(12, 50);
             this.lblDescripcion.Name = "lblDescripcion";
             this.lblDescripcion.Size = new System.Drawing.Size(80, 23);
-            this.lblDescripcion.Text = "Descripción:";
+            this.lblDescripcion.Text = "DescripciÃ³n:";
             // 
             // txtDescripcion
             // 
@@ -127,7 +127,7 @@ namespace CalificarPeliculas.WindowsForms
             this.lblPuntuacion.Location = new System.Drawing.Point(12, 204);
             this.lblPuntuacion.Name = "lblPuntuacion";
             this.lblPuntuacion.AutoSize = true;
-            this.lblPuntuacion.Text = "Puntuación promedio:";
+            this.lblPuntuacion.Text = "PuntuaciÃ³n promedio:";
             // 
             // txtPuntuacion
             // 
@@ -140,7 +140,7 @@ namespace CalificarPeliculas.WindowsForms
             this.lblNumEpisodio.Location = new System.Drawing.Point(12, 240);
             this.lblNumEpisodio.Name = "lblNumEpisodio";
             this.lblNumEpisodio.AutoSize = true;
-            this.lblNumEpisodio.Text = "N° episodio:";
+            this.lblNumEpisodio.Text = "NÂ° episodio:";
             // 
             // numNumEpisodio
             // 
@@ -155,7 +155,7 @@ namespace CalificarPeliculas.WindowsForms
             this.lblNumTemporada.Location = new System.Drawing.Point(220, 240);
             this.lblNumTemporada.Name = "lblNumTemporada";
             this.lblNumTemporada.AutoSize = true;
-            this.lblNumTemporada.Text = "N° temporada:";
+            this.lblNumTemporada.Text = "NÂ° temporada:";
             // 
             // numNumTemporada
             // 
@@ -198,7 +198,7 @@ namespace CalificarPeliculas.WindowsForms
             this.lblDuracion.Location = new System.Drawing.Point(12, 352);
             this.lblDuracion.Name = "lblDuracion";
             this.lblDuracion.AutoSize = true;
-            this.lblDuracion.Text = "Duración (HH:mm):";
+            this.lblDuracion.Text = "DuraciÃ³n (HH:mm):";
             // 
             // txtDuracion
             // 
@@ -226,7 +226,7 @@ namespace CalificarPeliculas.WindowsForms
             this.lblGenero.Location = new System.Drawing.Point(12, 432);
             this.lblGenero.Name = "lblGenero";
             this.lblGenero.AutoSize = true;
-            this.lblGenero.Text = "Género:";
+            this.lblGenero.Text = "GÃ©nero:";
             // 
             // comboGenero
             // 

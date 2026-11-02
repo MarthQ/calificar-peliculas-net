@@ -7,11 +7,11 @@ using CalificarPeliculas.Repository;
 using CalificarPeliculas.Application.Interfaces.Usuario;
 using CalificarPeliculas.Application.Services;
 using CalificarPeliculas.Repository.Users;
-using CalificarPeliculas.Web.Security;
 using CalificarPeliculas.Domain.Users;
 using Microsoft.AspNetCore.Identity;
 using CalificarPeliculas.Application.Interfaces.Contenido;
 using CalificarPeliculas.Application.Interfaces.Criticas;
+using CalificarPeliculas.Application.Security;
 
 namespace CalificarPeliculas.WindowsForms
 {
@@ -23,7 +23,7 @@ namespace CalificarPeliculas.WindowsForms
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            // Configuración del Forms
+            // ConfiguraciÃ³n del Forms
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -31,7 +31,7 @@ namespace CalificarPeliculas.WindowsForms
 
             var services = new ServiceCollection();
 
-            // Registramos la conexión a la DB
+            // Registramos la conexiÃ³n a la DB
             var conn = configuration.GetConnectionString("DefaultConnection");
             if (!string.IsNullOrWhiteSpace(conn))
             {
@@ -83,7 +83,7 @@ namespace CalificarPeliculas.WindowsForms
 
             if (dr == DialogResult.OK)
             {
-                // Solo abro el formulario principal si el login devolvió OK (y el usuario es admin según LoginForm)
+                // Solo abro el formulario principal si el login devolviÃ³ OK (y el usuario es admin segÃºn LoginForm)
                 var main = provider.GetRequiredService<Form1>();
                 System.Windows.Forms.Application.Run(main);
             }
