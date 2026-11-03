@@ -2,16 +2,9 @@ using System;
 using System.Windows.Forms;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using CalificarPeliculas.Repository;
 using CalificarPeliculas.Application.Interfaces.Usuario;
-using CalificarPeliculas.Application.Services;
-using CalificarPeliculas.Repository.Users;
-using CalificarPeliculas.Domain.Users;
-using Microsoft.AspNetCore.Identity;
 using CalificarPeliculas.Application.Interfaces.Contenido;
 using CalificarPeliculas.Application.Interfaces.Criticas;
-using CalificarPeliculas.Application.Security;
 
 namespace CalificarPeliculas.WindowsForms
 {
@@ -31,31 +24,27 @@ namespace CalificarPeliculas.WindowsForms
 
             var services = new ServiceCollection();
 
-            // Registramos la conexión a la DB
-            var conn = configuration.GetConnectionString("DefaultConnection");
-            if (!string.IsNullOrWhiteSpace(conn))
+            var apiBaseUrl = configuration["ApiBaseUrl"];
+            if (string.IsNullOrWhiteSpace(apiBaseUrl))
             {
-                services.AddDbContext<CFContext>(options => options.UseSqlServer(conn));
+                MessageBox.Show("No se configuró ApiBaseUrl.", "Configuración", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
+            services.AddTransient<WinFormsTokenHandler>();
+            services.AddHttpClient<ApiUsuarioServicio>(client => client.BaseAddress = new Uri(apiBaseUrl))
+                .AddHttpMessageHandler<WinFormsTokenHandler>();
+            services.AddHttpClient<ApiGeneroServicio>(client => client.BaseAddress = new Uri(apiBaseUrl))
+                .AddHttpMessageHandler<WinFormsTokenHandler>();
+            services.AddHttpClient<ApiContenidoServicio>(client => client.BaseAddress = new Uri(apiBaseUrl))
+                .AddHttpMessageHandler<WinFormsTokenHandler>();
+            services.AddHttpClient<ApiCriticaServicio>(client => client.BaseAddress = new Uri(apiBaseUrl))
+                .AddHttpMessageHandler<WinFormsTokenHandler>();
 
-            // Registramos servicios y repositorios
-            services.AddScoped<IUsuarioServicio, UsuarioServicio>();
-            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-            services.AddScoped<IPasswordHashService, AspNetPasswordHashService>();
-            
-            // Contenido y Genero
-            services.AddScoped<IGeneroServicio, GeneroServicio>();
-            services.AddScoped<IGeneroRepository, GeneroRepository>();
-            services.AddScoped<IContenidoServicio, ContenidoServicio>();
-            services.AddScoped<IContenidoRepository, ContenidoRepository>();
-
-            // Criticas
-            services.AddScoped<ICriticaServicio, CriticaServicio>();
-            services.AddScoped<ICriticaRepository, CriticaRepository>();
-
-            // Registro del hasher de Identity que usa AspNetPasswordHashService
-            services.AddSingleton<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
+            services.AddScoped<IUsuarioServicio>(sp => sp.GetRequiredService<ApiUsuarioServicio>());
+            services.AddScoped<IGeneroServicio>(sp => sp.GetRequiredService<ApiGeneroServicio>());
+            services.AddScoped<IContenidoServicio>(sp => sp.GetRequiredService<ApiContenidoServicio>());
+            services.AddScoped<ICriticaServicio>(sp => sp.GetRequiredService<ApiCriticaServicio>());
 
             // Registramos formularios
             services.AddScoped<Form1>();

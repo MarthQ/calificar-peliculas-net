@@ -65,12 +65,9 @@ namespace CalificarPeliculas.WindowsForms
                 return;
             }
 
-            // Guardar sesión
-            CurrentSession.User = usuario;
-
-            // Verificar rol superadmin (RolId == 1)
-            if (usuario.RolId != 1)
+            if (!CurrentSession.IsAdmin)
             {
+                CurrentSession.Clear();
                 MessageBox.Show("Acceso denegado. Se requiere rol de administrador.", "No autorizado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 btnLogin.Enabled = true;
                 return;

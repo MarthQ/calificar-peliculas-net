@@ -74,6 +74,10 @@ namespace CalificarPeliculas.Repository
                     .WithMany()
                     .HasForeignKey(ent => ent.GeneroId);
 
+                entity.HasMany(ent => ent.Criticas)
+                    .WithOne(critica => critica.Contenido)
+                    .HasForeignKey(critica => critica.ContenidoId);
+
                 entity.Property(ent => ent.Nombre)
                     .IsRequired()
                     .HasMaxLength(100);

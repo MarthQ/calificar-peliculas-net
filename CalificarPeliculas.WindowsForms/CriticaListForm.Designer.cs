@@ -4,8 +4,6 @@
     {
         private System.ComponentModel.IContainer components = null;
         private System.Windows.Forms.Panel panelMaestros;
-        private System.Windows.Forms.Label lblUsuario;
-        private System.Windows.Forms.ComboBox comboUsuario;
         private System.Windows.Forms.Label lblContenido;
         private System.Windows.Forms.ComboBox comboContenido;
         private System.Windows.Forms.Button btnLimpiarFiltros;
@@ -29,8 +27,6 @@
         private void InitializeComponent()
         {
             this.panelMaestros = new System.Windows.Forms.Panel();
-            this.lblUsuario = new System.Windows.Forms.Label();
-            this.comboUsuario = new System.Windows.Forms.ComboBox();
             this.lblContenido = new System.Windows.Forms.Label();
             this.comboContenido = new System.Windows.Forms.ComboBox();
             this.btnLimpiarFiltros = new System.Windows.Forms.Button();
@@ -51,42 +47,27 @@
             this.panelMaestros.Name = "panelMaestros";
             this.panelMaestros.Size = new System.Drawing.Size(760, 70);
             // 
-            // lblUsuario
-            // 
-            this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Location = new System.Drawing.Point(0, 4);
-            this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Text = "Usuario:";
-            // 
-            // comboUsuario
-            // 
-            this.comboUsuario.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboUsuario.Location = new System.Drawing.Point(0, 28);
-            this.comboUsuario.Name = "comboUsuario";
-            this.comboUsuario.Size = new System.Drawing.Size(250, 28);
-            this.comboUsuario.SelectedIndexChanged += new System.EventHandler(this.comboMaestro_SelectedIndexChanged);
-            // 
             // lblContenido
             // 
             this.lblContenido.AutoSize = true;
-            this.lblContenido.Location = new System.Drawing.Point(270, 4);
+            this.lblContenido.Location = new System.Drawing.Point(0, 4);
             this.lblContenido.Name = "lblContenido";
             this.lblContenido.Text = "Contenido:";
             // 
             // comboContenido
             // 
             this.comboContenido.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboContenido.Location = new System.Drawing.Point(270, 28);
+            this.comboContenido.Location = new System.Drawing.Point(0, 28);
             this.comboContenido.Name = "comboContenido";
             this.comboContenido.Size = new System.Drawing.Size(320, 28);
             this.comboContenido.SelectedIndexChanged += new System.EventHandler(this.comboMaestro_SelectedIndexChanged);
             // 
             // btnLimpiarFiltros
             // 
-            this.btnLimpiarFiltros.Location = new System.Drawing.Point(610, 26);
+            this.btnLimpiarFiltros.Location = new System.Drawing.Point(370, 26);
             this.btnLimpiarFiltros.Name = "btnLimpiarFiltros";
             this.btnLimpiarFiltros.Size = new System.Drawing.Size(140, 30);
-            this.btnLimpiarFiltros.Text = "Ver todas";
+            this.btnLimpiarFiltros.Text = "Restablecer";
             this.btnLimpiarFiltros.UseVisualStyleBackColor = true;
             this.btnLimpiarFiltros.Click += new System.EventHandler(this.btnLimpiarFiltros_Click);
             // 
@@ -164,8 +145,6 @@
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(920, 400);
-            this.panelMaestros.Controls.Add(this.lblUsuario);
-            this.panelMaestros.Controls.Add(this.comboUsuario);
             this.panelMaestros.Controls.Add(this.lblContenido);
             this.panelMaestros.Controls.Add(this.comboContenido);
             this.panelMaestros.Controls.Add(this.btnLimpiarFiltros);

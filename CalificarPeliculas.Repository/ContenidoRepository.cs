@@ -45,6 +45,14 @@ namespace CalificarPeliculas.Repository
             return await context.Contenidos.FindAsync(id);
         }
 
+        public async Task<Contenido?> GetWithCriticasAsync(int id)
+        {
+            using var context = CreateContext();
+            return await context.Contenidos
+                .Include(c => c.Criticas)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
         public async Task<IEnumerable<Contenido>> GetAllAsync()
         {
             using var context = CreateContext();

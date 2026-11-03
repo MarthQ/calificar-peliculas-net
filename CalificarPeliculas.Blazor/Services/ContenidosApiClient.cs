@@ -21,8 +21,17 @@ namespace CalificarPeliculas.Blazor.Services
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", sesion.Token);
             }
         }
-        public Task<List<ContenidoDTO>?> GetAllAsync() =>
-            http.GetFromJsonAsync<List<ContenidoDTO>>("contenidos");
+        public Task<List<ContenidoDTO>?> GetAllAsync()
+        {
+            SetAuthorizationHeader();
+            return http.GetFromJsonAsync<List<ContenidoDTO>>("contenidos");
+        }
+
+        public async Task<ContenidoDetalleDTO?> GetWithCriticasAsync(int id)
+        {
+            SetAuthorizationHeader();
+            return await http.GetFromJsonAsync<ContenidoDetalleDTO>($"contenidos/{id}/criticas");
+        }
 
         public async Task<string?> AddAsync(ContenidoDTO dto)
         {

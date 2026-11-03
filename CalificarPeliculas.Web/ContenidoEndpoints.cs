@@ -23,6 +23,17 @@ namespace CalificarPeliculas.Web
             .RequireAuthorization("Admin")
             .WithOpenApi();
 
+            app.MapGet("/contenidos/{id}/criticas", async (int id, IContenidoServicio contenidoServicio) =>
+            {
+                var detalle = await contenidoServicio.GetWithCriticasAsync(id);
+                return detalle == null ? Results.NotFound() : Results.Ok(detalle);
+            })
+            .WithName("GetContenidoConCriticas")
+            .Produces<ContenidoDetalleDTO>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization("Admin")
+            .WithOpenApi();
+
             app.MapGet("/contenidos", async (IContenidoServicio contenidoServicio) =>
             {
                 var dtos = await contenidoServicio.GetAllAsync();

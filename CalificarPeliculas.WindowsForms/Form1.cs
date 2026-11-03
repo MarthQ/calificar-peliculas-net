@@ -72,7 +72,7 @@ namespace CalificarPeliculas.WindowsForms
         private void btnLogout_Click(object sender, EventArgs e)
         {
             // Clear session and return to login screen. If login is successful, show main again; otherwise exit.
-            CurrentSession.User = null;
+            CurrentSession.Clear();
 
             // Hide main form while login dialog is shown
             this.Hide();

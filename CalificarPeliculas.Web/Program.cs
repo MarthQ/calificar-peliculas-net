@@ -1,10 +1,10 @@
 using CalificarPeliculas.Web;
 using CalificarPeliculas.Repository;
+using CalificarPeliculas.Domain.Users;
 using CalificarPeliculas.Application.Services;
 using CalificarPeliculas.Application.Interfaces.Contenido;
 using CalificarPeliculas.Application.Interfaces.Usuario;
 using CalificarPeliculas.Application.Interfaces.Criticas;
-using CalificarPeliculas.Domain.Users;
 using CalificarPeliculas.Repository.Users;
 using CalificarPeliculas.Application.Security;
 using CalificarPeliculas.Web.Security;

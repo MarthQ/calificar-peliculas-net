@@ -22,8 +22,11 @@ namespace CalificarPeliculas.Blazor.Services
             }
         }
 
-        public Task<List<CriticaDTO>?> GetAllAsync() =>
-            http.GetFromJsonAsync<List<CriticaDTO>>("criticas");
+        public Task<List<CriticaDTO>?> GetAllAsync()
+        {
+            SetAuthorizationHeader();
+            return http.GetFromJsonAsync<List<CriticaDTO>>("criticas");
+        }
 
         public async Task<bool> AddAsync(CriticaDTO dto)
         {

@@ -43,7 +43,7 @@ namespace CalificarPeliculas.Repository
                     1001,
                     "Peliculaza",
                     generoAccion.Id,
-                    "Es una pelicula ciertamente",
+                    "Es una película ciertamente",
                     "Yo",
                     new DateOnly(2024, 1, 15),
                     new TimeOnly(1, 45),
@@ -79,7 +79,7 @@ namespace CalificarPeliculas.Repository
                     admin.Id,
                     pelicula.Id,
                     new DateOnly(2024, 2, 1),
-                    "La verdad no me gusto",
+                    "La verdad no me gustó",
                     8.5f,
                     0));
                 context.SaveChanges();
