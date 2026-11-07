@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using CalificarPeliculas.Application.Interfaces.Usuario;
 using CalificarPeliculas.Application.Interfaces.Contenido;
 using CalificarPeliculas.Application.Interfaces.Criticas;
+using CalificarPeliculas.Application.Interfaces.Comentarios;
+using CalificarPeliculas.Application.Interfaces.Grupo;
 
 namespace CalificarPeliculas.WindowsForms
 {
@@ -40,11 +42,17 @@ namespace CalificarPeliculas.WindowsForms
                 .AddHttpMessageHandler<WinFormsTokenHandler>();
             services.AddHttpClient<ApiCriticaServicio>(client => client.BaseAddress = new Uri(apiBaseUrl))
                 .AddHttpMessageHandler<WinFormsTokenHandler>();
+            services.AddHttpClient<ApiComentarioServicio>(client => client.BaseAddress = new Uri(apiBaseUrl))
+                .AddHttpMessageHandler<WinFormsTokenHandler>();
+            services.AddHttpClient<ApiGrupoServicio>(client => client.BaseAddress = new Uri(apiBaseUrl))
+                .AddHttpMessageHandler<WinFormsTokenHandler>();
 
             services.AddScoped<IUsuarioServicio>(sp => sp.GetRequiredService<ApiUsuarioServicio>());
             services.AddScoped<IGeneroServicio>(sp => sp.GetRequiredService<ApiGeneroServicio>());
             services.AddScoped<IContenidoServicio>(sp => sp.GetRequiredService<ApiContenidoServicio>());
             services.AddScoped<ICriticaServicio>(sp => sp.GetRequiredService<ApiCriticaServicio>());
+            services.AddScoped<IComentarioServicio>(sp => sp.GetRequiredService<ApiComentarioServicio>());
+            services.AddScoped<IGrupoServicio>(sp => sp.GetRequiredService<ApiGrupoServicio>());
 
             // Registramos formularios
             services.AddScoped<Form1>();
@@ -56,6 +64,12 @@ namespace CalificarPeliculas.WindowsForms
             services.AddScoped<CriticaListForm>();
             services.AddScoped<CriticaEditForm>();
             services.AddScoped<RegisterForm>();
+            services.AddScoped<ComentarioListForm>();
+            services.AddScoped<ComentarioEditForm>();
+            services.AddScoped<GrupoListForm>();
+            services.AddScoped<GrupoEditForm>();
+            services.AddScoped<UsuarioListForm>();
+            services.AddScoped<UsuarioEditForm>();
 
             ServiceProvider = services.BuildServiceProvider();
 

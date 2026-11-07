@@ -1,0 +1,47 @@
+@page "/comentarios"
+@rendermode InteractiveServer
+@inject ComentariosApiClient Comentarios
+@inject CriticasApiClient Criticas
+@inject UsuariosApiClient Usuarios
+@inject SesionState Sesion
+
+<PageTitle>Comentarios</PageTitle>
+<h3>Comentarios</h3>
+
+@if (!Sesion.EstaAutenticado || !Sesion.EsAdmin)
+{
+    <div class="alert alert-danger">Se requiere una sesión de administrador.</div>
+}
+else if (comentarios == null || criticas == null || usuarios == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <div class="row"><div class="col-lg-8"><table class="table table-striped"><thead><tr><th>Crítica</th><th>Usuario</th><th>Texto</th><th>Fecha</th><th>Reacción</th><th></th></tr></thead><tbody>
+    @foreach (var comentario in comentarios)
+    {<tr><td>@CriticaNombre(comentario.CriticaId)</td><td>@UsuarioNombre(comentario.UsuarioId)</td><td>@comentario.Texto</td><td>@comentario.FechaRealizacion</td><td>@comentario.Reaccion</td><td><button class="btn btn-sm btn-secondary" @onclick="() => Editar(comentario)">Editar</button> <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(comentario.Id)">Eliminar</button></td></tr>}
+    </tbody></table></div><div class="col-lg-4"><h5>@(editando ? "Editar comentario" : "Nuevo comentario")</h5>
+    <select class="form-select mb-2" @bind="form.CriticaId"><option value="0">-- Crítica --</option>@foreach (var critica in criticas) { <option value="@critica.Id">@critica.Texto</option> }</select>
+    <select class="form-select mb-2" @bind="form.UsuarioId"><option value="0">-- Usuario --</option>@foreach (var usuario in usuarios) { <option value="@usuario.Id">@usuario.NombreUsuario</option> }</select>
+    <textarea class="form-control mb-2" placeholder="Texto" @bind="form.Texto"></textarea><input class="form-control mb-2" type="date" @bind="fecha" /><input class="form-control mb-2" placeholder="Reacción" @bind="form.Reaccion" />
+    @if (error != null) { <div class="alert alert-danger">@error</div> }<button class="btn btn-primary" @onclick="Guardar">Guardar</button> <button class="btn btn-outline-secondary" @onclick="Limpiar">Limpiar</button>
+    </div></div>
+}
+
+@code {
+    private List<ComentarioDTO>? comentarios;
+    private List<CriticaDTO>? criticas;
+    private List<UsuarioDTO>? usuarios;
+    private ComentarioDTO form = new();
+    private DateTime fecha = DateTime.Today;
+    private bool editando;
+    private string? error;
+    protected override async Task OnInitializedAsync() { if (Sesion.EstaAutenticado) { comentarios = await Comentarios.GetAllAsync(); criticas = await Criticas.GetAllAsync(); usuarios = await Usuarios.GetAllAsync(); } }
+    private string CriticaNombre(int id) => criticas?.FirstOrDefault(c => c.Id == id)?.Texto ?? id.ToString();
+    private string UsuarioNombre(int id) => usuarios?.FirstOrDefault(u => u.Id == id)?.NombreUsuario ?? id.ToString();
+    private void Editar(ComentarioDTO c) { form = new() { Id = c.Id, CriticaId = c.CriticaId, UsuarioId = c.UsuarioId, Texto = c.Texto, Reaccion = c.Reaccion, FechaRealizacion = c.FechaRealizacion }; fecha = c.FechaRealizacion.ToDateTime(TimeOnly.MinValue); editando = true; }
+    private void Limpiar() { form = new(); fecha = DateTime.Today; editando = false; error = null; }
+    private async Task Guardar() { error = null; form.FechaRealizacion = DateOnly.FromDateTime(fecha); if (form.CriticaId <= 0 || form.UsuarioId <= 0 || string.IsNullOrWhiteSpace(form.Texto) || string.IsNullOrWhiteSpace(form.Reaccion)) { error = "Complete todos los campos."; return; } if (!(editando ? await Comentarios.UpdateAsync(form) : await Comentarios.AddAsync(form))) { error = "No se pudo guardar el comentario."; return; } Limpiar(); comentarios = await Comentarios.GetAllAsync(); }
+    private async Task Eliminar(int id) { if (await Comentarios.DeleteAsync(id)) comentarios = await Comentarios.GetAllAsync(); }
+}

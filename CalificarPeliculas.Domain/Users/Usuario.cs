@@ -6,6 +6,8 @@ namespace CalificarPeliculas.Domain.Users
     {
         private Rol? _rol;
         private int _rolId;
+        private Grupo? _grupo;
+        private int _grupoId;
 
         public int Id { get; private set; }
         public string NombreUsuario { get; private set; } = null!;
@@ -16,6 +18,8 @@ namespace CalificarPeliculas.Domain.Users
 
         public int RolId => _rolId;
         public Rol? Rol => _rol;
+        public int? GrupoId => _grupo?.Id ?? (_grupoId == 0 ? null : _grupoId);
+        public Grupo? Grupo => _grupo;
 
         protected Usuario() { }
 
@@ -85,6 +89,16 @@ namespace CalificarPeliculas.Domain.Users
 
             if (_rol?.Id != rolId)
                 _rol = null;
+        }
+
+        public void SetGrupoId(int? grupoId)
+        {
+            if (grupoId.HasValue && grupoId.Value <= 0)
+                throw new ArgumentException("El id del grupo debe ser mayor a 0.", nameof(grupoId));
+
+            _grupoId = grupoId ?? 0;
+            if (_grupo?.Id != _grupoId)
+                _grupo = null;
         }
     }
 }

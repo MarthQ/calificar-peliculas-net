@@ -15,6 +15,9 @@ namespace CalificarPeliculas.WindowsForms
         private System.Windows.Forms.ToolStripMenuItem menuGenerosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuContenidosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuCriticasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuComentariosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuGruposToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuUsuariosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuLogoutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuRegisterToolStripMenuItem;
 
@@ -43,6 +46,9 @@ namespace CalificarPeliculas.WindowsForms
             this.menuGenerosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuContenidosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuCriticasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuComentariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuGruposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuUsuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuLogoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuRegisterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain = new System.Windows.Forms.Panel();
@@ -54,6 +60,9 @@ namespace CalificarPeliculas.WindowsForms
             this.menuGenerosToolStripMenuItem,
             this.menuContenidosToolStripMenuItem,
             this.menuCriticasToolStripMenuItem,
+            this.menuComentariosToolStripMenuItem,
+            this.menuGruposToolStripMenuItem,
+            this.menuUsuariosToolStripMenuItem,
             this.menuRegisterToolStripMenuItem,
             this.menuLogoutToolStripMenuItem});
             this.menuStrip1.Location = new Point(0, 0);
@@ -82,6 +91,27 @@ namespace CalificarPeliculas.WindowsForms
             this.menuCriticasToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
             this.menuCriticasToolStripMenuItem.Text = "Críticas";
             this.menuCriticasToolStripMenuItem.Click += new System.EventHandler(this.btnCriticas_Click);
+            // 
+            // menuComentariosToolStripMenuItem
+            // 
+            this.menuComentariosToolStripMenuItem.Name = "menuComentariosToolStripMenuItem";
+            this.menuComentariosToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
+            this.menuComentariosToolStripMenuItem.Text = "Comentarios";
+            this.menuComentariosToolStripMenuItem.Click += new System.EventHandler(this.btnComentarios_Click);
+            // 
+            // menuGruposToolStripMenuItem
+            // 
+            this.menuGruposToolStripMenuItem.Name = "menuGruposToolStripMenuItem";
+            this.menuGruposToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
+            this.menuGruposToolStripMenuItem.Text = "Grupos";
+            this.menuGruposToolStripMenuItem.Click += new System.EventHandler(this.btnGrupos_Click);
+            // 
+            // menuUsuariosToolStripMenuItem
+            // 
+            this.menuUsuariosToolStripMenuItem.Name = "menuUsuariosToolStripMenuItem";
+            this.menuUsuariosToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
+            this.menuUsuariosToolStripMenuItem.Text = "Usuarios";
+            this.menuUsuariosToolStripMenuItem.Click += new System.EventHandler(this.btnUsuarios_Click);
             // 
             // menuRegisterToolStripMenuItem
             // 

@@ -36,6 +36,24 @@ namespace CalificarPeliculas.WindowsForms
             ShowInPanel(form);
         }
 
+        private void btnComentarios_Click(object sender, EventArgs e)
+        {
+            var form = _provider.GetService(typeof(ComentarioListForm)) as ComentarioListForm;
+            if (form != null) ShowInPanel(form);
+        }
+
+        private void btnGrupos_Click(object sender, EventArgs e)
+        {
+            var form = _provider.GetService(typeof(GrupoListForm)) as GrupoListForm;
+            if (form != null) ShowInPanel(form);
+        }
+
+        private void btnUsuarios_Click(object sender, EventArgs e)
+        {
+            var form = _provider.GetService(typeof(UsuarioListForm)) as UsuarioListForm;
+            if (form != null) ShowInPanel(form);
+        }
+
         private void btnContenidos_Click(object sender, EventArgs e)
         {
             var form = _provider.GetService(typeof(ContenidoListForm)) as ContenidoListForm;

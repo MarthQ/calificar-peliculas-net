@@ -9,6 +9,8 @@ namespace CalificarPeliculas.WindowsForms
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Panel panelActions;
+        private System.Windows.Forms.ComboBox comboGenero;
+        private System.Windows.Forms.Label lblGenero;
 
         protected override void Dispose(bool disposing)
         {
@@ -27,6 +29,8 @@ namespace CalificarPeliculas.WindowsForms
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.panelActions = new System.Windows.Forms.Panel();
+            this.comboGenero = new System.Windows.Forms.ComboBox();
+            this.lblGenero = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContenidos)).BeginInit();
             SuspendLayout();
             // 
@@ -36,15 +40,30 @@ namespace CalificarPeliculas.WindowsForms
             | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvContenidos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvContenidos.Location = new System.Drawing.Point(12, 12);
+            this.dgvContenidos.Location = new System.Drawing.Point(12, 55);
             this.dgvContenidos.MultiSelect = false;
             this.dgvContenidos.Name = "dgvContenidos";
             this.dgvContenidos.ReadOnly = true;
             this.dgvContenidos.RowHeadersVisible = false;
             this.dgvContenidos.RowTemplate.Height = 25;
             this.dgvContenidos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvContenidos.Size = new System.Drawing.Size(760, 300);
+            this.dgvContenidos.Size = new System.Drawing.Size(760, 257);
             this.dgvContenidos.TabIndex = 0;
+            // 
+            // lblGenero
+            // 
+            this.lblGenero.AutoSize = true;
+            this.lblGenero.Location = new System.Drawing.Point(12, 15);
+            this.lblGenero.Text = "Género:";
+            // 
+            // comboGenero
+            // 
+            this.comboGenero.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboGenero.FormattingEnabled = true;
+            this.comboGenero.Location = new System.Drawing.Point(75, 12);
+            this.comboGenero.Name = "comboGenero";
+            this.comboGenero.Size = new System.Drawing.Size(250, 28);
+            this.comboGenero.SelectedIndexChanged += new System.EventHandler(this.comboGenero_SelectedIndexChanged);
             // 
             // panelActions
             // 
@@ -95,6 +114,8 @@ namespace CalificarPeliculas.WindowsForms
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(920, 330);
             Controls.Add(this.dgvContenidos);
+            Controls.Add(this.comboGenero);
+            Controls.Add(this.lblGenero);
             this.panelActions.Controls.Add(this.btnAdd);
             this.panelActions.Controls.Add(this.btnEdit);
             this.panelActions.Controls.Add(this.btnDelete);

@@ -15,6 +15,8 @@ namespace CalificarPeliculas.Repository
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Rol> Roles { get; set; }
         public DbSet<Critica> Criticas { get; set; }
+        public DbSet<Comentario> Comentarios { get; set; }
+        public DbSet<Grupo> Grupos { get; set; }
 
         public CFContext(DbContextOptions<DbContext> options) : base(options)
         {
@@ -145,6 +147,23 @@ namespace CalificarPeliculas.Repository
                     .WithMany()
                     .HasForeignKey(ent => ent.RolId)
                     .OnDelete(DeleteBehavior.Restrict);
+
+                entity.Property(ent => ent.GrupoId)
+                    .HasField("_grupoId");
+
+                entity.HasOne(ent => ent.Grupo)
+                    .WithMany(grupo => grupo.Usuarios)
+                    .HasForeignKey(ent => ent.GrupoId)
+                    .OnDelete(DeleteBehavior.SetNull);
+            });
+
+            modelBuilder.Entity<Grupo>(entity =>
+            {
+                entity.HasKey(ent => ent.Id);
+                entity.Property(ent => ent.Id).ValueGeneratedOnAdd();
+                entity.Property(ent => ent.Nombre).IsRequired().HasMaxLength(100);
+                entity.Property(ent => ent.Descripcion).IsRequired().HasMaxLength(1000);
+                entity.Property(ent => ent.FechaCreacion).IsRequired();
             });
 
             modelBuilder.Entity<Rol>(entity =>
@@ -166,6 +185,25 @@ namespace CalificarPeliculas.Repository
                     new { Id = 1, Description = "Superusuario", Denominacion = TipoRol.SuperUsuario },
                     new { Id = 2, Description = "Moderador", Denominacion = TipoRol.Moderador },
                     new { Id = 3, Description = "Usuario", Denominacion = TipoRol.Usuario });
+            });
+
+            modelBuilder.Entity<Comentario>(entity =>
+            {
+                entity.HasKey(ent => ent.Id);
+                entity.Property(ent => ent.Id).ValueGeneratedOnAdd();
+                entity.Property(ent => ent.Texto).IsRequired().HasMaxLength(10000);
+                entity.Property(ent => ent.FechaRealizacion).IsRequired();
+                entity.Property(ent => ent.Reaccion).IsRequired().HasMaxLength(100);
+
+                entity.HasOne(ent => ent.Critica)
+                    .WithMany(critica => critica.Comentarios)
+                    .HasForeignKey(ent => ent.CriticaId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(ent => ent.Usuario)
+                    .WithMany()
+                    .HasForeignKey(ent => ent.UsuarioId)
+                    .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Critica>(entity =>

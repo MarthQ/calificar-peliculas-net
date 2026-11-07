@@ -7,11 +7,14 @@ namespace CalificarPeliculas.WindowsForms
     public partial class ContenidoListForm : Form
     {
         private readonly IContenidoServicio _contenidoServicio;
+        private readonly IGeneroServicio _generoServicio;
         private readonly IServiceProvider _provider;
+        private List<ContenidoDTO> _contenidos = new();
 
-        public ContenidoListForm(IContenidoServicio contenidoServicio, IServiceProvider provider)
+        public ContenidoListForm(IContenidoServicio contenidoServicio, IGeneroServicio generoServicio, IServiceProvider provider)
         {
             _contenidoServicio = contenidoServicio;
+            _generoServicio = generoServicio;
             _provider = provider;
             InitializeComponent();
         }
@@ -24,8 +27,28 @@ namespace CalificarPeliculas.WindowsForms
 
         private async Task LoadContenidosAsync()
         {
-            var items = await _contenidoServicio.GetAllAsync();
-            dgvContenidos.DataSource = items.ToList();
+            _contenidos = (await _contenidoServicio.GetAllAsync()).ToList();
+            var generos = (await _generoServicio.GetAllAsync())
+                .OrderBy(g => g.Nombre)
+                .Select(g => new ComboItem { Id = g.Id, Nombre = g.Nombre })
+                .ToList();
+            generos.Insert(0, new ComboItem { Id = 0, Nombre = "Todos los géneros" });
+            comboGenero.DataSource = generos;
+            comboGenero.SelectedIndex = 0;
+            AplicarFiltro();
+        }
+
+        private void AplicarFiltro()
+        {
+            var generoId = comboGenero.SelectedValue is int id ? id : 0;
+            dgvContenidos.DataSource = _contenidos
+                .Where(c => generoId == 0 || c.GeneroId == generoId)
+                .ToList();
+        }
+
+        private void comboGenero_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            AplicarFiltro();
         }
 
         private void btnClose_Click(object sender, EventArgs e)
