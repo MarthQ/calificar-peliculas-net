@@ -12,6 +12,7 @@ namespace CalificarPeliculas.Application.Interfaces.Contenido
         Task AddAsync(ContenidoEntidad contenido);
         Task<bool> DeleteAsync(int id);
         Task<ContenidoEntidad?> GetAsync(int id);
+        Task<ContenidoEntidad?> GetWithCriticasAsync(int id);
         Task<IEnumerable<ContenidoEntidad>> GetAllAsync();
         Task<bool> UpdateAsync(ContenidoEntidad contenido);
     }

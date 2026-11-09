@@ -36,13 +36,17 @@ namespace CalificarPeliculas.Repository
         public async Task<Critica?> GetAsync(int id)
         {
             using var context = CreateContext();
-            return await context.Criticas.FindAsync(id);
+            return await context.Criticas
+                .Include(c => c.Contenido)
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<IEnumerable<Critica>> GetAllAsync()
         {
             using var context = CreateContext();
-            return await context.Criticas.ToListAsync();
+            return await context.Criticas
+                .Include(c => c.Contenido)
+                .ToListAsync();
         }
 
         public async Task<bool> UpdateAsync(Critica critica)
@@ -51,6 +55,7 @@ namespace CalificarPeliculas.Repository
             var existing = await context.Criticas.FirstOrDefaultAsync(c => c.Id == critica.Id);
             if (existing != null)
             {
+                existing.SetContenidoId(critica.ContenidoId);
                 existing.SetTexto(critica.Texto);
                 existing.SetFecha(critica.FechaPublicacion);
                 existing.SetCalificacion(critica.Calificacion);

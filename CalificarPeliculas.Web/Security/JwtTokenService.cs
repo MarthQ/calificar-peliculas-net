@@ -27,7 +27,7 @@ namespace CalificarPeliculas.Web.Security
                 new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, usuario.Mail),
                 new Claim(ClaimTypes.Name, usuario.NombreUsuario),
-                new Claim(ClaimTypes.Role, usuario.RolId.ToString())
+                new Claim(ClaimTypes.Role, ((TipoRol)usuario.RolId).ToString())
             };
 
             var token = new JwtSecurityToken(

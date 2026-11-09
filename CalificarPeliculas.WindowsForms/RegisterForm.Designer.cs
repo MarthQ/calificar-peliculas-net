@@ -68,7 +68,7 @@ namespace CalificarPeliculas.WindowsForms
             this.lblPassword.Location = new System.Drawing.Point(12, 85);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(120, 23);
-            this.lblPassword.Text = "Contraseña:";
+            this.lblPassword.Text = "ContraseÃ±a:";
             // 
             // txtPassword
             // 
@@ -82,7 +82,7 @@ namespace CalificarPeliculas.WindowsForms
             this.lblPasswordConfirm.Location = new System.Drawing.Point(12, 120);
             this.lblPasswordConfirm.Name = "lblPasswordConfirm";
             this.lblPasswordConfirm.Size = new System.Drawing.Size(120, 23);
-            this.lblPasswordConfirm.Text = "Confirmar contraseña:";
+            this.lblPasswordConfirm.Text = "Confirmar contraseÃ±a:";
             // 
             // txtPasswordConfirm
             // 

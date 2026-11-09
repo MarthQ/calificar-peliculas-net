@@ -1,16 +1,20 @@
-@page "/generos"
+Ôªø@page "/generos"
 @rendermode InteractiveServer
 @inject GenerosApiClient Generos
 @inject SesionState Sesion
 @inject NavigationManager Nav
 
-<PageTitle>GÈneros</PageTitle>
+<PageTitle>G√©neros</PageTitle>
 
-<h3>GÈneros</h3>
+<h3>G√©neros</h3>
 
 @if (!Sesion.EstaAutenticado)
 {
-    <div class="alert alert-warning">DebÈs <a href="/login">iniciar sesiÛn</a> para administrar gÈneros.</div>
+    <div class="alert alert-warning">Deb√©s <a href="/login">iniciar sesi√≥n</a> para administrar g√©neros.</div>
+}
+else if (!Sesion.EsGestion)
+{
+    <div class="alert alert-danger">No ten√©s permisos para administrar g√©neros.</div>
 }
 else if (generos == null)
 {
@@ -44,7 +48,7 @@ else
             </table>
         </div>
         <div class="col-md-4">
-            <h5>@(editando ? "Editar gÈnero" : "Nuevo gÈnero")</h5>
+            <h5>@(editando ? "Editar g√©nero" : "Nuevo g√©nero")</h5>
             <div class="mb-2">
                 <label>Nombre</label>
                 <input class="form-control" @bind="form.Nombre" />
@@ -67,7 +71,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        if (Sesion.EstaAutenticado)
+        if (Sesion.EsGestion)
         {
             await Cargar();
         }
@@ -95,14 +99,14 @@ else
 
         if (string.IsNullOrWhiteSpace(form.Nombre))
         {
-            error = "El nombre no puede estar vacÌo.";
+            error = "El nombre no puede estar vac√≠o.";
             return;
         }
 
         var ok = editando ? await Generos.UpdateAsync(form) : await Generos.AddAsync(form);
         if (!ok)
         {
-            error = "No se pudo guardar el gÈnero.";
+            error = "No se pudo guardar el g√©nero.";
             return;
         }
 
@@ -115,7 +119,7 @@ else
         error = null;
         if (!await Generos.DeleteAsync(g.Id))
         {
-            error = "No se pudo eliminar el gÈnero.";
+            error = "No se pudo eliminar el g√©nero.";
             return;
         }
         await Cargar();

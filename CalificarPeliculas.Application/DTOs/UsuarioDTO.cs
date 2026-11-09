@@ -12,6 +12,7 @@ namespace CalificarPeliculas.Application.DTOs
         public required string Mail { get; set; }
         public required string Password { get; set; }
         public int RolId { get; set; }
+        public int? GrupoId { get; set; }
     }
 
     public class LoginUsuarioDTO
@@ -26,6 +27,7 @@ namespace CalificarPeliculas.Application.DTOs
         public required string NombreUsuario { get; set; }
         public required string Mail { get; set; }
         public int RolId { get; set; }
+        public int? GrupoId { get; set; }
     }
 
     public class ActualizarUsuarioDTO
@@ -34,5 +36,6 @@ namespace CalificarPeliculas.Application.DTOs
         public required string NombreUsuario { get; set; }
         public required string Mail { get; set; }
         public int RolId { get; set; }
+        public int? GrupoId { get; set; }
     }
 }

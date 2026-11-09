@@ -10,9 +10,22 @@
             <a href="/">Inicio</a>
             @if (Sesion.EstaAutenticado)
             {
-                <a href="/generos">Géneros</a>
-                <a href="/contenidos">Contenidos</a>
+                @if (Sesion.EsGestion)
+                {
+                    <a href="/generos">Géneros</a>
+                    <a href="/contenidos">Contenidos</a>
+                }
                 <a href="/criticas">Críticas</a>
+                <a href="/comentarios">Comentarios</a>
+                @if (Sesion.EsAdmin)
+                {
+                    <a href="/grupos">Grupos</a>
+                    <a href="/usuarios">Usuarios</a>
+                }
+                @if (Sesion.EsGestion)
+                {
+                    <a href="/reportes">Reportes</a>
+                }
             }
         </nav>
         <div class="sesion">

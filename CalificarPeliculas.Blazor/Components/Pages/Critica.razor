@@ -1,18 +1,18 @@
-@page "/criticas"
+Ôªø@page "/criticas"
 @rendermode InteractiveServer
 @inject CriticasApiClient Criticas
 @inject ContenidosApiClient Contenidos
 @inject SesionState Sesion
 
-<PageTitle>CrÌticas</PageTitle>
+<PageTitle>Cr√≠ticas</PageTitle>
 
-<h3>CrÌticas</h3>
+<h3>Cr√≠ticas</h3>
 
 @if (!Sesion.EstaAutenticado)
 {
-    <div class="alert alert-warning">DebÈs <a href="/login">iniciar sesiÛn</a> para administrar crÌticas.</div>
+    <div class="alert alert-warning">Deb√©s <a href="/login">iniciar sesi√≥n</a> para administrar cr√≠ticas.</div>
 }
-else if (criticas == null)
+else if (contenidos == null || criticas == null)
 {
     <p>Cargando...</p>
 }
@@ -20,11 +20,28 @@ else
 {
     <div class="row">
         <div class="col-lg-7">
+            <div class="mb-3">
+                <label>Contenido maestro</label>
+                <select class="form-select" @bind="contenidoSeleccionadoId" @bind:after="CargarDetalle">
+                    <option value="0">-- Seleccione --</option>
+                    @foreach (var contenido in contenidos)
+                    {
+                        <option value="@contenido.Id">@contenido.Nombre (@contenido.Tipo)</option>
+                    }
+                </select>
+            </div>
+
+            @if (contenidoSeleccionado != null)
+            {
+                <h5>@contenidoSeleccionado.Nombre</h5>
+                <p class="text-muted">Cr√≠ticas asociadas: @criticas.Count</p>
+            }
+
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>Contenido</th>
-                        <th>CalificaciÛn</th>
+                        <th>Calificaci√≥n</th>
                         <th>Fecha</th>
                         <th>Texto</th>
                         <th></th>
@@ -34,13 +51,16 @@ else
                     @foreach (var c in criticas)
                     {
                         <tr>
-                            <td>@(contenidos?.FirstOrDefault(x => x.Id == c.ContenidoId)?.Nombre ?? c.ContenidoId.ToString())</td>
+                            <td>@contenidoSeleccionado?.Nombre</td>
                             <td>@c.Calificacion</td>
                             <td>@c.FechaPublicacion</td>
                             <td class="texto-critica">@c.Texto</td>
                             <td>
-                                <button class="btn btn-sm btn-secondary" @onclick="() => Seleccionar(c)">Editar</button>
-                                <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(c)">Eliminar</button>
+                                @if (PuedeModificar(c))
+                                {
+                                    <button class="btn btn-sm btn-secondary" @onclick="() => Seleccionar(c)">Editar</button>
+                                    <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(c)">Eliminar</button>
+                                }
                             </td>
                         </tr>
                     }
@@ -48,27 +68,18 @@ else
             </table>
         </div>
         <div class="col-lg-5">
-            <h5>@(editando ? "Editar crÌtica" : "Nueva crÌtica")</h5>
+            <h5>@(editando ? "Editar cr√≠tica" : "Nueva cr√≠tica")</h5>
             <div class="mb-2">
                 <label>Contenido</label>
-                <select class="form-select" @bind="form.ContenidoId" disabled="@editando">
-                    <option value="0">-- Seleccione --</option>
-                    @if (contenidos != null)
-                    {
-                        @foreach (var c in contenidos)
-                        {
-                            <option value="@c.Id">@c.Nombre (@c.Tipo)</option>
-                        }
-                    }
-                </select>
+                <input class="form-control" value="@(contenidoSeleccionado?.Nombre ?? "Seleccione un contenido")" readonly />
             </div>
             <div class="row">
                 <div class="col mb-2">
-                    <label>CalificaciÛn (0-10)</label>
+                    <label>Calificaci√≥n (0-10)</label>
                     <input class="form-control" type="number" step="0.5" min="0" max="10" @bind="form.Calificacion" />
                 </div>
                 <div class="col mb-2">
-                    <label>Fecha de publicaciÛn</label>
+                    <label>Fecha de publicaci√≥n</label>
                     <input class="form-control" type="date" @bind="fechaPublicacion" />
                 </div>
             </div>
@@ -91,6 +102,8 @@ else
 @code {
     private List<CriticaDTO>? criticas;
     private List<ContenidoDTO>? contenidos;
+    private ContenidoDTO? contenidoSeleccionado;
+    private int contenidoSeleccionadoId;
     private CriticaDTO form = new();
     private DateTime fechaPublicacion = DateTime.Today;
     private bool editando;
@@ -106,9 +119,39 @@ else
 
     private async Task Cargar()
     {
-        criticas = await Criticas.GetAllAsync();
         contenidos = await Contenidos.GetAllAsync();
+        var todasLasCriticas = await Criticas.GetAllAsync() ?? new List<CriticaDTO>();
+        if (contenidos?.Count > 0)
+        {
+            contenidoSeleccionadoId = contenidos
+                .FirstOrDefault(c => todasLasCriticas.Any(critica => critica.ContenidoId == c.Id))?.Id
+                ?? contenidos[0].Id;
+            await CargarDetalle();
+        }
+        else
+        {
+            criticas = new List<CriticaDTO>();
+        }
     }
+
+    private async Task CargarDetalle()
+    {
+        if (contenidoSeleccionadoId <= 0)
+        {
+            contenidoSeleccionado = null;
+            criticas = new List<CriticaDTO>();
+            Limpiar();
+            return;
+        }
+
+        var detalle = await Contenidos.GetWithCriticasAsync(contenidoSeleccionadoId);
+        contenidoSeleccionado = detalle?.Contenido ?? contenidos?.FirstOrDefault(c => c.Id == contenidoSeleccionadoId);
+        criticas = detalle?.Criticas ?? new List<CriticaDTO>();
+
+        Limpiar();
+    }
+
+    private bool PuedeModificar(CriticaDTO c) => Sesion.EsGestion || c.UsuarioId == Sesion.Usuario?.Id;
 
     private void Seleccionar(CriticaDTO c)
     {
@@ -128,7 +171,7 @@ else
 
     private void Limpiar()
     {
-        form = new CriticaDTO();
+        form = new CriticaDTO { ContenidoId = contenidoSeleccionadoId };
         fechaPublicacion = DateTime.Today;
         editando = false;
         error = null;
@@ -140,7 +183,7 @@ else
 
         if (form.ContenidoId <= 0 || string.IsNullOrWhiteSpace(form.Texto))
         {
-            error = "Seleccione un contenido y complete el texto de la crÌtica.";
+            error = "Seleccione un contenido y complete el texto de la cr√≠tica.";
             return;
         }
 
@@ -155,12 +198,12 @@ else
         var ok = editando ? await Criticas.UpdateAsync(form) : await Criticas.AddAsync(form);
         if (!ok)
         {
-            error = "No se pudo guardar la crÌtica.";
+            error = "No se pudo guardar la cr√≠tica.";
             return;
         }
 
         Limpiar();
-        await Cargar();
+        await CargarDetalle();
     }
 
     private async Task Eliminar(CriticaDTO c)
@@ -168,9 +211,9 @@ else
         error = null;
         if (!await Criticas.DeleteAsync(c.Id))
         {
-            error = "No se pudo eliminar la crÌtica.";
+            error = "No se pudo eliminar la cr√≠tica.";
             return;
         }
-        await Cargar();
+        await CargarDetalle();
     }
 }

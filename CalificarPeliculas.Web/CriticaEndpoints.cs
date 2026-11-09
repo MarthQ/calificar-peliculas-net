@@ -1,5 +1,7 @@
+﻿using System.Security.Claims;
 using CalificarPeliculas.Application.DTOs;
 using CalificarPeliculas.Application.Interfaces.Criticas;
+using CalificarPeliculas.Web.Security;
 
 namespace CalificarPeliculas.Web
 {
@@ -21,6 +23,7 @@ namespace CalificarPeliculas.Web
             .WithName("GetCritica")
             .Produces<CriticaDTO>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
+            .RequireAuthorization()
             .WithOpenApi();
 
             app.MapGet("/criticas", async (ICriticaServicio criticaServicio) =>
@@ -31,10 +34,16 @@ namespace CalificarPeliculas.Web
             })
             .WithName("GetAllCriticas")
             .Produces<List<CriticaDTO>>(StatusCodes.Status200OK)
+            .RequireAuthorization()
             .WithOpenApi();
 
-            app.MapPost("/criticas", async (CriticaDTO dto, ICriticaServicio criticaServicio) =>
+            app.MapPost("/criticas", async (CriticaDTO dto, ClaimsPrincipal user, ICriticaServicio criticaServicio) =>
             {
+                if (!UsuarioActual.EsGestion(user))
+                {
+                    dto.UsuarioId = UsuarioActual.Id(user);
+                }
+
                 try
                 {
                     CriticaDTO criticaDTO = await criticaServicio.AddAsync(dto);
@@ -52,8 +61,19 @@ namespace CalificarPeliculas.Web
             .RequireAuthorization()
             .WithOpenApi();
 
-            app.MapPut("/criticas", async (CriticaDTO dto, ICriticaServicio criticaServicio) =>
+            app.MapPut("/criticas", async (CriticaDTO dto, ClaimsPrincipal user, ICriticaServicio criticaServicio) =>
             {
+                var existente = await criticaServicio.GetAsync(dto.Id);
+                if (existente == null)
+                {
+                    return Results.NotFound();
+                }
+
+                if (!UsuarioActual.EsGestion(user) && existente.UsuarioId != UsuarioActual.Id(user))
+                {
+                    return Results.Forbid();
+                }
+
                 try
                 {
                     var found = await criticaServicio.UpdateAsync(dto);
@@ -73,23 +93,30 @@ namespace CalificarPeliculas.Web
             .WithName("UpdateCritica")
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status400BadRequest)
+            .Produces(StatusCodes.Status403Forbidden)
             .RequireAuthorization()
             .WithOpenApi();
 
-            app.MapDelete("/criticas/{id}", async (int id, ICriticaServicio criticaServicio) =>
+            app.MapDelete("/criticas/{id}", async (int id, ClaimsPrincipal user, ICriticaServicio criticaServicio) =>
             {
-                var deleted = await criticaServicio.DeleteAsync(id);
-
-                if (!deleted)
+                var existente = await criticaServicio.GetAsync(id);
+                if (existente == null)
                 {
                     return Results.NotFound();
                 }
 
+                if (!UsuarioActual.EsGestion(user) && existente.UsuarioId != UsuarioActual.Id(user))
+                {
+                    return Results.Forbid();
+                }
+
+                await criticaServicio.DeleteAsync(id);
                 return Results.NoContent();
             })
             .WithName("DeleteCritica")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
+            .Produces(StatusCodes.Status403Forbidden)
             .RequireAuthorization()
             .WithOpenApi();
         }

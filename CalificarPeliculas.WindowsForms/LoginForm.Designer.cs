@@ -50,7 +50,7 @@ namespace CalificarPeliculas.WindowsForms
             this.txtPassword.Size = new System.Drawing.Size(260, 23);
             this.txtPassword.TabIndex = 1;
             this.txtPassword.UseSystemPasswordChar = true;
-            this.txtPassword.PlaceholderText = "Contraseña";
+            this.txtPassword.PlaceholderText = "ContraseÃ±a";
             // 
             // btnLogin
             // 
@@ -86,7 +86,7 @@ namespace CalificarPeliculas.WindowsForms
             this.MinimizeBox = false;
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Iniciar sesión";
+            this.Text = "Iniciar sesiÃ³n";
             this.ResumeLayout(false);
             this.PerformLayout();
         }

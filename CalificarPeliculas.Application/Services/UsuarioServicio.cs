@@ -25,6 +25,7 @@ namespace CalificarPeliculas.Application.Services
             ValidarPassword(dto.Password);
 
             var usuario = new Usuario(0, dto.NombreUsuario, dto.Mail, dto.RolId);
+            usuario.SetGrupoId(dto.GrupoId);
 
             if (await usuarioRepository.ExistsByMailAsync(usuario.Mail))
                 throw new InvalidOperationException("Ya existe un usuario registrado con ese mail.");
@@ -65,6 +66,7 @@ namespace CalificarPeliculas.Application.Services
             usuario.SetNombreUsuario(dto.NombreUsuario);
             usuario.SetMail(dto.Mail);
             usuario.SetRolId(dto.RolId);
+            usuario.SetGrupoId(dto.GrupoId);
 
             var usuarioConMail = await usuarioRepository.GetByMailAsync(usuario.Mail);
             if (usuarioConMail != null && usuarioConMail.Id != dto.Id)
@@ -128,6 +130,7 @@ namespace CalificarPeliculas.Application.Services
                 NombreUsuario = usuario.NombreUsuario,
                 Mail = usuario.Mail,
                 RolId = usuario.RolId
+                ,GrupoId = usuario.GrupoId
             };
         }
     }

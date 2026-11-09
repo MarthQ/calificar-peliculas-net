@@ -17,7 +17,7 @@ namespace CalificarPeliculas.WindowsForms
             _generoServicio = generoServicio;
             InitializeComponent();
 
-            comboTipo.Items.AddRange(Enum.GetNames(typeof(TipoContenido)));
+            comboTipo.Items.AddRange(Enum.GetValues<TipoContenido>().Cast<object>().ToArray());
         }
 
         protected override async void OnLoad(EventArgs e)
@@ -41,7 +41,7 @@ namespace CalificarPeliculas.WindowsForms
             txtDescripcion.Text = dto.Descripcion;
             dateFecha.Value = DateOnlyToDateTime(dto.FechaLanzamiento);
             txtDuracion.Text = dto.Duracion.ToString();
-            comboTipo.SelectedItem = dto.Tipo.ToString();
+            comboTipo.SelectedItem = dto.Tipo;
             comboGenero.SelectedValue = dto.GeneroId;
             // set UI to Edit mode
             this.Text = "Editar Contenido";
@@ -172,41 +172,41 @@ namespace CalificarPeliculas.WindowsForms
         {
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
-                MessageBox.Show("Nombre requerido.", "Validaci髇", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nombre requerido.", "Validaci贸n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (comboTipo.SelectedItem == null)
             {
-                MessageBox.Show("Seleccione un tipo de contenido.", "Validaci髇", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Seleccione un tipo de contenido.", "Validaci贸n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(txtDirector.Text))
             {
-                MessageBox.Show("Nombre del director requerido.", "Validaci髇", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Nombre del director requerido.", "Validaci贸n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(txtUrlImagen.Text) || !Uri.IsWellFormedUriString(txtUrlImagen.Text, UriKind.Absolute))
             {
-                MessageBox.Show("Ingrese una URL de imagen v醠ida.", "Validaci髇", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Ingrese una URL de imagen v谩lida.", "Validaci贸n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (!float.TryParse(txtPuntuacion.Text, out var ptu) || ptu < 0f || ptu > 10f)
             {
-                MessageBox.Show("Ingrese una puntuaci髇 v醠ida entre 0 y 10.", "Validaci髇", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Ingrese una puntuaci贸n v谩lida entre 0 y 10.", "Validaci贸n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             var tipoSeleccionado = Enum.Parse<TipoContenido>(comboTipo.SelectedItem.ToString());
 
-            // Duraci髇
+            // Duraci贸n
             var dur = ParseTimeOnly(txtDuracion.Text);
             if (dur == TimeOnly.MinValue)
             {
-                MessageBox.Show("Duraci髇 inv醠ida o vac韆. Ingrese en formato HH:mm.", "Validaci髇", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Duraci贸n inv谩lida o vac铆a. Ingrese en formato HH:mm.", "Validaci贸n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -214,7 +214,7 @@ namespace CalificarPeliculas.WindowsForms
             var fecha = DateTimeToDateOnly(dateFecha.Value);
             if (fecha == default)
             {
-                MessageBox.Show("La fecha de lanzamiento no puede ser la fecha por defecto.", "Validaci髇", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("La fecha de lanzamiento no puede ser la fecha por defecto.", "Validaci贸n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 

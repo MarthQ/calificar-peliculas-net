@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CalificarPeliculas.Application.Interfaces.Usuario;
@@ -27,7 +27,7 @@ namespace CalificarPeliculas.WindowsForms
 
             if (_usuarioServicio == null)
             {
-                MessageBox.Show("El servicio de usuarios no est· configurado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("El servicio de usuarios no est√° configurado.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 btnLogin.Enabled = true;
                 this.DialogResult = DialogResult.Cancel;
                 this.Close();
@@ -39,7 +39,7 @@ namespace CalificarPeliculas.WindowsForms
 
             if (string.IsNullOrWhiteSpace(mail) || string.IsNullOrEmpty(password))
             {
-                MessageBox.Show("Complete mail y contraseÒa.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Complete mail y contrase√±a.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 btnLogin.Enabled = true;
                 return;
             }
@@ -60,18 +60,7 @@ namespace CalificarPeliculas.WindowsForms
 
             if (usuario == null)
             {
-                MessageBox.Show("Credenciales inv·lidas.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                btnLogin.Enabled = true;
-                return;
-            }
-
-            // Guardar sesiÛn
-            CurrentSession.User = usuario;
-
-            // Verificar rol superadmin (RolId == 1)
-            if (usuario.RolId != 1)
-            {
-                MessageBox.Show("Acceso denegado. Se requiere rol de administrador.", "No autorizado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Credenciales inv√°lidas.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 btnLogin.Enabled = true;
                 return;
             }

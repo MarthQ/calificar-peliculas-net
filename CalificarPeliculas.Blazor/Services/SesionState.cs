@@ -1,4 +1,4 @@
-using CalificarPeliculas.Application.DTOs;
+﻿using CalificarPeliculas.Application.DTOs;
 
 namespace CalificarPeliculas.Blazor.Services
 {
@@ -9,6 +9,7 @@ namespace CalificarPeliculas.Blazor.Services
         public UsuarioDTO? Usuario { get; private set; }
         public bool EstaAutenticado => !string.IsNullOrEmpty(Token) && Usuario != null;
         public bool EsAdmin => Usuario?.RolId == 1;
+        public bool EsGestion => Usuario?.RolId is 1 or 2;
 
         public event Action? OnChange;
 

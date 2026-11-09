@@ -1,11 +1,14 @@
-using CalificarPeliculas.Web;
+﻿using CalificarPeliculas.Web;
 using CalificarPeliculas.Repository;
+using CalificarPeliculas.Domain.Users;
 using CalificarPeliculas.Application.Services;
 using CalificarPeliculas.Application.Interfaces.Contenido;
 using CalificarPeliculas.Application.Interfaces.Usuario;
 using CalificarPeliculas.Application.Interfaces.Criticas;
-using CalificarPeliculas.Domain.Users;
+using CalificarPeliculas.Application.Interfaces.Comentarios;
+using CalificarPeliculas.Application.Interfaces.Grupo;
 using CalificarPeliculas.Repository.Users;
+using CalificarPeliculas.Application.Security;
 using CalificarPeliculas.Web.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -38,7 +41,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ClockSkew = TimeSpan.Zero
         };
     });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy =>
+        policy.RequireRole(nameof(TipoRol.SuperUsuario)));
+    options.AddPolicy("Gestion", policy =>
+        policy.RequireRole(nameof(TipoRol.SuperUsuario), nameof(TipoRol.Moderador)));
+});
 
 // CORS para el cliente Blazor
 builder.Services.AddCors(options =>
@@ -58,11 +67,20 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IUsuarioServicio, UsuarioServicio>();
 builder.Services.AddScoped<ICriticaRepository, CriticaRepository>();
 builder.Services.AddScoped<ICriticaServicio, CriticaServicio>();
+builder.Services.AddScoped<IComentarioRepository, ComentarioRepository>();
+builder.Services.AddScoped<IComentarioServicio, ComentarioServicio>();
+builder.Services.AddScoped<IGrupoRepository, GrupoRepository>();
+builder.Services.AddScoped<IGrupoServicio, GrupoServicio>();
 builder.Services.AddScoped<IPasswordHashService, AspNetPasswordHashService>();
 builder.Services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
 builder.Services.AddScoped<ITokenService, JwtTokenService>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    DatabaseSeeder.Seed(new CFContext(), scope.ServiceProvider.GetRequiredService<IPasswordHashService>());
+}
 
 // Configure HTTP Request
 if (app.Environment.IsDevelopment())
@@ -85,5 +103,8 @@ app.MapGeneroEndpoints();
 app.MapContenidoEndpoints();
 app.MapUsuarioEndpoints();
 app.MapCriticaEndpoints();
+app.MapComentarioEndpoints();
+app.MapGrupoEndpoints();
+app.MapReporteEndpoints();
 
 app.Run();

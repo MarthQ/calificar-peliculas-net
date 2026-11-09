@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Windows.Forms;
 using CalificarPeliculas.Application.Interfaces.Usuario;
 using CalificarPeliculas.Application.DTOs;
@@ -33,14 +33,14 @@ namespace CalificarPeliculas.WindowsForms
 
             if (string.IsNullOrWhiteSpace(nombre) || string.IsNullOrWhiteSpace(mail) || string.IsNullOrEmpty(pass))
             {
-                MessageBox.Show("Complete todos los campos.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Complete todos los campos.", "ValidaciÃ³n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 btnRegister.Enabled = true;
                 return;
             }
 
             if (pass != pass2)
             {
-                MessageBox.Show("Las contraseñas no coinciden.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Las contraseÃ±as no coinciden.", "ValidaciÃ³n", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 btnRegister.Enabled = true;
                 return;
             }
@@ -52,12 +52,10 @@ namespace CalificarPeliculas.WindowsForms
                     NombreUsuario = nombre,
                     Mail = mail,
                     Password = pass,
-                    RolId = 2 // rol por defecto: usuario (asegurarse que exista en la base)
+                    RolId = 3
                 };
 
                 var usuario = await _usuarioServicio.RegistrarAsync(dto);
-
-                CurrentSession.User = usuario; // autologin
 
                 MessageBox.Show("Registro exitoso.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

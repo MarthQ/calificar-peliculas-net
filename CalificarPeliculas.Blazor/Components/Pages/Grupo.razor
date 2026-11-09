@@ -1,0 +1,49 @@
+﻿@page "/grupos"
+@rendermode InteractiveServer
+@inject GruposApiClient Grupos
+@inject SesionState Sesion
+
+<PageTitle>Grupos</PageTitle>
+<h3>Grupos</h3>
+
+@if (!Sesion.EstaAutenticado || !Sesion.EsAdmin)
+{
+    <div class="alert alert-danger">Se requiere una sesión de administrador.</div>
+}
+else if (grupos == null)
+{
+    <p>Cargando...</p>
+}
+else
+{
+    <div class="row">
+        <div class="col-lg-7">
+            <table class="table table-striped"><thead><tr><th>Nombre</th><th>Descripción</th><th>Fecha</th><th></th></tr></thead>
+            <tbody>@foreach (var grupo in grupos)
+            {<tr><td>@grupo.Nombre</td><td>@grupo.Descripcion</td><td>@grupo.FechaCreacion</td><td><button class="btn btn-sm btn-secondary" @onclick="() => Editar(grupo)">Editar</button> <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(grupo.Id)">Eliminar</button></td></tr>}</tbody></table>
+        </div>
+        <div class="col-lg-5">
+            <h5>@(editando ? "Editar grupo" : "Nuevo grupo")</h5>
+            <input class="form-control mb-2" placeholder="Nombre" @bind="form.Nombre" />
+            <textarea class="form-control mb-2" placeholder="Descripción" @bind="form.Descripcion"></textarea>
+            <input class="form-control mb-2" type="date" @bind="fecha" />
+            @if (error != null) { <div class="alert alert-danger">@error</div> }
+            <button class="btn btn-primary" @onclick="Guardar">Guardar</button>
+            <button class="btn btn-outline-secondary" @onclick="Limpiar">Limpiar</button>
+        </div>
+    </div>
+}
+
+@code {
+    private List<GrupoDTO>? grupos;
+    private GrupoDTO form = new();
+    private DateTime fecha = DateTime.Today;
+    private bool editando;
+    private string? error;
+
+    protected override async Task OnInitializedAsync() { if (Sesion.EsAdmin) grupos = await Grupos.GetAllAsync(); }
+    private void Editar(GrupoDTO grupo) { form = new() { Id = grupo.Id, Nombre = grupo.Nombre, Descripcion = grupo.Descripcion, FechaCreacion = grupo.FechaCreacion }; fecha = grupo.FechaCreacion.ToDateTime(TimeOnly.MinValue); editando = true; }
+    private void Limpiar() { form = new(); fecha = DateTime.Today; editando = false; error = null; }
+    private async Task Guardar() { error = null; form.FechaCreacion = DateOnly.FromDateTime(fecha); if (string.IsNullOrWhiteSpace(form.Nombre) || string.IsNullOrWhiteSpace(form.Descripcion)) { error = "Complete nombre y descripción."; return; } if (!(editando ? await Grupos.UpdateAsync(form) : await Grupos.AddAsync(form))) { error = "No se pudo guardar el grupo."; return; } Limpiar(); grupos = await Grupos.GetAllAsync(); }
+    private async Task Eliminar(int id) { if (await Grupos.DeleteAsync(id)) grupos = await Grupos.GetAllAsync(); }
+}

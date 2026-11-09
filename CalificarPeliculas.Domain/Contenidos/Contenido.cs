@@ -12,6 +12,7 @@
         public TimeOnly Duracion { get; private set; }
         public string UrlImagen { get; private set; }
         public float PuntuacionPromedio { get; private set; }
+        public ICollection<Critica> Criticas { get; } = new List<Critica>();
         // Privados para evitar cambios directos que desincronicen el género y su ID.
         private Genero? _genero;
         private int _generoId;

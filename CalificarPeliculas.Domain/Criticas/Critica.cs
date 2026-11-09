@@ -16,6 +16,7 @@ namespace CalificarPeliculas.Domain
         public string Texto { get; private set; }
         public float Calificacion { get; private set; }
         public int CantReacciones { get; private set; }
+        public ICollection<Comentario> Comentarios { get; } = new List<Comentario>();
 
         private Usuario? _usuario;
         private int _usuarioId;

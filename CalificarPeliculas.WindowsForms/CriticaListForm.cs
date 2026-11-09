@@ -7,8 +7,7 @@ using System.Windows.Forms;
 
 namespace CalificarPeliculas.WindowsForms
 {
-    // Maestro / Detalle: los maestros son Usuario y Contenido (filtros superiores),
-    // el detalle es la grilla de Críticas que pertenecen a los maestros seleccionados.
+    // Maestro / Detalle: el maestro es el Contenido seleccionado y el detalle son sus Críticas.
     public partial class CriticaListForm : Form
     {
         private readonly ICriticaServicio _criticaServicio;
@@ -34,10 +33,8 @@ namespace CalificarPeliculas.WindowsForms
         {
             base.OnLoad(e);
             await LoadMaestrosAsync();
-            await LoadCriticasAsync();
         }
 
-        // Carga los maestros (Usuarios y Contenidos) en los combos de filtro
         private async Task LoadMaestrosAsync()
         {
             _cargandoMaestros = true;
@@ -45,24 +42,29 @@ namespace CalificarPeliculas.WindowsForms
             {
                 _usuarios = (await _usuarioServicio.GetAllAsync()).ToList();
                 _contenidos = (await _contenidoServicio.GetAllAsync()).ToList();
+                var criticas = (await _criticaServicio.GetAllAsync()).ToList();
 
-                var itemsUsuario = new List<ComboItem> { new ComboItem { Id = 0, Nombre = "(Todos)" } };
-                itemsUsuario.AddRange(_usuarios
-                    .OrderBy(u => u.NombreUsuario)
-                    .Select(u => new ComboItem { Id = u.Id, Nombre = u.NombreUsuario }));
-
-                var itemsContenido = new List<ComboItem> { new ComboItem { Id = 0, Nombre = "(Todos)" } };
-                itemsContenido.AddRange(_contenidos
+                var itemsContenido = _contenidos
                     .OrderBy(c => c.Nombre)
-                    .Select(c => new ComboItem { Id = c.Id, Nombre = $"{c.Nombre} ({c.Tipo})" }));
-
-                comboUsuario.DisplayMember = "Nombre";
-                comboUsuario.ValueMember = "Id";
-                comboUsuario.DataSource = itemsUsuario;
+                    .Select(c => new ComboItem { Id = c.Id, Nombre = $"{c.Nombre} ({c.Tipo})" })
+                    .ToList();
 
                 comboContenido.DisplayMember = "Nombre";
                 comboContenido.ValueMember = "Id";
                 comboContenido.DataSource = itemsContenido;
+
+                var contenidoConCriticas = _contenidos
+                    .FirstOrDefault(c => criticas.Any(critica => critica.ContenidoId == c.Id));
+                if (contenidoConCriticas != null)
+                {
+                    comboContenido.SelectedValue = contenidoConCriticas.Id;
+                    await LoadCriticasAsync();
+                }
+                else if (itemsContenido.Count > 0)
+                {
+                    comboContenido.SelectedIndex = 0;
+                    await LoadCriticasAsync();
+                }
             }
             finally
             {
@@ -70,31 +72,42 @@ namespace CalificarPeliculas.WindowsForms
             }
         }
 
-        // Carga el detalle (Críticas) filtrado según los maestros seleccionados
         private async Task LoadCriticasAsync()
         {
-            var usuarioId = UsuarioSeleccionadoId;
             var contenidoId = ContenidoSeleccionadoId;
 
-            var items = await _criticaServicio.GetAllAsync();
-            var filas = items
-                .Where(c => usuarioId == 0 || c.UsuarioId == usuarioId)
-                .Where(c => contenidoId == 0 || c.ContenidoId == contenidoId)
+            if (contenidoId <= 0)
+            {
+                dgvCriticas.DataSource = new List<CriticaRow>();
+                lblTotal.Text = "Críticas: 0";
+                return;
+            }
+
+            var detalle = await _contenidoServicio.GetWithCriticasAsync(contenidoId);
+            var criticas = detalle?.Criticas ?? new List<CriticaDTO>();
+
+            var filas = criticas
                 .OrderByDescending(c => c.FechaPublicacion)
                 .Select(c => new CriticaRow(c,
                     _usuarios.FirstOrDefault(u => u.Id == c.UsuarioId)?.NombreUsuario ?? c.UsuarioId.ToString(),
-                    _contenidos.FirstOrDefault(x => x.Id == c.ContenidoId)?.Nombre ?? c.ContenidoId.ToString()))
+                    detalle?.Contenido.Nombre ?? c.ContenidoId.ToString()))
                 .ToList();
 
             dgvCriticas.DataSource = filas;
             lblTotal.Text = $"Críticas: {filas.Count}";
         }
 
-        private int UsuarioSeleccionadoId => comboUsuario.SelectedValue is int id ? id : 0;
         private int ContenidoSeleccionadoId => comboContenido.SelectedValue is int id ? id : 0;
 
         private CriticaDTO? CriticaSeleccionada =>
             (dgvCriticas.CurrentRow?.DataBoundItem as CriticaRow)?.Dto;
+
+        private static bool PuedeModificar(CriticaDTO dto)
+        {
+            if (CurrentSession.EsGestion || dto.UsuarioId == CurrentSession.User?.Id) return true;
+            MessageBox.Show("Solo podés modificar tus propias críticas.", "Permisos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return false;
+        }
 
         private async void comboMaestro_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -105,8 +118,8 @@ namespace CalificarPeliculas.WindowsForms
         private async void btnLimpiarFiltros_Click(object sender, EventArgs e)
         {
             _cargandoMaestros = true;
-            comboUsuario.SelectedIndex = 0;
-            comboContenido.SelectedIndex = 0;
+            if (comboContenido.Items.Count > 0)
+                comboContenido.SelectedIndex = 0;
             _cargandoMaestros = false;
             await LoadCriticasAsync();
         }
@@ -124,8 +137,7 @@ namespace CalificarPeliculas.WindowsForms
                 MessageBox.Show("No se puede abrir el editor de críticas.");
                 return;
             }
-            // La nueva crítica hereda los maestros seleccionados en los filtros
-            form.Clear(UsuarioSeleccionadoId, ContenidoSeleccionadoId);
+            form.Clear(CurrentSession.User?.Id ?? 0, ContenidoSeleccionadoId);
             if (form.ShowDialog() == DialogResult.OK)
             {
                 await LoadCriticasAsync();
@@ -135,7 +147,7 @@ namespace CalificarPeliculas.WindowsForms
         private async void btnEdit_Click(object sender, EventArgs e)
         {
             var dto = CriticaSeleccionada;
-            if (dto == null) return;
+            if (dto == null || !PuedeModificar(dto)) return;
 
             var form = _provider.GetService(typeof(CriticaEditForm)) as CriticaEditForm;
             if (form == null)
@@ -153,7 +165,7 @@ namespace CalificarPeliculas.WindowsForms
         private async void btnDelete_Click(object sender, EventArgs e)
         {
             var row = dgvCriticas.CurrentRow?.DataBoundItem as CriticaRow;
-            if (row == null) return;
+            if (row == null || !PuedeModificar(row.Dto)) return;
 
             var ok = MessageBox.Show($"Eliminar la crítica de '{row.Usuario}' sobre '{row.Contenido}'?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (ok == DialogResult.Yes)

@@ -48,6 +48,29 @@ namespace CalificarPeliculas.Application.Services
             return MapToDTO(contenido);
         }
 
+        public async Task<ContenidoDetalleDTO?> GetWithCriticasAsync(int id)
+        {
+            Contenido? contenido = await contenidoRepository.GetWithCriticasAsync(id);
+
+            if (contenido == null)
+                return null;
+
+            return new ContenidoDetalleDTO
+            {
+                Contenido = MapToDTO(contenido),
+                Criticas = contenido.Criticas.Select(critica => new CriticaDTO
+                {
+                    Id = critica.Id,
+                    FechaPublicacion = critica.FechaPublicacion,
+                    Texto = critica.Texto,
+                    Calificacion = critica.Calificacion,
+                    CantReacciones = critica.CantReacciones,
+                    UsuarioId = critica.UsuarioId,
+                    ContenidoId = critica.ContenidoId
+                }).ToList()
+            };
+        }
+
         public async Task<IEnumerable<ContenidoDTO>> GetAllAsync()
         {
             var contenidos = await contenidoRepository.GetAllAsync();

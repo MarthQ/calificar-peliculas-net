@@ -66,7 +66,7 @@ namespace CalificarPeliculas.WindowsForms
             Controls.Add(this.btnOk);
             Controls.Add(this.btnCancel);
             Name = "GeneroEditForm";
-            Text = "Editar Género";
+            Text = "Editar GÃ©nero";
             ResumeLayout(false);
             PerformLayout();
         }

@@ -75,9 +75,9 @@ namespace CalificarPeliculas.WindowsForms
             numCalificacion.Value = (decimal)dto.Calificacion;
             numReacciones.Value = dto.CantReacciones;
             txtTexto.Text = dto.Texto;
-            // En edición no se cambian los maestros de la crítica
+            // El usuario original se conserva, pero la crítica puede reasignarse a otro contenido.
             comboUsuario.Enabled = false;
-            comboContenido.Enabled = false;
+            comboContenido.Enabled = true;
             // set UI to Edit mode
             this.Text = "Editar Crítica";
             this.btnOk.Text = "Guardar";
@@ -94,7 +94,7 @@ namespace CalificarPeliculas.WindowsForms
             numCalificacion.Value = 0;
             numReacciones.Value = 0;
             txtTexto.Text = string.Empty;
-            comboUsuario.Enabled = true;
+            comboUsuario.Enabled = CurrentSession.EsGestion;
             comboContenido.Enabled = true;
             // set UI to Add mode
             this.Text = "Agregar Crítica";
@@ -148,9 +148,10 @@ namespace CalificarPeliculas.WindowsForms
                 {
                     await _criticaServicio.AddAsync(dto);
                 }
-                else
+                else if (!await _criticaServicio.UpdateAsync(dto))
                 {
-                    await _criticaServicio.UpdateAsync(dto);
+                    MessageBox.Show("No se pudo guardar la crítica.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
             }
             catch (Exception ex)

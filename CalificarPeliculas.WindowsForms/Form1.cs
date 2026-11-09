@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +12,18 @@ namespace CalificarPeliculas.WindowsForms
         {
             _provider = provider;
             InitializeComponent();
+            AplicarPermisos();
+        }
+
+        private void AplicarPermisos()
+        {
+            menuGenerosToolStripMenuItem.Visible = CurrentSession.EsGestion;
+            menuContenidosToolStripMenuItem.Visible = CurrentSession.EsGestion;
+            menuReportesToolStripMenuItem.Visible = CurrentSession.EsGestion;
+            menuGruposToolStripMenuItem.Visible = CurrentSession.IsAdmin;
+            menuUsuariosToolStripMenuItem.Visible = CurrentSession.IsAdmin;
+            menuRegisterToolStripMenuItem.Visible = CurrentSession.IsAdmin;
+            Text = $"Home - {CurrentSession.User?.NombreUsuario}";
         }
 
         private void ShowInPanel(Form f)
@@ -30,10 +42,34 @@ namespace CalificarPeliculas.WindowsForms
             var form = _provider.GetService(typeof(GeneroListForm)) as GeneroListForm;
             if (form == null)
             {
-                MessageBox.Show("No se pudo abrir la ventana de géneros.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No se pudo abrir la ventana de gÃ©neros.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             ShowInPanel(form);
+        }
+
+        private void btnComentarios_Click(object sender, EventArgs e)
+        {
+            var form = _provider.GetService(typeof(ComentarioListForm)) as ComentarioListForm;
+            if (form != null) ShowInPanel(form);
+        }
+
+        private void btnReportes_Click(object sender, EventArgs e)
+        {
+            var form = _provider.GetService(typeof(ReporteForm)) as ReporteForm;
+            if (form != null) ShowInPanel(form);
+        }
+
+        private void btnGrupos_Click(object sender, EventArgs e)
+        {
+            var form = _provider.GetService(typeof(GrupoListForm)) as GrupoListForm;
+            if (form != null) ShowInPanel(form);
+        }
+
+        private void btnUsuarios_Click(object sender, EventArgs e)
+        {
+            var form = _provider.GetService(typeof(UsuarioListForm)) as UsuarioListForm;
+            if (form != null) ShowInPanel(form);
         }
 
         private void btnContenidos_Click(object sender, EventArgs e)
@@ -52,7 +88,7 @@ namespace CalificarPeliculas.WindowsForms
             var form = _provider.GetService(typeof(CriticaListForm)) as CriticaListForm;
             if (form == null)
             {
-                MessageBox.Show("No se pudo abrir la ventana de críticas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("No se pudo abrir la ventana de crÃ­ticas.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             ShowInPanel(form);
@@ -72,7 +108,8 @@ namespace CalificarPeliculas.WindowsForms
         private void btnLogout_Click(object sender, EventArgs e)
         {
             // Clear session and return to login screen. If login is successful, show main again; otherwise exit.
-            CurrentSession.User = null;
+            CurrentSession.Clear();
+            panelMain.Controls.Clear();
 
             // Hide main form while login dialog is shown
             this.Hide();
@@ -95,7 +132,7 @@ namespace CalificarPeliculas.WindowsForms
             var dr = login.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                // logged in again
+                AplicarPermisos();
                 this.Show();
             }
             else
