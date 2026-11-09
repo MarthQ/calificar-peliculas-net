@@ -17,7 +17,7 @@ namespace CalificarPeliculas.WindowsForms
             _generoServicio = generoServicio;
             InitializeComponent();
 
-            comboTipo.Items.AddRange(Enum.GetNames(typeof(TipoContenido)));
+            comboTipo.Items.AddRange(Enum.GetValues<TipoContenido>().Cast<object>().ToArray());
         }
 
         protected override async void OnLoad(EventArgs e)
@@ -41,7 +41,7 @@ namespace CalificarPeliculas.WindowsForms
             txtDescripcion.Text = dto.Descripcion;
             dateFecha.Value = DateOnlyToDateTime(dto.FechaLanzamiento);
             txtDuracion.Text = dto.Duracion.ToString();
-            comboTipo.SelectedItem = dto.Tipo.ToString();
+            comboTipo.SelectedItem = dto.Tipo;
             comboGenero.SelectedValue = dto.GeneroId;
             // set UI to Edit mode
             this.Text = "Editar Contenido";

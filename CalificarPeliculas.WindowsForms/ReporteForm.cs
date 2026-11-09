@@ -16,8 +16,8 @@ public sealed class ReporteForm : Form
         Text = "Reportes";
         Width = 1100;
         Height = 650;
-        var grafico = new TabPage("Con gráficos");
-        var detalle = new TabPage("Sin gráficos");
+        var grafico = new TabPage("Resumen de calificaciones");
+        var detalle = new TabPage("Detalle de críticas y comentarios");
         grafico.Controls.Add(chart);
         detalle.Controls.Add(grid);
         tabs.TabPages.Add(grafico);

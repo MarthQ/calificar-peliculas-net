@@ -121,9 +121,12 @@ else
     private async Task Cargar()
     {
         contenidos = await Contenidos.GetAllAsync();
+        var todasLasCriticas = await Criticas.GetAllAsync() ?? new List<CriticaDTO>();
         if (contenidos?.Count > 0)
         {
-            contenidoSeleccionadoId = contenidos[0].Id;
+            contenidoSeleccionadoId = contenidos
+                .FirstOrDefault(c => todasLasCriticas.Any(critica => critica.ContenidoId == c.Id))?.Id
+                ?? contenidos[0].Id;
             await CargarDetalle();
         }
         else
@@ -143,8 +146,17 @@ else
         }
 
         var detalle = await Contenidos.GetWithCriticasAsync(contenidoSeleccionadoId);
-        contenidoSeleccionado = detalle?.Contenido;
+        contenidoSeleccionado = detalle?.Contenido ?? contenidos?.FirstOrDefault(c => c.Id == contenidoSeleccionadoId);
         criticas = detalle?.Criticas ?? new List<CriticaDTO>();
+
+        if (criticas.Count == 0)
+        {
+            var criticasDisponibles = await Criticas.GetAllAsync();
+            criticas = criticasDisponibles?
+                .Where(c => c.ContenidoId == contenidoSeleccionadoId)
+                .ToList() ?? new List<CriticaDTO>();
+        }
+
         Limpiar();
     }
 

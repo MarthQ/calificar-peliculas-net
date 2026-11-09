@@ -42,6 +42,7 @@ namespace CalificarPeliculas.WindowsForms
             {
                 _usuarios = (await _usuarioServicio.GetAllAsync()).ToList();
                 _contenidos = (await _contenidoServicio.GetAllAsync()).ToList();
+                var criticas = (await _criticaServicio.GetAllAsync()).ToList();
 
                 var itemsContenido = _contenidos
                     .OrderBy(c => c.Nombre)
@@ -52,7 +53,14 @@ namespace CalificarPeliculas.WindowsForms
                 comboContenido.ValueMember = "Id";
                 comboContenido.DataSource = itemsContenido;
 
-                if (itemsContenido.Count > 0)
+                var contenidoConCriticas = _contenidos
+                    .FirstOrDefault(c => criticas.Any(critica => critica.ContenidoId == c.Id));
+                if (contenidoConCriticas != null)
+                {
+                    comboContenido.SelectedValue = contenidoConCriticas.Id;
+                    await LoadCriticasAsync();
+                }
+                else if (itemsContenido.Count > 0)
                 {
                     comboContenido.SelectedIndex = 0;
                     await LoadCriticasAsync();
@@ -76,7 +84,16 @@ namespace CalificarPeliculas.WindowsForms
             }
 
             var detalle = await _contenidoServicio.GetWithCriticasAsync(contenidoId);
-            var filas = (detalle?.Criticas ?? new List<CriticaDTO>())
+            var criticas = detalle?.Criticas ?? new List<CriticaDTO>();
+
+            if (criticas.Count == 0)
+            {
+                criticas = (await _criticaServicio.GetAllAsync())
+                    .Where(c => c.ContenidoId == contenidoId)
+                    .ToList();
+            }
+
+            var filas = criticas
                 .OrderByDescending(c => c.FechaPublicacion)
                 .Select(c => new CriticaRow(c,
                     _usuarios.FirstOrDefault(u => u.Id == c.UsuarioId)?.NombreUsuario ?? c.UsuarioId.ToString(),
