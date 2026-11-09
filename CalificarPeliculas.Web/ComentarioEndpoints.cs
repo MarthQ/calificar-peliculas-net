@@ -1,5 +1,7 @@
+﻿using System.Security.Claims;
 using CalificarPeliculas.Application.DTOs;
 using CalificarPeliculas.Application.Interfaces.Comentarios;
+using CalificarPeliculas.Web.Security;
 
 namespace CalificarPeliculas.Web;
 
@@ -11,13 +13,16 @@ public static class ComentarioEndpoints
         {
             var dto = await servicio.GetAsync(id);
             return dto == null ? Results.NotFound() : Results.Ok(dto);
-        }).RequireAuthorization("Admin");
+        }).RequireAuthorization();
 
         app.MapGet("/comentarios", async (IComentarioServicio servicio) =>
-            Results.Ok(await servicio.GetAllAsync())).RequireAuthorization("Admin");
+            Results.Ok(await servicio.GetAllAsync())).RequireAuthorization();
 
-        app.MapPost("/comentarios", async (ComentarioDTO dto, IComentarioServicio servicio) =>
+        app.MapPost("/comentarios", async (ComentarioDTO dto, ClaimsPrincipal user, IComentarioServicio servicio) =>
         {
+            if (!UsuarioActual.EsGestion(user))
+                dto.UsuarioId = UsuarioActual.Id(user);
+
             try
             {
                 var creado = await servicio.AddAsync(dto);
@@ -27,10 +32,18 @@ public static class ComentarioEndpoints
             {
                 return Results.BadRequest(new { error = ex.Message });
             }
-        }).RequireAuthorization("Admin");
+        }).RequireAuthorization();
 
-        app.MapPut("/comentarios", async (ComentarioDTO dto, IComentarioServicio servicio) =>
+        app.MapPut("/comentarios", async (ComentarioDTO dto, ClaimsPrincipal user, IComentarioServicio servicio) =>
         {
+            var existente = await servicio.GetAsync(dto.Id);
+            if (existente == null) return Results.NotFound();
+            if (!UsuarioActual.EsGestion(user))
+            {
+                if (existente.UsuarioId != UsuarioActual.Id(user)) return Results.Forbid();
+                dto.UsuarioId = existente.UsuarioId;
+            }
+
             try
             {
                 return await servicio.UpdateAsync(dto) ? Results.NoContent() : Results.NotFound();
@@ -39,10 +52,15 @@ public static class ComentarioEndpoints
             {
                 return Results.BadRequest(new { error = ex.Message });
             }
-        }).RequireAuthorization("Admin");
+        }).RequireAuthorization();
 
-        app.MapDelete("/comentarios/{id}", async (int id, IComentarioServicio servicio) =>
-            await servicio.DeleteAsync(id) ? Results.NoContent() : Results.NotFound())
-            .RequireAuthorization("Admin");
+        app.MapDelete("/comentarios/{id}", async (int id, ClaimsPrincipal user, IComentarioServicio servicio) =>
+        {
+            var existente = await servicio.GetAsync(id);
+            if (existente == null) return Results.NotFound();
+            if (!UsuarioActual.EsGestion(user) && existente.UsuarioId != UsuarioActual.Id(user)) return Results.Forbid();
+            await servicio.DeleteAsync(id);
+            return Results.NoContent();
+        }).RequireAuthorization();
     }
 }

@@ -1,5 +1,7 @@
-using CalificarPeliculas.Application.DTOs;
+﻿using CalificarPeliculas.Application.DTOs;
 using CalificarPeliculas.Application.Interfaces.Usuario;
+using CalificarPeliculas.Web.Security;
+using System.Security.Claims;
 
 namespace CalificarPeliculas.Web
 {
@@ -18,13 +20,19 @@ namespace CalificarPeliculas.Web
             .RequireAuthorization("Admin")
             .WithOpenApi();
 
-            app.MapGet("/usuarios", async (IUsuarioServicio usuarioServicio) =>
+            app.MapGet("/usuarios", async (ClaimsPrincipal user, IUsuarioServicio usuarioServicio) =>
             {
-                return Results.Ok(await usuarioServicio.GetAllAsync());
+                var usuarios = await usuarioServicio.GetAllAsync();
+                if (!UsuarioActual.EsAdmin(user))
+                {
+                    // Los demás roles solo necesitan los nombres para mostrar autores
+                    usuarios = usuarios.Select(u => new UsuarioDTO { Id = u.Id, NombreUsuario = u.NombreUsuario, Mail = string.Empty, RolId = u.RolId }).ToList();
+                }
+                return Results.Ok(usuarios);
             })
             .WithName("GetAllUsuarios")
             .Produces<IEnumerable<UsuarioDTO>>(StatusCodes.Status200OK)
-            .RequireAuthorization("Admin")
+            .RequireAuthorization()
             .WithOpenApi();
 
             app.MapPost("/usuarios", async (RegistrarUsuarioDTO dto, IUsuarioServicio usuarioServicio) =>

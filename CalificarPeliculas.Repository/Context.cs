@@ -230,7 +230,7 @@ namespace CalificarPeliculas.Repository
                 .HasField("_contenido");
 
                 entity.HasOne(ent => ent.Contenido)
-                    .WithMany()
+                    .WithMany(contenido => contenido.Criticas)
                     .HasForeignKey(ent => ent.ContenidoId);
 
                 entity.Property(ent => ent.Texto)

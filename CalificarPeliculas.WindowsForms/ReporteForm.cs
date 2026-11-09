@@ -1,4 +1,4 @@
-using System.Drawing;
+﻿using System.Drawing;
 using CalificarPeliculas.Application.DTOs;
 
 namespace CalificarPeliculas.WindowsForms;
@@ -17,7 +17,7 @@ public sealed class ReporteForm : Form
         Width = 1100;
         Height = 650;
         var grafico = new TabPage("Resumen de calificaciones");
-        var detalle = new TabPage("Detalle de cr�ticas y comentarios");
+        var detalle = new TabPage("Detalle de críticas y comentarios");
         grafico.Controls.Add(chart);
         detalle.Controls.Add(grid);
         tabs.TabPages.Add(grafico);

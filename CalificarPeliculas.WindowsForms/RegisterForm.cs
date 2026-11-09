@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
 using CalificarPeliculas.Application.Interfaces.Usuario;
 using CalificarPeliculas.Application.DTOs;
@@ -52,12 +52,10 @@ namespace CalificarPeliculas.WindowsForms
                     NombreUsuario = nombre,
                     Mail = mail,
                     Password = pass,
-                    RolId = 2 // rol por defecto: usuario (asegurarse que exista en la base)
+                    RolId = 3
                 };
 
                 var usuario = await _usuarioServicio.RegistrarAsync(dto);
-
-                CurrentSession.User = usuario; // autologin
 
                 MessageBox.Show("Registro exitoso.", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

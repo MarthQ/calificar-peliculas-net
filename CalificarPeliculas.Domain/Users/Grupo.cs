@@ -1,4 +1,4 @@
-namespace CalificarPeliculas.Domain.Users;
+Ôªønamespace CalificarPeliculas.Domain.Users;
 
 public class Grupo
 {
@@ -26,19 +26,19 @@ public class Grupo
 
     public void SetNombre(string nombre)
     {
-        if (string.IsNullOrWhiteSpace(nombre)) throw new ArgumentException("El nombre no puede estar vacÌo.", nameof(nombre));
+        if (string.IsNullOrWhiteSpace(nombre)) throw new ArgumentException("El nombre no puede estar vac√≠o.", nameof(nombre));
         Nombre = nombre.Trim();
     }
 
     public void SetDescripcion(string descripcion)
     {
-        if (string.IsNullOrWhiteSpace(descripcion)) throw new ArgumentException("La descripciÛn no puede estar vacÌa.", nameof(descripcion));
+        if (string.IsNullOrWhiteSpace(descripcion)) throw new ArgumentException("La descripci√≥n no puede estar vac√≠a.", nameof(descripcion));
         Descripcion = descripcion.Trim();
     }
 
     public void SetFechaCreacion(DateOnly fecha)
     {
-        if (fecha == default) throw new ArgumentException("La fecha no puede ser inv·lida.", nameof(fecha));
+        if (fecha == default) throw new ArgumentException("La fecha no puede ser inv√°lida.", nameof(fecha));
         FechaCreacion = fecha;
     }
 }

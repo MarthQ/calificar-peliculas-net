@@ -1,4 +1,4 @@
-namespace CalificarPeliculas.Domain;
+﻿namespace CalificarPeliculas.Domain;
 
 public class Comentario
 {
@@ -37,32 +37,32 @@ public class Comentario
 
     public void SetTexto(string texto)
     {
-        if (string.IsNullOrWhiteSpace(texto)) throw new ArgumentException("El texto no puede estar vac�o.", nameof(texto));
+        if (string.IsNullOrWhiteSpace(texto)) throw new ArgumentException("El texto no puede estar vacío.", nameof(texto));
         Texto = texto.Trim();
     }
 
     public void SetFechaRealizacion(DateOnly fecha)
     {
-        if (fecha == default) throw new ArgumentException("La fecha no puede ser inv�lida.", nameof(fecha));
+        if (fecha == default) throw new ArgumentException("La fecha no puede ser inválida.", nameof(fecha));
         FechaRealizacion = fecha;
     }
 
     public void SetReaccion(string reaccion)
     {
-        if (string.IsNullOrWhiteSpace(reaccion)) throw new ArgumentException("La reacci�n no puede estar vac�a.", nameof(reaccion));
+        if (string.IsNullOrWhiteSpace(reaccion)) throw new ArgumentException("La reacción no puede estar vacía.", nameof(reaccion));
         Reaccion = reaccion.Trim();
     }
 
     public void SetCriticaId(int id)
     {
-        if (id <= 0) throw new ArgumentException("La cr�tica debe ser v�lida.", nameof(id));
+        if (id <= 0) throw new ArgumentException("La crítica debe ser válida.", nameof(id));
         _criticaId = id;
         if (_critica?.Id != id) _critica = null;
     }
 
     public void SetUsuarioId(int id)
     {
-        if (id <= 0) throw new ArgumentException("El usuario debe ser v�lido.", nameof(id));
+        if (id <= 0) throw new ArgumentException("El usuario debe ser válido.", nameof(id));
         _usuarioId = id;
         if (_usuario?.Id != id) _usuario = null;
     }

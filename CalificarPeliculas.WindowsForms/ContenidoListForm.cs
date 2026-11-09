@@ -1,4 +1,4 @@
-using CalificarPeliculas.Application.DTOs;
+﻿using CalificarPeliculas.Application.DTOs;
 using CalificarPeliculas.Application.Interfaces.Contenido;
 using System.Windows.Forms;
 
@@ -32,7 +32,7 @@ namespace CalificarPeliculas.WindowsForms
                 .OrderBy(g => g.Nombre)
                 .Select(g => new ComboItem { Id = g.Id, Nombre = g.Nombre })
                 .ToList();
-            generos.Insert(0, new ComboItem { Id = 0, Nombre = "Todos los g�neros" });
+            generos.Insert(0, new ComboItem { Id = 0, Nombre = "Todos los géneros" });
             comboGenero.DataSource = generos;
             comboGenero.SelectedIndex = 0;
             AplicarFiltro();
@@ -40,7 +40,7 @@ namespace CalificarPeliculas.WindowsForms
 
         private void AplicarFiltro()
         {
-            var generoId = comboGenero.SelectedValue is int id ? id : 0;
+            var generoId = (comboGenero.SelectedItem as ComboItem)?.Id ?? 0;
             var nombre = txtFiltroNombre.Text.Trim();
             dgvContenidos.DataSource = _contenidos
                 .Where(c => (generoId == 0 || c.GeneroId == generoId) &&

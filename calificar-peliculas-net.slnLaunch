@@ -7,6 +7,10 @@
         "Action": "Start"
       },
       {
+        "Path": "CalificarPeliculas.WindowsForms\\CalificarPeliculas.WindowsForms.csproj",
+        "Action": "Start"
+      },
+      {
         "Path": "CalificarPeliculas.Blazor\\CalificarPeliculas.Blazor.csproj",
         "Action": "Start"
       }

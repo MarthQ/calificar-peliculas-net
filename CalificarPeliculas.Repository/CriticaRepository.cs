@@ -55,6 +55,7 @@ namespace CalificarPeliculas.Repository
             var existing = await context.Criticas.FirstOrDefaultAsync(c => c.Id == critica.Id);
             if (existing != null)
             {
+                existing.SetContenidoId(critica.ContenidoId);
                 existing.SetTexto(critica.Texto);
                 existing.SetFecha(critica.FechaPublicacion);
                 existing.SetCalificacion(critica.Calificacion);

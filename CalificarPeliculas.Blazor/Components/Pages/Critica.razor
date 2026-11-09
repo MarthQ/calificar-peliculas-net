@@ -1,4 +1,4 @@
-@page "/criticas"
+﻿@page "/criticas"
 @rendermode InteractiveServer
 @inject CriticasApiClient Criticas
 @inject ContenidosApiClient Contenidos
@@ -11,10 +11,6 @@
 @if (!Sesion.EstaAutenticado)
 {
     <div class="alert alert-warning">Debés <a href="/login">iniciar sesión</a> para administrar críticas.</div>
-}
-else if (!Sesion.EsAdmin)
-{
-    <div class="alert alert-danger">No tenés permisos para administrar críticas.</div>
 }
 else if (contenidos == null || criticas == null)
 {
@@ -60,8 +56,11 @@ else
                             <td>@c.FechaPublicacion</td>
                             <td class="texto-critica">@c.Texto</td>
                             <td>
-                                <button class="btn btn-sm btn-secondary" @onclick="() => Seleccionar(c)">Editar</button>
-                                <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(c)">Eliminar</button>
+                                @if (PuedeModificar(c))
+                                {
+                                    <button class="btn btn-sm btn-secondary" @onclick="() => Seleccionar(c)">Editar</button>
+                                    <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(c)">Eliminar</button>
+                                }
                             </td>
                         </tr>
                     }
@@ -149,16 +148,10 @@ else
         contenidoSeleccionado = detalle?.Contenido ?? contenidos?.FirstOrDefault(c => c.Id == contenidoSeleccionadoId);
         criticas = detalle?.Criticas ?? new List<CriticaDTO>();
 
-        if (criticas.Count == 0)
-        {
-            var criticasDisponibles = await Criticas.GetAllAsync();
-            criticas = criticasDisponibles?
-                .Where(c => c.ContenidoId == contenidoSeleccionadoId)
-                .ToList() ?? new List<CriticaDTO>();
-        }
-
         Limpiar();
     }
+
+    private bool PuedeModificar(CriticaDTO c) => Sesion.EsGestion || c.UsuarioId == Sesion.Usuario?.Id;
 
     private void Seleccionar(CriticaDTO c)
     {

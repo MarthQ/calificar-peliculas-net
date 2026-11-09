@@ -1,4 +1,4 @@
-@page "/usuarios"
+ï»¿@page "/usuarios"
 @rendermode InteractiveServer
 @inject UsuariosApiClient Usuarios
 @inject GruposApiClient Grupos
@@ -9,7 +9,7 @@
 
 @if (!Sesion.EstaAutenticado || !Sesion.EsAdmin)
 {
-    <div class="alert alert-danger">Se requiere una sesión de administrador.</div>
+    <div class="alert alert-danger">Se requiere una sesiÃ³n de administrador.</div>
 }
 else if (usuarios == null || grupos == null)
 {
@@ -21,7 +21,7 @@ else
     @foreach (var usuario in usuarios) { <tr><td>@usuario.NombreUsuario</td><td>@usuario.Mail</td><td>@usuario.RolId</td><td>@GrupoNombre(usuario.GrupoId)</td><td><button class="btn btn-sm btn-secondary" @onclick="() => Editar(usuario)">Editar</button> <button class="btn btn-sm btn-danger" @onclick="() => Eliminar(usuario.Id)">Eliminar</button></td></tr> }
     </tbody></table></div><div class="col-lg-5"><h5>@(editando ? "Editar usuario" : "Nuevo usuario")</h5>
     <input class="form-control mb-2" placeholder="Nombre de usuario" @bind="nombre" /><input class="form-control mb-2" type="email" placeholder="Mail" @bind="mail" />
-    @if (!editando) { <input class="form-control mb-2" type="password" placeholder="Contraseña" @bind="password" /> }
+    @if (!editando) { <input class="form-control mb-2" type="password" placeholder="ContraseÃ±a" @bind="password" /> }
     <input class="form-control mb-2" type="number" min="1" placeholder="Rol" @bind="rolId" />
     <select class="form-select mb-2" @bind="grupoId"><option value="">Sin grupo</option>@foreach (var grupo in grupos) { <option value="@grupo.Id">@grupo.Nombre</option> }</select>
     @if (error != null) { <div class="alert alert-danger">@error</div> }<button class="btn btn-primary" @onclick="Guardar">Guardar</button> <button class="btn btn-outline-secondary" @onclick="Limpiar">Limpiar</button>
@@ -30,7 +30,7 @@ else
 
 @code {
     private List<UsuarioDTO>? usuarios; private List<GrupoDTO>? grupos; private int id; private string nombre = string.Empty; private string mail = string.Empty; private string password = string.Empty; private int rolId = 3; private int? grupoId; private bool editando; private string? error;
-    protected override async Task OnInitializedAsync() { if (Sesion.EstaAutenticado) { usuarios = await Usuarios.GetAllAsync(); grupos = await Grupos.GetAllAsync(); } }
+    protected override async Task OnInitializedAsync() { if (Sesion.EsAdmin) { usuarios = await Usuarios.GetAllAsync(); grupos = await Grupos.GetAllAsync(); } }
     private string GrupoNombre(int? id) => id.HasValue ? grupos?.FirstOrDefault(g => g.Id == id)?.Nombre ?? id.Value.ToString() : "Sin grupo";
     private void Editar(UsuarioDTO u) { id = u.Id; nombre = u.NombreUsuario; mail = u.Mail; rolId = u.RolId; grupoId = u.GrupoId; editando = true; error = null; }
     private void Limpiar() { id = 0; nombre = mail = password = string.Empty; rolId = 3; grupoId = null; editando = false; error = null; }

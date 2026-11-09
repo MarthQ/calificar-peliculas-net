@@ -86,13 +86,6 @@ namespace CalificarPeliculas.WindowsForms
             var detalle = await _contenidoServicio.GetWithCriticasAsync(contenidoId);
             var criticas = detalle?.Criticas ?? new List<CriticaDTO>();
 
-            if (criticas.Count == 0)
-            {
-                criticas = (await _criticaServicio.GetAllAsync())
-                    .Where(c => c.ContenidoId == contenidoId)
-                    .ToList();
-            }
-
             var filas = criticas
                 .OrderByDescending(c => c.FechaPublicacion)
                 .Select(c => new CriticaRow(c,
@@ -108,6 +101,13 @@ namespace CalificarPeliculas.WindowsForms
 
         private CriticaDTO? CriticaSeleccionada =>
             (dgvCriticas.CurrentRow?.DataBoundItem as CriticaRow)?.Dto;
+
+        private static bool PuedeModificar(CriticaDTO dto)
+        {
+            if (CurrentSession.EsGestion || dto.UsuarioId == CurrentSession.User?.Id) return true;
+            MessageBox.Show("Solo podés modificar tus propias críticas.", "Permisos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return false;
+        }
 
         private async void comboMaestro_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -147,7 +147,7 @@ namespace CalificarPeliculas.WindowsForms
         private async void btnEdit_Click(object sender, EventArgs e)
         {
             var dto = CriticaSeleccionada;
-            if (dto == null) return;
+            if (dto == null || !PuedeModificar(dto)) return;
 
             var form = _provider.GetService(typeof(CriticaEditForm)) as CriticaEditForm;
             if (form == null)
@@ -165,7 +165,7 @@ namespace CalificarPeliculas.WindowsForms
         private async void btnDelete_Click(object sender, EventArgs e)
         {
             var row = dgvCriticas.CurrentRow?.DataBoundItem as CriticaRow;
-            if (row == null) return;
+            if (row == null || !PuedeModificar(row.Dto)) return;
 
             var ok = MessageBox.Show($"Eliminar la crítica de '{row.Usuario}' sobre '{row.Contenido}'?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (ok == DialogResult.Yes)

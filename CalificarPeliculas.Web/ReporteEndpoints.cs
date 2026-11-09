@@ -1,4 +1,4 @@
-using CalificarPeliculas.Application.DTOs;
+ï»¿using CalificarPeliculas.Application.DTOs;
 using CalificarPeliculas.Application.Interfaces.Comentarios;
 using CalificarPeliculas.Application.Interfaces.Contenido;
 using CalificarPeliculas.Application.Interfaces.Criticas;
@@ -29,7 +29,7 @@ public static class ReporteEndpoints
                 {
                     ContenidoId = contenido.Id,
                     Contenido = contenido.Nombre,
-                    Genero = generosData.GetValueOrDefault(contenido.GeneroId, "Sin género"),
+                    Genero = generosData.GetValueOrDefault(contenido.GeneroId, "Sin gÃ©nero"),
                     Tipo = contenido.Tipo.ToString(),
                     PromedioCalificacion = criticasContenido.Count == 0 ? 0 : criticasContenido.Average(c => c.Calificacion),
                     CantidadCriticas = criticasContenido.Count,
@@ -38,7 +38,7 @@ public static class ReporteEndpoints
             }).OrderByDescending(r => r.PromedioCalificacion).ToList();
 
             return Results.Ok(resultado);
-        }).RequireAuthorization("Admin");
+        }).RequireAuthorization("Gestion");
 
         app.MapGet("/reportes/contenidos/detalle", async (
             IContenidoServicio contenidos,
@@ -57,7 +57,7 @@ public static class ReporteEndpoints
             {
                 if (!contenidosData.TryGetValue(critica.ContenidoId, out var contenido)) continue;
                 var comentariosCritica = comentariosData.Where(c => c.CriticaId == critica.Id).ToList();
-                var genero = generosData.GetValueOrDefault(contenido.GeneroId, "Sin género");
+                var genero = generosData.GetValueOrDefault(contenido.GeneroId, "Sin gÃ©nero");
                 var usuario = usuariosData.GetValueOrDefault(critica.UsuarioId, critica.UsuarioId.ToString());
 
                 if (comentariosCritica.Count == 0)
@@ -72,7 +72,7 @@ public static class ReporteEndpoints
             }
 
             return Results.Ok(resultado.OrderBy(r => r.Contenido).ThenByDescending(r => r.FechaCritica));
-        }).RequireAuthorization("Admin");
+        }).RequireAuthorization("Gestion");
     }
 
     private static ReporteDetalleDTO CrearDetalle(

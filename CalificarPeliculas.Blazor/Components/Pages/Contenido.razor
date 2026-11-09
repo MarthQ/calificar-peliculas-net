@@ -1,4 +1,4 @@
-@page "/contenidos"
+﻿@page "/contenidos"
 @rendermode InteractiveServer
 @inject ContenidosApiClient Contenidos
 @inject GenerosApiClient Generos
@@ -12,7 +12,7 @@
 {
     <div class="alert alert-warning">Debés <a href="/login">iniciar sesión</a> para administrar contenidos.</div>
 }
-else if (!Sesion.EsAdmin)
+else if (!Sesion.EsGestion)
 {
     <div class="alert alert-danger">No tenés permisos para administrar contenidos.</div>
 }
@@ -180,7 +180,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        if (Sesion.EstaAutenticado)
+        if (Sesion.EsGestion)
         {
             await Cargar();
         }

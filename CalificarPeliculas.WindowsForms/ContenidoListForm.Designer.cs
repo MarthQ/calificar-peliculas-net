@@ -1,4 +1,4 @@
-namespace CalificarPeliculas.WindowsForms
+﻿namespace CalificarPeliculas.WindowsForms
 {
     partial class ContenidoListForm
     {
@@ -58,7 +58,7 @@ namespace CalificarPeliculas.WindowsForms
             // 
             this.lblGenero.AutoSize = true;
             this.lblGenero.Location = new System.Drawing.Point(12, 15);
-            this.lblGenero.Text = "G�nero:";
+            this.lblGenero.Text = "Género:";
             // 
             // comboGenero
             // 

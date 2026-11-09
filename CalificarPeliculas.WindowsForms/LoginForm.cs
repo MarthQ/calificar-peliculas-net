@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CalificarPeliculas.Application.Interfaces.Usuario;
@@ -61,14 +61,6 @@ namespace CalificarPeliculas.WindowsForms
             if (usuario == null)
             {
                 MessageBox.Show("Credenciales inválidas.", "Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                btnLogin.Enabled = true;
-                return;
-            }
-
-            if (!CurrentSession.IsAdmin)
-            {
-                CurrentSession.Clear();
-                MessageBox.Show("Acceso denegado. Se requiere rol de administrador.", "No autorizado", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 btnLogin.Enabled = true;
                 return;
             }

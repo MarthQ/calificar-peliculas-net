@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +12,18 @@ namespace CalificarPeliculas.WindowsForms
         {
             _provider = provider;
             InitializeComponent();
+            AplicarPermisos();
+        }
+
+        private void AplicarPermisos()
+        {
+            menuGenerosToolStripMenuItem.Visible = CurrentSession.EsGestion;
+            menuContenidosToolStripMenuItem.Visible = CurrentSession.EsGestion;
+            menuReportesToolStripMenuItem.Visible = CurrentSession.EsGestion;
+            menuGruposToolStripMenuItem.Visible = CurrentSession.IsAdmin;
+            menuUsuariosToolStripMenuItem.Visible = CurrentSession.IsAdmin;
+            menuRegisterToolStripMenuItem.Visible = CurrentSession.IsAdmin;
+            Text = $"Home - {CurrentSession.User?.NombreUsuario}";
         }
 
         private void ShowInPanel(Form f)
@@ -97,6 +109,7 @@ namespace CalificarPeliculas.WindowsForms
         {
             // Clear session and return to login screen. If login is successful, show main again; otherwise exit.
             CurrentSession.Clear();
+            panelMain.Controls.Clear();
 
             // Hide main form while login dialog is shown
             this.Hide();
@@ -119,7 +132,7 @@ namespace CalificarPeliculas.WindowsForms
             var dr = login.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                // logged in again
+                AplicarPermisos();
                 this.Show();
             }
             else

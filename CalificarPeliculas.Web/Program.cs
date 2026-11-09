@@ -1,4 +1,4 @@
-using CalificarPeliculas.Web;
+﻿using CalificarPeliculas.Web;
 using CalificarPeliculas.Repository;
 using CalificarPeliculas.Domain.Users;
 using CalificarPeliculas.Application.Services;
@@ -45,6 +45,8 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy =>
         policy.RequireRole(nameof(TipoRol.SuperUsuario)));
+    options.AddPolicy("Gestion", policy =>
+        policy.RequireRole(nameof(TipoRol.SuperUsuario), nameof(TipoRol.Moderador)));
 });
 
 // CORS para el cliente Blazor

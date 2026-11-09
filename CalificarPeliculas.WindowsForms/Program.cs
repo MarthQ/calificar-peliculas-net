@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -89,7 +89,7 @@ namespace CalificarPeliculas.WindowsForms
 
             if (dr == DialogResult.OK)
             {
-                // Solo abro el formulario principal si el login devolvió OK (y el usuario es admin según LoginForm)
+                // Solo abro el formulario principal si el login devolvió OK
                 var main = provider.GetRequiredService<Form1>();
                 System.Windows.Forms.Application.Run(main);
             }

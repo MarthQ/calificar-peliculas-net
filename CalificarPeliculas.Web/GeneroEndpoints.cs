@@ -20,7 +20,7 @@ namespace CalificarPeliculas.Web
             .WithName("GetGenero")
             .Produces<GeneroDTO>(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status404NotFound)
-            .RequireAuthorization("Admin")
+            .RequireAuthorization()
             .WithOpenApi();
 
             app.MapGet("/generos", async (IGeneroServicio generoServicio) =>
@@ -31,7 +31,7 @@ namespace CalificarPeliculas.Web
             })
             .WithName("GetAllGeneros")
             .Produces<List<GeneroDTO>>(StatusCodes.Status200OK)
-            .RequireAuthorization("Admin")
+            .RequireAuthorization()
             .WithOpenApi();
 
             app.MapPost("/generos", async (GeneroDTO dto, IGeneroServicio generoServicio) =>
@@ -50,7 +50,7 @@ namespace CalificarPeliculas.Web
             .WithName("AddGenero")
             .Produces<GeneroDTO>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status400BadRequest)
-            .RequireAuthorization("Admin")
+            .RequireAuthorization("Gestion")
             .WithOpenApi();
 
             app.MapPut("/generos", async (GeneroDTO dto, IGeneroServicio generoServicio) =>
@@ -74,7 +74,7 @@ namespace CalificarPeliculas.Web
             .WithName("UpdateGenero")
             .Produces(StatusCodes.Status404NotFound)
             .Produces(StatusCodes.Status400BadRequest)
-            .RequireAuthorization("Admin")
+            .RequireAuthorization("Gestion")
             .WithOpenApi();
 
             app.MapDelete("/generos/{id}", async (int id, IGeneroServicio generoServicio) =>
@@ -91,7 +91,7 @@ namespace CalificarPeliculas.Web
             .WithName("DeleteGenero")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status404NotFound)
-            .RequireAuthorization("Admin")
+            .RequireAuthorization("Gestion")
             .WithOpenApi();
         }
     }

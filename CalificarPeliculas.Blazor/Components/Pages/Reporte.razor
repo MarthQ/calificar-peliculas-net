@@ -1,4 +1,4 @@
-@page "/reportes"
+ï»¿@page "/reportes"
 @rendermode InteractiveServer
 @inject ReportesApiClient Reportes
 @inject SesionState Sesion
@@ -6,9 +6,9 @@
 <PageTitle>Reportes</PageTitle>
 <h3>Reportes de contenidos</h3>
 
-@if (!Sesion.EstaAutenticado || !Sesion.EsAdmin)
+@if (!Sesion.EstaAutenticado || !Sesion.EsGestion)
 {
-    <div class="alert alert-danger">Se requiere una sesión de administrador.</div>
+    <div class="alert alert-danger">Se requiere una sesiÃ³n de administrador o moderador.</div>
 }
 else if (resumen == null || detalle == null)
 {
@@ -18,7 +18,7 @@ else
 {
     <section class="mb-5">
         <h4>Reporte 1: resumen por contenido</h4>
-        <p class="text-muted">Promedios de calificación y cantidades agrupadas por contenido.</p>
+        <p class="text-muted">Promedios de calificaciÃ³n y cantidades agrupadas por contenido.</p>
         <div class="border rounded p-3">
             @foreach (var item in resumen.Take(10))
             {
@@ -32,15 +32,15 @@ else
                 </div>
             }
         </div>
-        <table class="table table-sm mt-3"><thead><tr><th>Contenido</th><th>Género</th><th>Críticas</th><th>Comentarios</th></tr></thead><tbody>
+        <table class="table table-sm mt-3"><thead><tr><th>Contenido</th><th>GÃ©nero</th><th>CrÃ­ticas</th><th>Comentarios</th></tr></thead><tbody>
         @foreach (var item in resumen) { <tr><td>@item.Contenido</td><td>@item.Genero</td><td>@item.CantidadCriticas</td><td>@item.CantidadComentarios</td></tr> }
         </tbody></table>
     </section>
 
     <section>
-        <h4>Reporte 2: detalle de críticas y comentarios</h4>
-        <p class="text-muted">Detalle de cada crítica, su usuario y los comentarios asociados.</p>
-        <div class="table-responsive"><table class="table table-striped table-sm"><thead><tr><th>Contenido</th><th>Género</th><th>Usuario</th><th>Crítica</th><th>Calificación</th><th>Comentario</th><th>Reacción</th><th>Fecha</th></tr></thead><tbody>
+        <h4>Reporte 2: detalle de crÃ­ticas y comentarios</h4>
+        <p class="text-muted">Detalle de cada crÃ­tica, su usuario y los comentarios asociados.</p>
+        <div class="table-responsive"><table class="table table-striped table-sm"><thead><tr><th>Contenido</th><th>GÃ©nero</th><th>Usuario</th><th>CrÃ­tica</th><th>CalificaciÃ³n</th><th>Comentario</th><th>ReacciÃ³n</th><th>Fecha</th></tr></thead><tbody>
         @foreach (var item in detalle) { <tr><td>@item.Contenido</td><td>@item.Genero</td><td>@item.Usuario</td><td>@item.TextoCritica</td><td>@item.Calificacion</td><td>@item.TextoComentario</td><td>@item.Reaccion</td><td>@item.FechaComentario</td></tr> }
         </tbody></table></div>
     </section>
@@ -52,7 +52,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        if (Sesion.EstaAutenticado)
+        if (Sesion.EsGestion)
         {
             resumen = await Reportes.GetResumenAsync();
             detalle = await Reportes.GetDetalleAsync();

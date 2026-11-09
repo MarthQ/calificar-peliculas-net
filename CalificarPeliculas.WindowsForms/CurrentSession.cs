@@ -1,4 +1,4 @@
-using CalificarPeliculas.Application.DTOs;
+﻿using CalificarPeliculas.Application.DTOs;
 
 namespace CalificarPeliculas.WindowsForms
 {
@@ -8,6 +8,7 @@ namespace CalificarPeliculas.WindowsForms
         public static UsuarioDTO? User { get; set; }
         public static string? Token { get; private set; }
         public static bool IsAdmin => User?.RolId == 1;
+        public static bool EsGestion => User?.RolId is 1 or 2;
 
         public static void Start(LoginResponseDTO login)
         {
