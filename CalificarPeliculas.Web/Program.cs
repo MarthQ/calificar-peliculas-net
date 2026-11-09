@@ -103,5 +103,6 @@ app.MapUsuarioEndpoints();
 app.MapCriticaEndpoints();
 app.MapComentarioEndpoints();
 app.MapGrupoEndpoints();
+app.MapReporteEndpoints();
 
 app.Run();

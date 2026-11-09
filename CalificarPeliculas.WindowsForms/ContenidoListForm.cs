@@ -41,12 +41,19 @@ namespace CalificarPeliculas.WindowsForms
         private void AplicarFiltro()
         {
             var generoId = comboGenero.SelectedValue is int id ? id : 0;
+            var nombre = txtFiltroNombre.Text.Trim();
             dgvContenidos.DataSource = _contenidos
-                .Where(c => generoId == 0 || c.GeneroId == generoId)
+                .Where(c => (generoId == 0 || c.GeneroId == generoId) &&
+                            (string.IsNullOrWhiteSpace(nombre) || c.Nombre.Contains(nombre, StringComparison.OrdinalIgnoreCase)))
                 .ToList();
         }
 
         private void comboGenero_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            AplicarFiltro();
+        }
+
+        private void txtFiltroNombre_TextChanged(object sender, EventArgs e)
         {
             AplicarFiltro();
         }

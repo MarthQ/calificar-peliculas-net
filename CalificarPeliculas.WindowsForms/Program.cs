@@ -46,6 +46,8 @@ namespace CalificarPeliculas.WindowsForms
                 .AddHttpMessageHandler<WinFormsTokenHandler>();
             services.AddHttpClient<ApiGrupoServicio>(client => client.BaseAddress = new Uri(apiBaseUrl))
                 .AddHttpMessageHandler<WinFormsTokenHandler>();
+            services.AddHttpClient<ReporteApiServicio>(client => client.BaseAddress = new Uri(apiBaseUrl))
+                .AddHttpMessageHandler<WinFormsTokenHandler>();
 
             services.AddScoped<IUsuarioServicio>(sp => sp.GetRequiredService<ApiUsuarioServicio>());
             services.AddScoped<IGeneroServicio>(sp => sp.GetRequiredService<ApiGeneroServicio>());
@@ -70,6 +72,7 @@ namespace CalificarPeliculas.WindowsForms
             services.AddScoped<GrupoEditForm>();
             services.AddScoped<UsuarioListForm>();
             services.AddScoped<UsuarioEditForm>();
+            services.AddScoped<ReporteForm>();
 
             ServiceProvider = services.BuildServiceProvider();
 

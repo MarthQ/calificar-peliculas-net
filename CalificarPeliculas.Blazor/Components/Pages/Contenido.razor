@@ -25,17 +25,25 @@ else
     <div class="row">
         <div class="col-lg-7">
             <div class="mb-3">
-                <label>Filtrar por género</label>
-                <select class="form-select" @bind="generoFiltroId">
-                    <option value="0">Todos los géneros</option>
-                    @if (generos != null)
-                    {
-                        @foreach (var g in generos.OrderBy(g => g.Nombre))
-                        {
-                            <option value="@g.Id">@g.Nombre</option>
-                        }
-                    }
-                </select>
+                <div class="row">
+                    <div class="col-md-7">
+                        <label>Buscar contenido</label>
+                        <input class="form-control" @bind="filtroNombre" @bind:event="oninput" placeholder="Nombre..." />
+                    </div>
+                    <div class="col-md-5">
+                        <label>Filtrar por género</label>
+                        <select class="form-select" @bind="generoFiltroId">
+                            <option value="0">Todos los géneros</option>
+                            @if (generos != null)
+                            {
+                                @foreach (var g in generos.OrderBy(g => g.Nombre))
+                                {
+                                    <option value="@g.Id">@g.Nombre</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
             </div>
             <table class="table table-striped">
                 <thead>
@@ -48,7 +56,7 @@ else
                     </tr>
                 </thead>
                 <tbody>
-                @foreach (var c in contenidos.Where(c => generoFiltroId == 0 || c.GeneroId == generoFiltroId))
+                @foreach (var c in contenidos.Where(CoincideConFiltros))
                     {
                         <tr>
                             <td>@c.Nombre</td>
@@ -167,6 +175,7 @@ else
     private int cantTemporadas;
     private bool editando;
     private int generoFiltroId;
+    private string filtroNombre = string.Empty;
     private string? error;
 
     protected override async Task OnInitializedAsync()
@@ -175,7 +184,11 @@ else
         {
             await Cargar();
         }
-    }
+        }
+
+    private bool CoincideConFiltros(ContenidoDTO contenido) =>
+        (generoFiltroId == 0 || contenido.GeneroId == generoFiltroId) &&
+        (string.IsNullOrWhiteSpace(filtroNombre) || contenido.Nombre.Contains(filtroNombre, StringComparison.OrdinalIgnoreCase));
 
     private async Task Cargar()
     {

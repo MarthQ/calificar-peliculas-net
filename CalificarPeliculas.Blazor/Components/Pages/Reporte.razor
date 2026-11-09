@@ -1,0 +1,65 @@
+@page "/reportes"
+@rendermode InteractiveServer
+@inject ReportesApiClient Reportes
+@inject SesionState Sesion
+
+<PageTitle>Reportes</PageTitle>
+<h3>Reportes de contenidos</h3>
+
+@if (!Sesion.EstaAutenticado || !Sesion.EsAdmin)
+{
+    <div class="alert alert-danger">Se requiere una sesión de administrador.</div>
+}
+else if (resumen == null || detalle == null)
+{
+    <p>Cargando reportes...</p>
+}
+else
+{
+    <div class="btn-group mb-3">
+        <button class="btn @(mostrarGrafico ? "btn-primary" : "btn-outline-primary")" @onclick="() => mostrarGrafico = true">Con gráficos</button>
+        <button class="btn @(!mostrarGrafico ? "btn-primary" : "btn-outline-primary")" @onclick="() => mostrarGrafico = false">Sin gráficos</button>
+    </div>
+
+    @if (mostrarGrafico)
+    {
+        <h5>Promedio de calificación por contenido</h5>
+        <div class="border rounded p-3">
+            @foreach (var item in resumen.Take(10))
+            {
+                var ancho = item.PromedioCalificacion * 10;
+                <div class="mb-2">
+                    <div class="d-flex justify-content-between"><span>@item.Contenido</span><strong>@item.PromedioCalificacion.ToString("0.00")</strong></div>
+                    <svg viewBox="0 0 100 12" class="w-100" role="img" aria-label="@item.Contenido">
+                        <rect x="0" y="1" width="100" height="10" fill="#e9ecef" rx="2" />
+                        <rect x="0" y="1" width="@ancho" height="10" fill="#0d6efd" rx="2" />
+                    </svg>
+                </div>
+            }
+        </div>
+        <table class="table table-sm mt-3"><thead><tr><th>Contenido</th><th>Género</th><th>Críticas</th><th>Comentarios</th></tr></thead><tbody>
+        @foreach (var item in resumen) { <tr><td>@item.Contenido</td><td>@item.Genero</td><td>@item.CantidadCriticas</td><td>@item.CantidadComentarios</td></tr> }
+        </tbody></table>
+    }
+    else
+    {
+        <div class="table-responsive"><table class="table table-striped table-sm"><thead><tr><th>Contenido</th><th>Género</th><th>Usuario</th><th>Crítica</th><th>Calificación</th><th>Comentario</th><th>Reacción</th><th>Fecha</th></tr></thead><tbody>
+        @foreach (var item in detalle) { <tr><td>@item.Contenido</td><td>@item.Genero</td><td>@item.Usuario</td><td>@item.TextoCritica</td><td>@item.Calificacion</td><td>@item.TextoComentario</td><td>@item.Reaccion</td><td>@item.FechaComentario</td></tr> }
+        </tbody></table></div>
+    }
+}
+
+@code {
+    private List<ReporteContenidoDTO>? resumen;
+    private List<ReporteDetalleDTO>? detalle;
+    private bool mostrarGrafico = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Sesion.EstaAutenticado)
+        {
+            resumen = await Reportes.GetResumenAsync();
+            detalle = await Reportes.GetDetalleAsync();
+        }
+    }
+}

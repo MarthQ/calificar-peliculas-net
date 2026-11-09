@@ -26,6 +26,8 @@ builder.Services.AddHttpClient<GruposApiClient>(client => client.BaseAddress = n
     .AddHttpMessageHandler<TokenMessageHandler>();
 builder.Services.AddHttpClient<UsuariosApiClient>(client => client.BaseAddress = new Uri(apiBaseUrl))
     .AddHttpMessageHandler<TokenMessageHandler>();
+builder.Services.AddHttpClient<ReportesApiClient>(client => client.BaseAddress = new Uri(apiBaseUrl))
+    .AddHttpMessageHandler<TokenMessageHandler>();
 
 var app = builder.Build();
 

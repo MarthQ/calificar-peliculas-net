@@ -11,6 +11,8 @@ namespace CalificarPeliculas.WindowsForms
         private System.Windows.Forms.Panel panelActions;
         private System.Windows.Forms.ComboBox comboGenero;
         private System.Windows.Forms.Label lblGenero;
+        private System.Windows.Forms.Label lblFiltroNombre;
+        private System.Windows.Forms.TextBox txtFiltroNombre;
 
         protected override void Dispose(bool disposing)
         {
@@ -31,6 +33,8 @@ namespace CalificarPeliculas.WindowsForms
             this.panelActions = new System.Windows.Forms.Panel();
             this.comboGenero = new System.Windows.Forms.ComboBox();
             this.lblGenero = new System.Windows.Forms.Label();
+            this.lblFiltroNombre = new System.Windows.Forms.Label();
+            this.txtFiltroNombre = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContenidos)).BeginInit();
             SuspendLayout();
             // 
@@ -64,6 +68,19 @@ namespace CalificarPeliculas.WindowsForms
             this.comboGenero.Name = "comboGenero";
             this.comboGenero.Size = new System.Drawing.Size(250, 28);
             this.comboGenero.SelectedIndexChanged += new System.EventHandler(this.comboGenero_SelectedIndexChanged);
+            // 
+            // lblFiltroNombre
+            // 
+            this.lblFiltroNombre.AutoSize = true;
+            this.lblFiltroNombre.Location = new System.Drawing.Point(350, 15);
+            this.lblFiltroNombre.Text = "Buscar:";
+            // 
+            // txtFiltroNombre
+            // 
+            this.txtFiltroNombre.Location = new System.Drawing.Point(405, 12);
+            this.txtFiltroNombre.Name = "txtFiltroNombre";
+            this.txtFiltroNombre.Size = new System.Drawing.Size(220, 27);
+            this.txtFiltroNombre.TextChanged += new System.EventHandler(this.txtFiltroNombre_TextChanged);
             // 
             // panelActions
             // 
@@ -116,6 +133,8 @@ namespace CalificarPeliculas.WindowsForms
             Controls.Add(this.dgvContenidos);
             Controls.Add(this.comboGenero);
             Controls.Add(this.lblGenero);
+            Controls.Add(this.lblFiltroNombre);
+            Controls.Add(this.txtFiltroNombre);
             this.panelActions.Controls.Add(this.btnAdd);
             this.panelActions.Controls.Add(this.btnEdit);
             this.panelActions.Controls.Add(this.btnDelete);

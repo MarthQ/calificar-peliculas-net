@@ -18,6 +18,7 @@ namespace CalificarPeliculas.WindowsForms
         private System.Windows.Forms.ToolStripMenuItem menuComentariosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuGruposToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuUsuariosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem menuReportesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuLogoutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem menuRegisterToolStripMenuItem;
 
@@ -49,6 +50,7 @@ namespace CalificarPeliculas.WindowsForms
             this.menuComentariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuGruposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuUsuariosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuReportesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuLogoutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuRegisterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelMain = new System.Windows.Forms.Panel();
@@ -63,6 +65,7 @@ namespace CalificarPeliculas.WindowsForms
             this.menuComentariosToolStripMenuItem,
             this.menuGruposToolStripMenuItem,
             this.menuUsuariosToolStripMenuItem,
+            this.menuReportesToolStripMenuItem,
             this.menuRegisterToolStripMenuItem,
             this.menuLogoutToolStripMenuItem});
             this.menuStrip1.Location = new Point(0, 0);
@@ -112,6 +115,10 @@ namespace CalificarPeliculas.WindowsForms
             this.menuUsuariosToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
             this.menuUsuariosToolStripMenuItem.Text = "Usuarios";
             this.menuUsuariosToolStripMenuItem.Click += new System.EventHandler(this.btnUsuarios_Click);
+            this.menuReportesToolStripMenuItem.Name = "menuReportesToolStripMenuItem";
+            this.menuReportesToolStripMenuItem.Size = new System.Drawing.Size(65, 20);
+            this.menuReportesToolStripMenuItem.Text = "Reportes";
+            this.menuReportesToolStripMenuItem.Click += new System.EventHandler(this.btnReportes_Click);
             // 
             // menuRegisterToolStripMenuItem
             // 

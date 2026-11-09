@@ -19,6 +19,27 @@ namespace CalificarPeliculas.Repository
                 context.SaveChanges();
             }
 
+            var grupoCinefilos = context.Grupos.FirstOrDefault(g => g.Nombre == "Cinéfilos");
+            if (grupoCinefilos == null)
+            {
+                grupoCinefilos = new Grupo(0, "Cinéfilos", "Usuarios interesados en compartir opiniones sobre películas y series.", new DateOnly(2024, 1, 10));
+                context.Grupos.Add(grupoCinefilos);
+            }
+
+            var grupoSeries = context.Grupos.FirstOrDefault(g => g.Nombre == "Fans de series");
+            if (grupoSeries == null)
+            {
+                grupoSeries = new Grupo(0, "Fans de series", "Grupo de ejemplo para seguidores de series.", new DateOnly(2024, 1, 15));
+                context.Grupos.Add(grupoSeries);
+            }
+
+            context.SaveChanges();
+            if (admin.GrupoId == null)
+            {
+                admin.SetGrupoId(grupoCinefilos.Id);
+                context.SaveChanges();
+            }
+
             var generoAccion = context.Generos.FirstOrDefault(g => g.Nombre == "Acción");
             if (generoAccion == null)
             {
@@ -82,6 +103,34 @@ namespace CalificarPeliculas.Repository
                     "La verdad no me gustó",
                     8.5f,
                     0));
+                context.SaveChanges();
+            }
+
+            var criticaEjemplo = context.Criticas.FirstOrDefault(c => c.UsuarioId == admin.Id && c.ContenidoId == pelicula.Id);
+            if (criticaEjemplo != null)
+            {
+                if (!context.Comentarios.Any(c => c.CriticaId == criticaEjemplo.Id && c.Texto == "Coincido con la calificación."))
+                {
+                    context.Comentarios.Add(new Comentario(
+                        0,
+                        criticaEjemplo.Id,
+                        admin.Id,
+                        "Coincido con la calificación.",
+                        new DateOnly(2024, 2, 2),
+                        "Me gusta"));
+                }
+
+                if (!context.Comentarios.Any(c => c.CriticaId == criticaEjemplo.Id && c.Texto == "La volvería a ver."))
+                {
+                    context.Comentarios.Add(new Comentario(
+                        0,
+                        criticaEjemplo.Id,
+                        admin.Id,
+                        "La volvería a ver.",
+                        new DateOnly(2024, 2, 3),
+                        "Recomendado"));
+                }
+
                 context.SaveChanges();
             }
         }

@@ -42,6 +42,12 @@ namespace CalificarPeliculas.WindowsForms
             if (form != null) ShowInPanel(form);
         }
 
+        private void btnReportes_Click(object sender, EventArgs e)
+        {
+            var form = _provider.GetService(typeof(ReporteForm)) as ReporteForm;
+            if (form != null) ShowInPanel(form);
+        }
+
         private void btnGrupos_Click(object sender, EventArgs e)
         {
             var form = _provider.GetService(typeof(GrupoListForm)) as GrupoListForm;
